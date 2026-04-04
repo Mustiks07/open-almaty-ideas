@@ -85,7 +85,7 @@ export default function Navbar() {
         </div>
 
         {menuOpen && (
-          <div className="md:hidden pb-6 border-t border-white/10 mt-2">
+          <div className="md:hidden pb-6 border-t border-white/10 mt-2 bg-dark-900 rounded-b-2xl">
             <div className="flex flex-col gap-4 pt-6">
               <Link href="/proposals" className="text-white/70 hover:text-white text-sm" onClick={() => setMenuOpen(false)}>Ұсыныстар</Link>
               <Link href="/top" className="text-white/70 hover:text-white text-sm" onClick={() => setMenuOpen(false)}>Үздік идеялар</Link>

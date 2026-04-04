@@ -45,7 +45,7 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
   const videos = proposal.media?.filter(m => m.type === "VIDEO") || [];
 
   return (
-    <div className="glass rounded-2xl overflow-hidden hover-lift group">
+    <div className="glass rounded-2xl overflow-hidden hover-lift group flex flex-col h-full">
       <Link href={`/proposals/${proposal.id}`}>
         {(images.length > 0 || videos.length > 0) && (
           <div className="relative h-48 bg-dark-800">
@@ -60,34 +60,34 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
         )}
       </Link>
 
-      <div className="p-5">
-        <div className="flex flex-wrap items-center gap-2 mb-3">
-          <span className="text-xs bg-brand-500/10 text-brand-400 px-2.5 py-1 rounded-full border border-brand-500/20">{proposal.category.name}</span>
-          <span className="text-xs bg-white/5 text-white/50 px-2.5 py-1 rounded-full border border-white/10">{proposal.district.name}</span>
-          <span className={`text-xs px-2.5 py-1 rounded-full border ${status.color}`}>{status.text}</span>
+      <div className="p-4 sm:p-5 flex-1 flex flex-col">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-3">
+          <span className="text-xs bg-brand-500/10 text-brand-400 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-brand-500/20">{proposal.category.name}</span>
+          <span className="text-xs bg-white/5 text-white/50 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-white/10">{proposal.district.name}</span>
+          <span className={`text-xs px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border ${status.color}`}>{status.text}</span>
         </div>
 
         <Link href={`/proposals/${proposal.id}`}>
-          <h3 className="font-semibold text-white mb-2 text-lg group-hover:text-brand-400 transition-colors">{proposal.title}</h3>
+          <h3 className="font-semibold text-white mb-2 text-base sm:text-lg group-hover:text-brand-400 transition-colors line-clamp-2">{proposal.title}</h3>
         </Link>
 
         <div className="text-white/40 text-sm mb-4 line-clamp-2" dangerouslySetInnerHTML={{ __html: proposal.description }} />
 
         <div className="flex items-center justify-between text-sm text-white/30 mb-4">
-          <span>{proposal.author.name}</span>
-          <span>{new Date(proposal.createdAt).toLocaleDateString("kk-KZ")}</span>
+          <span className="truncate mr-2">{proposal.author.name}</span>
+          <span className="flex-shrink-0">{new Date(proposal.createdAt).toLocaleDateString("kk-KZ")}</span>
         </div>
 
-        <div className="flex items-center gap-3 pt-3 border-t border-white/5">
+        <div className="flex items-center gap-2 sm:gap-3 pt-3 border-t border-white/5 mt-auto">
           <button onClick={() => vote("LIKE")} disabled={voting}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-500/10 text-brand-400 hover:bg-brand-500/20 transition text-sm font-medium disabled:opacity-50 border border-brand-500/20">
+            className="flex items-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-brand-500/10 text-brand-400 hover:bg-brand-500/20 transition text-sm font-medium disabled:opacity-50 border border-brand-500/20">
             👍 {likes}
           </button>
           <button onClick={() => vote("DISLIKE")} disabled={voting}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 transition text-sm font-medium disabled:opacity-50 border border-red-500/20">
+            className="flex items-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500/20 transition text-sm font-medium disabled:opacity-50 border border-red-500/20">
             👎 {dislikes}
           </button>
-          <div className="ml-auto text-sm text-white/20">{likes + dislikes} дауыс</div>
+          <div className="ml-auto text-xs sm:text-sm text-white/20">{likes + dislikes} дауыс</div>
         </div>
       </div>
     </div>

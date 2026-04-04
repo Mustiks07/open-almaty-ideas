@@ -37,14 +37,14 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-6 pt-32 pb-16">
-      <div className="flex items-center justify-between mb-10">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-32 pb-16">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
         <div>
           <p className="text-brand-400 text-sm font-semibold tracking-[0.2em] uppercase mb-3">Профиль</p>
-          <h1 className="font-heading text-3xl font-bold text-white">Менің ұсыныстарым</h1>
+          <h1 className="font-heading text-2xl sm:text-3xl font-bold text-white">Менің ұсыныстарым</h1>
           <p className="text-white/40 mt-1">{proposals.length} ұсыныс</p>
         </div>
-        <Link href="/proposals/new" className="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all hover:shadow-lg hover:shadow-brand-500/25">
+        <Link href="/proposals/new" className="bg-brand-500 hover:bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all hover:shadow-lg hover:shadow-brand-500/25 text-center">
           + Жаңа ұсыныс
         </Link>
       </div>
@@ -63,47 +63,47 @@ export default function ProfilePage() {
             const videos = p.media?.filter((m: any) => m.type === "VIDEO") || [];
             return (
               <div key={p.id} className="glass rounded-2xl overflow-hidden hover-lift">
-                <div className="flex">
+                <div className="flex flex-col sm:flex-row">
                   {(images.length > 0 || videos.length > 0) && (
                     <Link href={`/proposals/${p.id}`} className="flex-shrink-0 relative">
                       {images.length > 0 ? (
-                        <img src={images[0].url} alt="" className="w-32 h-full object-cover" />
+                        <img src={images[0].url} alt="" className="w-full sm:w-32 h-40 sm:h-full object-cover" />
                       ) : (
-                        <video src={videos[0].url} className="w-32 h-full object-cover" muted />
+                        <video src={videos[0].url} className="w-full sm:w-32 h-40 sm:h-full object-cover" muted />
                       )}
                       {videos.length > 0 && (
                         <span className="absolute bottom-1 left-1 glass text-white text-[10px] px-1.5 py-0.5 rounded">▶ {videos.length}</span>
                       )}
                     </Link>
                   )}
-                  <div className="flex-1 p-5">
+                  <div className="flex-1 p-4 sm:p-5">
                     <div className="flex items-start justify-between">
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-2 mb-2">
                           <span className="text-xs bg-brand-500/10 text-brand-400 px-2.5 py-1 rounded-full border border-brand-500/20">{p.category.name}</span>
                           <span className="text-xs bg-white/5 text-white/40 px-2.5 py-1 rounded-full border border-white/10">{p.district.name}</span>
                           <span className={`text-xs px-2.5 py-1 rounded-full border ${st.color}`}>{st.text}</span>
                         </div>
                         <Link href={`/proposals/${p.id}`}>
-                          <h3 className="font-semibold text-white hover:text-brand-400 transition-colors text-lg">{p.title}</h3>
+                          <h3 className="font-semibold text-white hover:text-brand-400 transition-colors text-base sm:text-lg truncate">{p.title}</h3>
                         </Link>
-                        <div className="flex items-center gap-4 mt-2 text-sm text-white/30">
+                        <div className="flex items-center gap-3 sm:gap-4 mt-2 text-sm text-white/30">
                           <span>{new Date(p.createdAt).toLocaleDateString("kk-KZ")}</span>
                           <span className="text-brand-400">👍 {p.likesCount}</span>
                           <span className="text-red-400/60">👎 {p.dislikesCount}</span>
                         </div>
                       </div>
-                      <div className="ml-4 flex-shrink-0 flex items-center gap-2">
+                      <div className="ml-3 flex-shrink-0 flex items-center gap-1 sm:gap-2">
                         <Link href={`/proposals/${p.id}/edit`} className="text-white/30 hover:text-brand-400 transition-colors p-1" title="Өңдеу">
                           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                         </Link>
                         {confirmDelete === p.id ? (
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1">
                             <button onClick={() => deleteProposal(p.id)} disabled={deleting === p.id}
-                              className="text-xs bg-red-500 text-white px-3 py-1.5 rounded-lg hover:bg-red-600 transition disabled:opacity-50">
-                              {deleting === p.id ? "..." : "Иә, өшір"}
+                              className="text-xs bg-red-500 text-white px-2 py-1 rounded-lg hover:bg-red-600 transition disabled:opacity-50">
+                              {deleting === p.id ? "..." : "Өшір"}
                             </button>
-                            <button onClick={() => setConfirmDelete(null)} className="text-xs text-white/40 hover:text-white/60 px-2 py-1.5">Жоқ</button>
+                            <button onClick={() => setConfirmDelete(null)} className="text-xs text-white/40 px-1 py-1">✕</button>
                           </div>
                         ) : (
                           <button onClick={() => setConfirmDelete(p.id)} className="text-white/30 hover:text-red-400 transition-colors p-1" title="Өшіру">
