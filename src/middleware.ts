@@ -19,6 +19,9 @@ export default withAuth(
         if (req.nextUrl.pathname.startsWith("/admin/login")) {
           return true;
         }
+        if (req.nextUrl.pathname.startsWith("/admin")) {
+          return token?.role === "ADMIN";
+        }
         return !!token;
       },
     },
