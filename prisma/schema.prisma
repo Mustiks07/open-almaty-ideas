@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ProposalStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  IMPLEMENTED
+}
+
+enum VoteType {
+  LIKE
+  DISLIKE
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+model User {
+  id           Int        @id @default(autoincrement())
+  name         String
+  email        String     @unique
+  passwordHash String     @map("password_hash")
+  role         Role       @default(USER)
+  createdAt    DateTime   @default(now()) @map("created_at")
+
+  proposals    Proposal[]
+  votes        Vote[]
+  adminResponses AdminResponse[]
+
+  @@map("users")
+}
+
+model District {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+
+  proposals Proposal[]
+
+  @@map("districts")
+}
+
+model Category {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+
+  proposals Proposal[]
+
+  @@map("categories")
+}
+
+model Proposal {
+  id            Int            @id @default(autoincrement())
+  title         String
+  description   String
+  status        ProposalStatus @default(PENDING)
+  likesCount    Int            @default(0) @map("likes_count")
+  dislikesCount Int            @default(0) @map("dislikes_count")
+  createdAt     DateTime       @default(now()) @map("created_at")
+
+  authorId      Int            @map("author_id")
+  author        User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  districtId    Int            @map("district_id")
+  district      District       @relation(fields: [districtId], references: [id])
+
+  categoryId    Int            @map("category_id")
+  category      Category       @relation(fields: [categoryId], references: [id])
+
+  votes         Vote[]
+  media         Media[]
+  adminResponses AdminResponse[]
+
+  @@map("proposals")
+}
+
+model Vote {
+  id         Int      @id @default(autoincrement())
+  voteType   VoteType @map("vote_type")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  userId     Int      @map("user_id")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  proposalId Int      @map("proposal_id")
+  proposal   Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, proposalId])
+  @@map("votes")
+}
+
+model Media {
+  id         Int       @id @default(autoincrement())
+  url        String
+  type       MediaType
+  filename   String
+  sizeBytes  Int       @map("size_bytes")
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  proposalId Int       @map("proposal_id")
+  proposal   Proposal  @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+
+  @@map("media")
+}
+
+model AdminResponse {
+  id         Int      @id @default(autoincrement())
+  message    String
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  proposalId Int      @map("proposal_id")
+  proposal   Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+
+  adminId    Int      @map("admin_id")
+  admin      User     @relation(fields: [adminId], references: [id])
+
+  @@map("admin_responses")
+}
