@@ -45,7 +45,7 @@ export default function ProposalCard({ proposal }: ProposalCardProps) {
   const videos = proposal.media?.filter(m => m.type === "VIDEO") || [];
 
   return (
-    <div className="glass rounded-2xl overflow-hidden hover-lift group flex flex-col h-full">
+    <div className="glass rounded-2xl overflow-hidden hover-lift group flex flex-col">
       <Link href={`/proposals/${proposal.id}`}>
         {(images.length > 0 || videos.length > 0) && (
           <div className="relative h-48 bg-dark-800">
