@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 
 const Editor: any = dynamic(
   () => import("@tinymce/tinymce-react").then((mod: any) => mod.Editor),
-  { ssr: false, loading: () => <div className="h-64 bg-gray-100 rounded-lg animate-pulse" /> }
+  { ssr: false, loading: () => <div className="h-64 bg-white/5 rounded-xl animate-pulse" /> }
 );
 
 export default function EditProposalPage() {
@@ -65,33 +65,44 @@ export default function EditProposalPage() {
   };
 
   if (status === "loading" || loading) {
-    return <div className="text-center py-20 text-gray-500">Жүктелуде...</div>;
+    return <div className="text-center py-20 text-white/40">Жүктелуде...</div>;
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Ұсынысты өңдеу</h1>
+    <div className="max-w-3xl mx-auto px-6 pt-28 pb-16">
+      <p className="text-brand-400 text-sm font-semibold tracking-[0.2em] uppercase mb-3">
+        Ұсынысты өңдеу
+      </p>
+      <h1 className="font-heading text-3xl font-bold text-white mb-8">
+        Өңдеу
+      </h1>
 
-      <div className="bg-white rounded-2xl shadow-sm border p-8">
+      <div className="glass rounded-2xl p-8">
         {error && (
-          <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-6 text-sm">{error}</div>
+          <div className="bg-red-500/10 text-red-400 px-4 py-3 rounded-xl mb-6 text-sm border border-red-500/20">
+            {error}
+          </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Тақырып</label>
+            <label className="block text-sm font-medium text-white/70 mb-2">
+              Тақырып
+            </label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-primary-500 outline-none"
+              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:ring-2 focus:ring-brand-500 outline-none"
               required
               minLength={5}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Сипаттама</label>
+            <label className="block text-sm font-medium text-white/70 mb-2">
+              Сипаттама
+            </label>
             <Editor
               apiKey="oscq8owz84ft5skrkqp95vgunv4cu2mu46njwn9dxocch87k"
               value={description}
@@ -102,7 +113,9 @@ export default function EditProposalPage() {
                 language: "ru",
                 plugins: ["lists", "link", "autolink", "emoticons", "wordcount"],
                 toolbar: "bold italic underline | bullist numlist | link emoticons | removeformat",
-                content_style: "body { font-family: Inter, -apple-system, sans-serif; font-size: 15px; line-height: 1.6; }",
+                content_style: "body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.6; background: #1E293B; color: #E2E8F0; }",
+                skin: "oxide-dark",
+                content_css: "dark",
                 branding: false,
                 statusbar: true,
                 elementpath: false,
@@ -110,18 +123,18 @@ export default function EditProposalPage() {
             />
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 pt-2">
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 bg-primary-600 text-white py-3 rounded-lg hover:bg-primary-700 transition font-medium disabled:opacity-50"
+              className="flex-1 bg-brand-500 hover:bg-brand-600 text-white py-4 rounded-xl font-semibold text-lg transition-all hover:shadow-lg hover:shadow-brand-500/25 disabled:opacity-50"
             >
               {saving ? "Сақталуда..." : "Сақтау"}
             </button>
             <button
               type="button"
               onClick={() => router.back()}
-              className="px-6 py-3 text-gray-600 border rounded-lg hover:bg-gray-50 transition"
+              className="px-6 py-4 glass text-white/70 hover:text-white rounded-xl font-semibold transition-all"
             >
               Бас тарту
             </button>

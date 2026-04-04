@@ -13,7 +13,9 @@ export default function MapPage() {
       <p className="text-brand-400 text-sm font-semibold tracking-[0.2em] uppercase mb-3">Интерактивті карта</p>
       <h1 className="font-heading text-3xl md:text-4xl font-bold text-white mb-2">Алматы қаласы</h1>
       <p className="text-white/40 mb-8">Аудандарды басып, сол аудандағы ұсыныстарды көріңіз</p>
-      <MapView />
+      <div style={{ position: "relative", zIndex: 0, isolation: "isolate" }}>
+        <MapView />
+      </div>
     </div>
   );
 }

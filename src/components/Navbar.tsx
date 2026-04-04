@@ -94,7 +94,7 @@ export default function Navbar() {
 
       {/* Мобильді sidebar */}
       <div
-        className={`fixed inset-0 z-[60] md:hidden transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[9999] md:hidden transition-opacity duration-300 ${
           menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => setMenuOpen(false)}
@@ -102,7 +102,7 @@ export default function Navbar() {
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       </div>
 
-      <div className={`fixed top-0 left-0 bottom-0 w-72 z-[70] md:hidden bg-dark-900 border-r border-white/5 transform transition-transform duration-300 ease-out ${
+      <div className={`fixed top-0 left-0 bottom-0 w-72 z-[10000] md:hidden bg-dark-900 border-r border-white/5 transform transition-transform duration-300 ease-out ${
         menuOpen ? "translate-x-0" : "-translate-x-full"
       }`}>
         <div className="flex flex-col h-full">
