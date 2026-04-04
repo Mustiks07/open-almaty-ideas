@@ -104,7 +104,7 @@ export default function EditProposalPage() {
               Сипаттама
             </label>
             <Editor
-              apiKey="oscq8owz84ft5skrkqp95vgunv4cu2mu46njwn9dxocch87k"
+              apiKey={process.env.NEXT_PUBLIC_TINYMCE_KEY}
               value={description}
               onEditorChange={(content: string) => setDescription(content)}
               init={{

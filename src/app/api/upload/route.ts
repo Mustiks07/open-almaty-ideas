@@ -40,6 +40,14 @@ export async function POST(req: NextRequest) {
     const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
     const filePath = `proposals/${proposalId}/${fileName}`;
 
+const proposal = await prisma.proposal.findUnique({
+  where: { id: Number(proposalId) },
+});
+
+if (!proposal || proposal.authorId !== Number(session.user.id)) {
+  return NextResponse.json({ error: "Рұқсат жоқ" }, { status: 403 });
+}
+
     const buffer = Buffer.from(await file.arrayBuffer());
 
     console.log("Uploading to Supabase:", { filePath, bufferSize: buffer.length, contentType: file.type });

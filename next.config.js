@@ -10,11 +10,11 @@ const nextConfig = {
     ],
   },
   typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  ignoreBuildErrors: false,
+},
+eslint: {
+  ignoreDuringBuilds: false,
+},
   experimental: {
     missingSuspenseWithCSRBailout: false,
   },

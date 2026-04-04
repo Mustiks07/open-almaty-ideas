@@ -118,7 +118,7 @@ export default function NewProposalPage() {
 
           <div>
             <label className="block text-sm font-medium text-white/70 mb-2">Сипаттама</label>
-            <Editor apiKey="oscq8owz84ft5skrkqp95vgunv4cu2mu46njwn9dxocch87k" value={description}
+            <Editor apiKey={process.env.NEXT_PUBLIC_TINYMCE_KEY} value={description}
               onEditorChange={(content: string) => setDescription(content)}
               init={{ height: 300, menubar: false, language: "ru", plugins: ["lists", "link", "autolink", "emoticons", "wordcount"],
                 toolbar: "bold italic underline | bullist numlist | link emoticons | removeformat",
