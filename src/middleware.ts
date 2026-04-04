@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 export default withAuth(
   function middleware(req) {
     const token = req.nextauth.token;
-    const isAdminPage = req.nextUrl.pathname.startsWith("/admin");
+    const isAdminPage = req.nextUrl.pathname.startsWith("/admin") &&
+      !req.nextUrl.pathname.startsWith("/admin/login");
 
     if (isAdminPage && token?.role !== "ADMIN") {
       return NextResponse.redirect(new URL("/", req.url));
@@ -14,7 +15,12 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized: ({ token }) => !!token,
+      authorized: ({ req, token }) => {
+        if (req.nextUrl.pathname.startsWith("/admin/login")) {
+          return true;
+        }
+        return !!token;
+      },
     },
   }
 );
