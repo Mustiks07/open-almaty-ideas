@@ -93,7 +93,7 @@ export default function EditProposalPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Сипаттама</label>
             <Editor
-              apiKey="5coqgns2dzfla00yq66p6l8oorh4mysl8e4cddklnlza2btf"
+              apiKey="oscq8owz84ft5skrkqp95vgunv4cu2mu46njwn9dxocch87k"
               value={description}
               onEditorChange={(content: string) => setDescription(content)}
               init={{
