@@ -67,7 +67,7 @@ export default function AdminPage() {
                   <td className="px-6 py-4 text-sm font-medium text-white max-w-xs truncate">{p.title}</td>
                   <td className="px-6 py-4 text-sm text-white/50">{p.author.name}</td>
                   <td className="px-6 py-4 text-sm text-white/50">{p.district.name}</td>
-                  <td className="px-6 py-4 text-sm">
+                  <td className="px-6 py-4 text-sm whitespace-nowrap">
                     <span className="text-brand-400">👍{p.likesCount}</span>{" "}
                     <span className="text-red-400/60">👎{p.dislikesCount}</span>
                   </td>
