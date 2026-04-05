@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Панель администратора";
+    Layout = "_AdminLayout";
+}
+
+<h1 class="mb-4">Панель администратора</h1>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Предложения</h5>
+                <p class="card-text">Управление предложениями граждан</p>
+                <a href="/admin/proposals" class="btn btn-primary">Управлять</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Районы</h5>
+                <p class="card-text">Управление районами города</p>
+                <a href="/admin/districts" class="btn btn-primary">Управлять</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Категории</h5>
+                <p class="card-text">Управление категориями предложений</p>
+                <a href="/admin/categories" class="btn btn-primary">Управлять</a>
+            </div>
+        </div>
+    </div>
+</div>

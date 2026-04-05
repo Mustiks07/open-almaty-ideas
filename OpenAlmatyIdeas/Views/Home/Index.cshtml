@@ -1,0 +1,103 @@
+@{
+    ViewData["Title"] = "Главная";
+    var topProposals = ViewBag.TopProposals as IEnumerable<OpenAlmatyIdeas.Models.ProposalDTO> ?? [];
+    var districts = ViewBag.Districts as IEnumerable<OpenAlmatyIdeas.Domain.Entities.District> ?? [];
+    int totalProposals = ViewBag.TotalProposals ?? 0;
+}
+
+<!-- Hero -->
+<div class="p-5 mb-4 bg-dark text-white rounded-3">
+    <div class="container-fluid py-3">
+        <h1 class="display-5 fw-bold">Open Almaty Ideas</h1>
+        <p class="col-md-8 fs-4">Платформа гражданских инициатив для жителей Алматы.
+            Предлагайте идеи по улучшению города, голосуйте и следите за их реализацией.</p>
+        <div class="d-flex gap-3">
+            <a asp-controller="Proposals" asp-action="New" class="btn btn-success btn-lg">
+                Предложить идею
+            </a>
+            <a asp-controller="Proposals" asp-action="Index" class="btn btn-outline-light btn-lg">
+                Смотреть предложения
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Статистика -->
+<div class="row text-center mb-5">
+    <div class="col-md-4">
+        <div class="card border-0 bg-light py-4">
+            <div class="display-4 fw-bold text-success">@totalProposals</div>
+            <div class="text-muted">Предложений подано</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 bg-light py-4">
+            <div class="display-4 fw-bold text-success">8</div>
+            <div class="text-muted">Районов Алматы</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 bg-light py-4">
+            <div class="display-4 fw-bold text-success">8</div>
+            <div class="text-muted">Категорий</div>
+        </div>
+    </div>
+</div>
+
+<!-- Топ предложения -->
+@if (topProposals.Any())
+{
+    <h2 class="mb-4">Топ предложения</h2>
+    <div class="row mb-5">
+        @foreach (var proposal in topProposals)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <span class="badge bg-secondary mb-2">@proposal.CategoryName</span>
+                        <h5 class="card-title">
+                            <a asp-controller="Proposals" asp-action="Show"
+                               asp-route-id="@proposal.Id" class="text-decoration-none">
+                                @proposal.Title
+                            </a>
+                        </h5>
+                        <p class="card-text text-muted small">@proposal.DescriptionShort</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <span class="text-success fw-bold">👍 @proposal.LikesCount</span>
+                        <span class="badge bg-info text-dark">@proposal.DistrictName</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<!-- Районы -->
+<h2 class="mb-4">Районы Алматы</h2>
+<div class="row mb-5">
+    @foreach (var district in districts)
+    {
+        <div class="col-md-3 col-6 mb-3">
+            <a asp-controller="Proposals" asp-action="Index"
+               asp-route-districtId="@district.Id"
+               class="btn btn-outline-secondary w-100">
+                @district.Title
+                <br/>
+                <small class="text-muted">@(district.Proposals?.Count ?? 0) идей</small>
+            </a>
+        </div>
+    }
+</div>
+
+<!-- CTA для неавторизованных -->
+@if (User.Identity?.IsAuthenticated != true)
+{
+    <div class="p-4 bg-success text-white rounded-3 text-center mb-4">
+        <h3>Присоединяйтесь к платформе</h3>
+        <p>Зарегистрируйтесь, чтобы подавать предложения и голосовать за идеи горожан.</p>
+        <a asp-controller="Account" asp-action="Register" class="btn btn-light btn-lg">
+            Зарегистрироваться
+        </a>
+    </div>
+}

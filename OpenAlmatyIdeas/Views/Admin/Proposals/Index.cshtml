@@ -1,0 +1,61 @@
+@model IEnumerable<OpenAlmatyIdeas.Models.ProposalDTO>
+
+@{
+    ViewData["Title"] = "Предложения";
+    Layout = "_AdminLayout";
+}
+
+<h1 class="mb-4">Предложения</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Название</th>
+                <th>Район</th>
+                <th>Категория</th>
+                <th>Автор</th>
+                <th>Статус</th>
+                <th>👍</th>
+                <th>Дата</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var proposal in Model)
+            {
+                <tr>
+                    <td>@proposal.Id</td>
+                    <td>
+                        <a asp-controller="Proposals" asp-action="Show" asp-route-id="@proposal.Id"
+                           target="_blank">@proposal.Title</a>
+                    </td>
+                    <td>@proposal.DistrictName</td>
+                    <td>@proposal.CategoryName</td>
+                    <td>@proposal.AuthorName</td>
+                    <td>
+                        <span class="badge
+                            @(proposal.Status == OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Implemented ? "bg-success" :
+                              proposal.Status == OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Accepted ? "bg-primary" :
+                              proposal.Status == OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Rejected ? "bg-danger" :
+                              "bg-warning text-dark")">
+                            @proposal.StatusLabel
+                        </span>
+                    </td>
+                    <td>@proposal.LikesCount</td>
+                    <td>@proposal.DateCreated.ToString("dd.MM.yyyy")</td>
+                    <td>
+                        <a href="/admin/proposals/edit/@proposal.Id" class="btn btn-sm btn-outline-primary">
+                            Изменить
+                        </a>
+                        <form action="/admin/proposals/delete/@proposal.Id" method="post" class="d-inline"
+                              onsubmit="return confirm('Удалить предложение?')">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

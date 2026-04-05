@@ -1,0 +1,98 @@
+@model ProposalDTO
+
+@{
+    ViewData["Title"] = Model.Title;
+    var currentVote = ViewBag.CurrentVote as VoteTypeEnum?;
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <!-- Заголовок -->
+        <div class="d-flex justify-content-between align-items-start mb-3">
+            <h1>@Model.Title</h1>
+            <span class="badge fs-6
+                @(Model.Status == ProposalStatusEnum.Implemented ? "bg-success" :
+                  Model.Status == ProposalStatusEnum.Accepted ? "bg-primary" :
+                  Model.Status == ProposalStatusEnum.Rejected ? "bg-danger" :
+                  "bg-warning text-dark")">
+                @Model.StatusLabel
+            </span>
+        </div>
+
+        <!-- Мета -->
+        <div class="text-muted small mb-4">
+            <span>📍 @Model.DistrictName</span> &bull;
+            <span>🏷️ @Model.CategoryName</span> &bull;
+            <span>👤 @Model.AuthorName</span> &bull;
+            <span>📅 @Model.DateCreated.ToString("dd.MM.yyyy")</span>
+        </div>
+
+        <!-- Краткое описание -->
+        @if (!string.IsNullOrEmpty(Model.DescriptionShort))
+        {
+            <p class="lead">@Model.DescriptionShort</p>
+        }
+
+        <!-- Полное описание -->
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <div class="mb-4">@Html.Raw(Model.Description)</div>
+        }
+
+        <!-- Медиа -->
+        @if (Model.Media.Any())
+        {
+            <div class="row mb-4">
+                @foreach (var media in Model.Media.Where(m => m.Type == MediaTypeEnum.Image))
+                {
+                    <div class="col-md-6 mb-2">
+                        <img src="@media.Url" alt="@media.FileName"
+                             class="img-fluid rounded shadow-sm" />
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="col-md-4">
+        <!-- Голосование -->
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <h5 class="card-title">Голосование</h5>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="d-flex justify-content-center gap-3">
+                        <form asp-action="Vote" method="post">
+                            <input type="hidden" name="proposalId" value="@Model.Id" />
+                            <input type="hidden" name="voteType" value="@VoteTypeEnum.Like" />
+                            <button type="submit"
+                                    class="btn @(currentVote == VoteTypeEnum.Like ? "btn-success" : "btn-outline-success") btn-lg">
+                                👍 @Model.LikesCount
+                            </button>
+                        </form>
+                        <form asp-action="Vote" method="post">
+                            <input type="hidden" name="proposalId" value="@Model.Id" />
+                            <input type="hidden" name="voteType" value="@VoteTypeEnum.Dislike" />
+                            <button type="submit"
+                                    class="btn @(currentVote == VoteTypeEnum.Dislike ? "btn-danger" : "btn-outline-danger") btn-lg">
+                                👎 @Model.DislikesCount
+                            </button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">
+                        <a asp-controller="Account" asp-action="Login">Войдите</a>, чтобы проголосовать
+                    </p>
+                    <div class="d-flex justify-content-center gap-4 mt-2">
+                        <span class="fs-5">👍 @Model.LikesCount</span>
+                        <span class="fs-5">👎 @Model.DislikesCount</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <a asp-action="Index" class="btn btn-outline-secondary w-100">← Все предложения</a>
+    </div>
+</div>

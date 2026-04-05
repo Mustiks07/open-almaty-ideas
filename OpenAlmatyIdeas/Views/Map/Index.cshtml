@@ -1,0 +1,26 @@
+@model IEnumerable<OpenAlmatyIdeas.Domain.Entities.District>
+
+@{
+    ViewData["Title"] = "Карта районов";
+}
+
+<h1 class="mb-4">🗺️ Карта районов Алматы</h1>
+<p class="text-muted mb-4">Выберите район, чтобы просмотреть идеи жителей</p>
+
+<div class="row">
+    @foreach (var district in Model)
+    {
+        var count = district.Proposals?.Count ?? 0;
+        <div class="col-md-3 col-6 mb-4">
+            <a asp-controller="Proposals" asp-action="Index"
+               asp-route-districtId="@district.Id"
+               class="card text-decoration-none h-100 border-success">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-dark">@district.Title</h5>
+                    <div class="display-6 text-success">@count</div>
+                    <small class="text-muted">@(count == 1 ? "идея" : count is >= 2 and <= 4 ? "идеи" : "идей")</small>
+                </div>
+            </a>
+        </div>
+    }
+</div>

@@ -4,3 +4,12 @@ node_modules/
 .env.local
 *.tsbuildinfo
 next-env.d.ts
+
+# ASP.NET Core
+*.user
+*.suo
+.vs/
+bin/
+obj/
+OpenAlmatyIdeas/appsettings.json
+!OpenAlmatyIdeas/appsettings.example.json

@@ -1,0 +1,41 @@
+@model IEnumerable<OpenAlmatyIdeas.Domain.Entities.Category>
+
+@{
+    ViewData["Title"] = "Категории";
+    Layout = "_AdminLayout";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Категории</h1>
+    <a href="/admin/categories/edit" class="btn btn-success">+ Добавить категорию</a>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Название</th>
+            <th>Предложений</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Id</td>
+                <td>@category.Title</td>
+                <td>@(category.Proposals?.Count ?? 0)</td>
+                <td>
+                    <a href="/admin/categories/edit/@category.Id" class="btn btn-sm btn-outline-primary">
+                        Изменить
+                    </a>
+                    <form action="/admin/categories/delete/@category.Id" method="post" class="d-inline"
+                          onsubmit="return confirm('Удалить категорию?')">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

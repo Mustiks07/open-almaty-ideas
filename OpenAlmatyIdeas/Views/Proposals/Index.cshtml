@@ -1,0 +1,103 @@
+@model IEnumerable<ProposalDTO>
+
+@{
+    ViewData["Title"] = "Предложения";
+    var districts = ViewBag.Districts as IEnumerable<OpenAlmatyIdeas.Domain.Entities.District> ?? [];
+    var categories = ViewBag.Categories as IEnumerable<OpenAlmatyIdeas.Domain.Entities.Category> ?? [];
+    int? currentDistrictId = ViewBag.CurrentDistrictId;
+    int? currentCategoryId = ViewBag.CurrentCategoryId;
+}
+
+<div class="row mb-4">
+    <div class="col">
+        <h1>Предложения</h1>
+    </div>
+    <div class="col-auto">
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a asp-action="New" class="btn btn-success">+ Новое предложение</a>
+        }
+    </div>
+</div>
+
+<!-- Фильтры -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <label class="form-label">Район</label>
+        <select class="form-select" onchange="filterProposals(this.value, 'district')">
+            <option value="">Все районы</option>
+            @foreach (var district in districts)
+            {
+                <option value="@district.Id" selected="@(currentDistrictId == district.Id)">
+                    @district.Title
+                </option>
+            }
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Категория</label>
+        <select class="form-select" onchange="filterProposals(this.value, 'category')">
+            <option value="">Все категории</option>
+            @foreach (var category in categories)
+            {
+                <option value="@category.Id" selected="@(currentCategoryId == category.Id)">
+                    @category.Title
+                </option>
+            }
+        </select>
+    </div>
+</div>
+
+<!-- Список предложений -->
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Предложений пока нет. <a asp-action="New">Будьте первым!</a></div>
+}
+else
+{
+    <div class="row">
+        @foreach (var proposal in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-secondary">@proposal.CategoryName</span>
+                            <span class="badge
+                                @(proposal.Status == ProposalStatusEnum.Implemented ? "bg-success" :
+                                  proposal.Status == ProposalStatusEnum.Accepted ? "bg-primary" :
+                                  proposal.Status == ProposalStatusEnum.Rejected ? "bg-danger" :
+                                  "bg-warning text-dark")">
+                                @proposal.StatusLabel
+                            </span>
+                        </div>
+                        <h5 class="card-title">
+                            <a asp-action="Show" asp-route-id="@proposal.Id" class="text-decoration-none">
+                                @proposal.Title
+                            </a>
+                        </h5>
+                        <p class="card-text text-muted small">@proposal.DescriptionShort</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between small text-muted">
+                        <span>📍 @proposal.DistrictName</span>
+                        <span>👍 @proposal.LikesCount  👎 @proposal.DislikesCount</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function filterProposals(value, type) {
+            const url = new URL(window.location.href);
+            if (value) {
+                url.searchParams.set(type === 'district' ? 'districtId' : 'categoryId', value);
+            } else {
+                url.searchParams.delete(type === 'district' ? 'districtId' : 'categoryId');
+            }
+            window.location.href = url.toString();
+        }
+    </script>
+}
