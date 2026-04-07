@@ -49,7 +49,7 @@ export default async function HomePage() {
 
         <div className="max-w-5xl mx-auto px-6 text-center relative z-10 pt-20">
           <p className="text-brand-400 text-sm font-semibold tracking-[0.3em] uppercase mb-8 animate-fade-up">
-            Азаматтық бастама платформасы
+            Алматы қаласының тұрғындарына арналған заманауи цифрлық платформа
           </p>
 
           <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-[0.9] animate-fade-up-delay">
