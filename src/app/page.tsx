@@ -40,11 +40,12 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="hero-bg min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-brand-500/30 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-brand-600/20 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-400/10 rounded-full blur-3xl" />
+      <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
+        {/* Фон суреті */}
+        <div className="absolute inset-0">
+          <img src="/hero-bg.jpg" alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-dark-950/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-dark-950/80 via-dark-950/50 to-dark-950" />
         </div>
 
         <div className="max-w-5xl mx-auto px-6 text-center relative z-10 pt-20">
@@ -206,9 +207,11 @@ export default async function HomePage() {
             Ауданды басып, сол аудандағы ұсыныстарды көріңіз
           </p>
 
-          <div className="grid md:grid-cols-2 gap-10 items-center">
-            <AlmatyMap districts={districtCounts} />
-            <div className="grid grid-cols-2 gap-3">
+          <div className="grid md:grid-cols-5 gap-8 items-center">
+            <div className="md:col-span-3">
+              <AlmatyMap districts={districtCounts} />
+            </div>
+            <div className="md:col-span-2 grid grid-cols-2 gap-3">
               {districtCounts.map((d) => (
                 <Link
                   key={d.name}

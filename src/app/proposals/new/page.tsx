@@ -64,6 +64,7 @@ export default function NewProposalPage() {
     e.preventDefault();
     const plain = description.replace(/<[^>]*>/g, "").trim();
     if (plain.length < 20) { setError("Сипаттама кемінде 20 таңба"); return; }
+    if (files.length === 0) { setError("Кемінде 1 фото немесе видео қосыңыз"); return; }
     setLoading(true); setError("");
     try {
       const res = await fetch("/api/proposals", { method: "POST", headers: { "Content-Type": "application/json" },
