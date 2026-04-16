@@ -6,98 +6,176 @@
 }
 
 <!-- Hero -->
-<div class="p-5 mb-4 bg-dark text-white rounded-3">
-    <div class="container-fluid py-3">
-        <h1 class="display-5 fw-bold">Open Almaty Ideas</h1>
-        <p class="col-md-8 fs-4">Платформа гражданских инициатив для жителей Алматы.
-            Предлагайте идеи по улучшению города, голосуйте и следите за их реализацией.</p>
-        <div class="d-flex gap-3">
-            <a asp-controller="Proposals" asp-action="New" class="btn btn-success btn-lg">
-                Предложить идею
-            </a>
-            <a asp-controller="Proposals" asp-action="Index" class="btn btn-outline-light btn-lg">
-                Смотреть предложения
-            </a>
+<div class="hero-section">
+    <!-- Blur orbs -->
+    <div class="hero-orb" style="width:18rem;height:18rem;background:#22C55E;top:-4rem;left:-4rem"></div>
+    <div class="hero-orb" style="width:24rem;height:24rem;background:#16A34A;bottom:-6rem;right:-6rem"></div>
+    <div class="hero-orb" style="width:38rem;height:38rem;background:#4ADE80;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.07"></div>
+
+    <div class="container-xl px-4 py-5 position-relative">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8">
+                <div class="hero-tagline">Гражданская платформа — Алматы</div>
+                <h1 class="hero-title">
+                    Open<br/>
+                    <span class="text-gradient">Almaty</span><br/>
+                    Ideas
+                </h1>
+                <p class="hero-subtitle">
+                    Предлагайте идеи по улучшению города,<br class="d-none d-md-block" />
+                    голосуйте и следите за реализацией.
+                </p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a asp-controller="Proposals" asp-action="New" class="btn-brand">
+                            + Предложить идею
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Register" class="btn-brand">
+                            Присоединиться
+                        </a>
+                    }
+                    <a asp-controller="Proposals" asp-action="Index" class="btn-glass">
+                        Смотреть предложения →
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Статистика -->
-<div class="row text-center mb-5">
-    <div class="col-md-4">
-        <div class="card border-0 bg-light py-4">
-            <div class="display-4 fw-bold text-success">@totalProposals</div>
-            <div class="text-muted">Предложений подано</div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card border-0 bg-light py-4">
-            <div class="display-4 fw-bold text-success">8</div>
-            <div class="text-muted">Районов Алматы</div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card border-0 bg-light py-4">
-            <div class="display-4 fw-bold text-success">8</div>
-            <div class="text-muted">Категорий</div>
-        </div>
-    </div>
-</div>
+<!-- Main content -->
+<div class="container-xl px-4">
 
-<!-- Топ предложения -->
-@if (topProposals.Any())
-{
-    <h2 class="mb-4">Топ предложения</h2>
-    <div class="row mb-5">
-        @foreach (var proposal in topProposals)
+    <!-- Stats -->
+    <div class="row g-3 my-4">
+        <div class="col-4">
+            <div class="stat-card">
+                <div class="stat-number">@totalProposals</div>
+                <div class="stat-label">Предложений</div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Районов</div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Категорий</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top proposals -->
+    @if (topProposals.Any())
+    {
+        <div class="mt-5 mb-4">
+            <span class="section-tag">Рейтинг</span>
+            <h2 class="section-title">Топ предложения</h2>
+            <p class="section-subtitle">Самые поддерживаемые идеи горожан</p>
+        </div>
+        <div class="row g-3 mb-5">
+            @foreach (var proposal in topProposals)
+            {
+                <div class="col-md-4">
+                    <div class="card h-100 hover-lift">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="badge bg-secondary">@proposal.CategoryName</span>
+                                <span class="badge
+                                    @(proposal.Status == OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Implemented ? "bg-success" :
+                                      proposal.Status == OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Accepted ? "bg-primary" :
+                                      proposal.Status == OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Rejected ? "bg-danger" :
+                                      "bg-warning")">
+                                    @proposal.StatusLabel
+                                </span>
+                            </div>
+                            <h5 class="card-title mb-2">
+                                <a asp-controller="Proposals" asp-action="Show"
+                                   asp-route-id="@proposal.Id" class="stretched-link text-decoration-none">
+                                    @proposal.Title
+                                </a>
+                            </h5>
+                            <p class="card-text small" style="line-clamp:2;-webkit-line-clamp:2;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical">
+                                @proposal.DescriptionShort
+                            </p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between small">
+                            <span style="color:rgba(255,255,255,0.45)">📍 @proposal.DistrictName</span>
+                            <span class="text-success fw-semibold">👍 @proposal.LikesCount</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <!-- Districts -->
+    <div class="mt-5 mb-4">
+        <span class="section-tag">Охват</span>
+        <h2 class="section-title">Районы Алматы</h2>
+        <p class="section-subtitle">Все 8 административных районов города</p>
+    </div>
+    <div class="row g-2 mb-5">
+        @foreach (var district in districts)
         {
-            <div class="col-md-4 mb-3">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <span class="badge bg-secondary mb-2">@proposal.CategoryName</span>
-                        <h5 class="card-title">
-                            <a asp-controller="Proposals" asp-action="Show"
-                               asp-route-id="@proposal.Id" class="text-decoration-none">
-                                @proposal.Title
-                            </a>
-                        </h5>
-                        <p class="card-text text-muted small">@proposal.DescriptionShort</p>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between align-items-center">
-                        <span class="text-success fw-bold">👍 @proposal.LikesCount</span>
-                        <span class="badge bg-info text-dark">@proposal.DistrictName</span>
-                    </div>
+            <div class="col-md-3 col-6">
+                <a asp-controller="Proposals" asp-action="Index"
+                   asp-route-districtId="@district.Id"
+                   class="btn-district">
+                    @district.Title
+                </a>
+            </div>
+        }
+    </div>
+
+    <!-- How it works -->
+    <div class="mt-5 mb-4">
+        <span class="section-tag">Процесс</span>
+        <h2 class="section-title">Как это работает?</h2>
+    </div>
+    <div class="row g-3 mb-5">
+        @foreach (var step in new[] {
+            ("1", "Зарегистрируйтесь", "Создайте аккаунт — это займёт меньше минуты"),
+            ("2", "Подайте предложение", "Опишите идею, укажите район и категорию"),
+            ("3", "Голосуйте", "Поддерживайте понравившиеся идеи горожан"),
+            ("4", "Следите за результатом", "Статус предложения обновляется администраторами")
+        })
+        {
+            <div class="col-md-3 col-6">
+                <div class="card h-100 p-3">
+                    <div class="feature-icon">@step.Item1</div>
+                    <h6 style="color:#fff;font-weight:600;margin-bottom:0.3rem">@step.Item2</h6>
+                    <p class="card-text small">@step.Item3</p>
                 </div>
             </div>
         }
     </div>
-}
 
-<!-- Районы -->
-<h2 class="mb-4">Районы Алматы</h2>
-<div class="row mb-5">
-    @foreach (var district in districts)
+    <!-- CTA -->
+    @if (User.Identity?.IsAuthenticated != true)
     {
-        <div class="col-md-3 col-6 mb-3">
-            <a asp-controller="Proposals" asp-action="Index"
-               asp-route-districtId="@district.Id"
-               class="btn btn-outline-secondary w-100">
-                @district.Title
-                <br/>
-                <small class="text-muted">@(district.Proposals?.Count ?? 0) идей</small>
-            </a>
+        <div class="cta-block mb-5">
+            <span class="section-tag mb-2 d-block">Присоединяйтесь</span>
+            <h2 class="section-title mb-2">Ваш голос важен для Алматы</h2>
+            <p style="color:rgba(255,255,255,0.5);margin-bottom:1.5rem">
+                Зарегистрируйтесь, чтобы подавать предложения и голосовать за идеи горожан.
+            </p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a asp-controller="Account" asp-action="Register" class="btn-brand">
+                    Зарегистрироваться
+                </a>
+                <a asp-controller="Proposals" asp-action="Index" class="btn-glass">
+                    Смотреть предложения
+                </a>
+            </div>
         </div>
     }
-</div>
 
-<!-- CTA для неавторизованных -->
-@if (User.Identity?.IsAuthenticated != true)
-{
-    <div class="p-4 bg-success text-white rounded-3 text-center mb-4">
-        <h3>Присоединяйтесь к платформе</h3>
-        <p>Зарегистрируйтесь, чтобы подавать предложения и голосовать за идеи горожан.</p>
-        <a asp-controller="Account" asp-action="Register" class="btn btn-light btn-lg">
-            Зарегистрироваться
-        </a>
-    </div>
-}
+</div>

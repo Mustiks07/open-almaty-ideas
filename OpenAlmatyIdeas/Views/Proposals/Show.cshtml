@@ -6,110 +6,141 @@
     var currentUserId = ViewBag.CurrentUserId as string;
     var isAuthor = currentUserId != null && currentUserId == Model.AuthorId;
     var isAdmin = User.IsInRole("Admin");
+
+    string statusClass = Model.Status switch
+    {
+        ProposalStatusEnum.Implemented => "bg-success",
+        ProposalStatusEnum.Accepted    => "bg-primary",
+        ProposalStatusEnum.Rejected    => "bg-danger",
+        _                              => "bg-warning"
+    };
+    string responseClass = Model.Status switch
+    {
+        ProposalStatusEnum.Implemented => "status-implemented",
+        ProposalStatusEnum.Accepted    => "status-accepted",
+        ProposalStatusEnum.Rejected    => "status-rejected",
+        _                              => "status-pending"
+    };
 }
 
-<div class="row">
-    <div class="col-md-8">
-        <!-- Заголовок и статус -->
-        <div class="d-flex justify-content-between align-items-start mb-2">
-            <h1 class="h2">@Model.Title</h1>
-            <span class="badge fs-6 ms-2
-                @(Model.Status == ProposalStatusEnum.Implemented ? "bg-success" :
-                  Model.Status == ProposalStatusEnum.Accepted ? "bg-primary" :
-                  Model.Status == ProposalStatusEnum.Rejected ? "bg-danger" :
-                  "bg-warning text-dark")">
-                @Model.StatusLabel
-            </span>
-        </div>
+<div class="container-xl px-4 py-4">
+    <div class="row g-4">
 
-        <!-- Мета-информация -->
-        <div class="text-muted small mb-4 d-flex flex-wrap gap-3">
-            <span>📍 @Model.DistrictName</span>
-            <span>🏷️ @Model.CategoryName</span>
-            <span>👤 @Model.AuthorName</span>
-            <span>📅 @Model.DateCreated.ToString("dd.MM.yyyy")</span>
-        </div>
+        <!-- Main content -->
+        <div class="col-lg-8">
 
-        <!-- Кнопки автора -->
-        @if (isAuthor || isAdmin)
-        {
-            <div class="d-flex gap-2 mb-4">
-                @if (isAuthor)
-                {
-                    <a asp-action="Edit" asp-route-id="@Model.Id"
-                       class="btn btn-sm btn-outline-primary">✏️ Редактировать</a>
-                }
-                <form asp-action="Delete" asp-route-id="@Model.Id" method="post"
-                      onsubmit="return confirm('Удалить предложение?')">
-                    <button type="submit" class="btn btn-sm btn-outline-danger">🗑️ Удалить</button>
-                </form>
+            <!-- Back -->
+            <a asp-action="Index" style="color:rgba(255,255,255,0.4);font-size:0.85rem;text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;margin-bottom:1.5rem">
+                ← Все предложения
+            </a>
+
+            <!-- Title + status -->
+            <div class="d-flex align-items-start gap-3 mb-3 flex-wrap">
+                <h1 style="font-size:clamp(1.5rem,4vw,2.2rem);font-weight:700;color:#fff;flex:1;margin:0">
+                    @Model.Title
+                </h1>
+                <span class="badge @statusClass fs-6">@Model.StatusLabel</span>
             </div>
-        }
 
-        <!-- Краткое описание -->
-        @if (!string.IsNullOrEmpty(Model.DescriptionShort))
-        {
-            <p class="lead border-start border-4 border-success ps-3">@Model.DescriptionShort</p>
-        }
-
-        <!-- Полное описание -->
-        @if (!string.IsNullOrEmpty(Model.Description))
-        {
-            <div class="mb-4">@Html.Raw(Model.Description)</div>
-        }
-
-        <!-- Медиа файлы -->
-        @if (Model.Media.Any())
-        {
-            <div class="row mb-4 g-2">
-                @foreach (var media in Model.Media.Where(m => m.Type == MediaTypeEnum.Image))
-                {
-                    <div class="col-md-6">
-                        <img src="@media.Url" alt="@media.FileName"
-                             class="img-fluid rounded shadow-sm w-100" style="object-fit:cover;max-height:300px;" />
-                    </div>
-                }
-                @foreach (var media in Model.Media.Where(m => m.Type == MediaTypeEnum.Video))
-                {
-                    <div class="col-12">
-                        <video controls class="w-100 rounded">
-                            <source src="@media.Url" />
-                        </video>
-                    </div>
-                }
+            <!-- Meta -->
+            <div class="d-flex flex-wrap gap-3 mb-4" style="color:rgba(255,255,255,0.45);font-size:0.85rem">
+                <span>📍 @Model.DistrictName</span>
+                <span>🏷️ @Model.CategoryName</span>
+                <span>👤 @Model.AuthorName</span>
+                <span>📅 @Model.DateCreated.ToString("dd.MM.yyyy")</span>
             </div>
-        }
 
-        <!-- Ответы администратора -->
-        @if (Model.AdminResponses.Any())
-        {
-            <div class="mb-4">
-                <h5 class="mb-3">💬 Ответы администратора</h5>
-                @foreach (var response in Model.AdminResponses)
-                {
-                    <div class="card border-start border-4
-                        @(Model.Status == ProposalStatusEnum.Implemented ? "border-success" :
-                          Model.Status == ProposalStatusEnum.Accepted ? "border-primary" :
-                          Model.Status == ProposalStatusEnum.Rejected ? "border-danger" :
-                          "border-warning") mb-3">
-                        <div class="card-body">
-                            <p class="mb-1">@response.Text</p>
-                            <small class="text-muted">
+            <!-- Author/Admin actions -->
+            @if (isAuthor || isAdmin)
+            {
+                <div class="d-flex gap-2 mb-4">
+                    @if (isAuthor)
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-glass btn-sm"
+                           style="color:#93C5FD;border-color:rgba(147,197,253,0.2)">
+                            ✏ Редактировать
+                        </a>
+                    }
+                    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" style="display:inline">
+                        <button type="submit" class="btn-glass btn-sm"
+                                style="color:#F87171;border-color:rgba(248,113,113,0.2)"
+                                onclick="return confirm('Удалить предложение?')">
+                            🗑 Удалить
+                        </button>
+                    </form>
+                </div>
+            }
+
+            <!-- Short description -->
+            @if (!string.IsNullOrEmpty(Model.DescriptionShort))
+            {
+                <p class="lead mb-4"
+                   style="border-left:3px solid #22C55E;padding-left:1.25rem;color:rgba(255,255,255,0.75);font-size:1rem;font-weight:400;line-height:1.7">
+                    @Model.DescriptionShort
+                </p>
+            }
+
+            <!-- Full description -->
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <div class="mb-4" style="color:rgba(255,255,255,0.7);line-height:1.8">
+                    @Html.Raw(Model.Description)
+                </div>
+            }
+
+            <!-- Media -->
+            @if (Model.Media.Any())
+            {
+                <div class="row g-2 mb-4">
+                    @foreach (var media in Model.Media.Where(m => m.Type == MediaTypeEnum.Image))
+                    {
+                        <div class="col-md-6">
+                            <img src="@media.Url" alt="@media.FileName"
+                                 class="img-fluid rounded"
+                                 style="width:100%;object-fit:cover;max-height:280px;border:1px solid rgba(255,255,255,0.08)" />
+                        </div>
+                    }
+                    @foreach (var media in Model.Media.Where(m => m.Type == MediaTypeEnum.Video))
+                    {
+                        <div class="col-12">
+                            <video controls class="w-100 rounded"
+                                   style="border:1px solid rgba(255,255,255,0.08)">
+                                <source src="@media.Url" />
+                            </video>
+                        </div>
+                    }
+                </div>
+            }
+
+            <!-- Admin responses -->
+            @if (Model.AdminResponses.Any())
+            {
+                <div class="mb-4">
+                    <h5 style="color:#fff;font-family:'Playfair Display',serif;margin-bottom:1rem">
+                        💬 Ответы администратора
+                    </h5>
+                    @foreach (var response in Model.AdminResponses)
+                    {
+                        <div class="admin-response-card @responseClass">
+                            <p style="color:rgba(255,255,255,0.8);margin-bottom:0.5rem">@response.Text</p>
+                            <small style="color:rgba(255,255,255,0.35)">
                                 @response.AdminName — @response.DateCreated.ToString("dd.MM.yyyy HH:mm")
                             </small>
                         </div>
-                    </div>
-                }
-            </div>
-        }
-    </div>
+                    }
+                </div>
+            }
 
-    <!-- Боковая панель -->
-    <div class="col-md-4">
-        <!-- Голосование -->
-        <div class="card mb-4">
-            <div class="card-body text-center">
-                <h5 class="card-title mb-3">Голосование</h5>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+
+            <!-- Vote -->
+            <div class="vote-card">
+                <h6 style="color:rgba(255,255,255,0.5);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem">
+                    Голосование
+                </h6>
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="d-flex justify-content-center gap-3">
@@ -117,7 +148,7 @@
                             <input type="hidden" name="proposalId" value="@Model.Id" />
                             <input type="hidden" name="voteType" value="@VoteTypeEnum.Like" />
                             <button type="submit"
-                                    class="btn @(currentVote == VoteTypeEnum.Like ? "btn-success" : "btn-outline-success") btn-lg">
+                                    class="btn-vote-like @(currentVote == VoteTypeEnum.Like ? "voted" : "")">
                                 👍 @Model.LikesCount
                             </button>
                         </form>
@@ -125,7 +156,7 @@
                             <input type="hidden" name="proposalId" value="@Model.Id" />
                             <input type="hidden" name="voteType" value="@VoteTypeEnum.Dislike" />
                             <button type="submit"
-                                    class="btn @(currentVote == VoteTypeEnum.Dislike ? "btn-danger" : "btn-outline-danger") btn-lg">
+                                    class="btn-vote-dislike @(currentVote == VoteTypeEnum.Dislike ? "voted" : "")">
                                 👎 @Model.DislikesCount
                             </button>
                         </form>
@@ -133,17 +164,45 @@
                 }
                 else
                 {
-                    <p class="text-muted small">
+                    <p style="color:rgba(255,255,255,0.4);font-size:0.85rem;margin-bottom:0.75rem">
                         <a asp-controller="Account" asp-action="Login">Войдите</a>, чтобы проголосовать
                     </p>
-                    <div class="d-flex justify-content-center gap-4 mt-2">
-                        <span class="fs-5 text-success">👍 @Model.LikesCount</span>
-                        <span class="fs-5 text-danger">👎 @Model.DislikesCount</span>
+                    <div class="d-flex justify-content-center gap-4">
+                        <span style="font-size:1.1rem;color:#4ADE80">👍 @Model.LikesCount</span>
+                        <span style="font-size:1.1rem;color:#F87171">👎 @Model.DislikesCount</span>
                     </div>
                 }
             </div>
-        </div>
 
-        <a asp-action="Index" class="btn btn-outline-secondary w-100">← Все предложения</a>
+            <!-- Status info -->
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:1.25rem">
+                <h6 style="color:rgba(255,255,255,0.4);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem">
+                    Информация
+                </h6>
+                <div class="d-flex flex-column gap-2" style="font-size:0.85rem">
+                    <div class="d-flex justify-content-between">
+                        <span style="color:rgba(255,255,255,0.4)">Статус</span>
+                        <span class="badge @statusClass">@Model.StatusLabel</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span style="color:rgba(255,255,255,0.4)">Район</span>
+                        <span style="color:rgba(255,255,255,0.75)">@Model.DistrictName</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span style="color:rgba(255,255,255,0.4)">Категория</span>
+                        <span style="color:rgba(255,255,255,0.75)">@Model.CategoryName</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span style="color:rgba(255,255,255,0.4)">Автор</span>
+                        <span style="color:rgba(255,255,255,0.75)">@Model.AuthorName</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span style="color:rgba(255,255,255,0.4)">Дата</span>
+                        <span style="color:rgba(255,255,255,0.75)">@Model.DateCreated.ToString("dd.MM.yyyy")</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>

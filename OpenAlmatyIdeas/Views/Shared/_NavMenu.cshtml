@@ -1,13 +1,82 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
-            Open Almaty Ideas
+<nav class="site-navbar">
+    <div class="container-xl px-4 d-flex align-items-center justify-content-between h-100">
+
+        <!-- Logo -->
+        <a class="nav-brand" asp-controller="Home" asp-action="Index">
+            <div class="navbar-logo-badge">OA</div>
+            <span class="d-none d-sm-inline">Open Almaty Ideas</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-            <span class="navbar-toggler-icon"></span>
+
+        <!-- Desktop nav links -->
+        <ul class="nav d-none d-md-flex gap-1 mb-0">
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Proposals" asp-action="Index">Предложения</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Top" asp-action="Index">Топ идей</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Map" asp-action="Index">Карта</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="About">О проекте</a>
+            </li>
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" style="color:rgba(252,211,77,0.8)!important" href="/admin">⚙ Панель</a>
+                </li>
+            }
+        </ul>
+
+        <!-- Desktop right -->
+        <div class="d-none d-md-flex align-items-center gap-2">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a class="btn-glass btn-sm" asp-controller="Proposals" asp-action="New">+ Предложение</a>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 py-2 px-3"
+                       href="#" data-bs-toggle="dropdown" style="border-radius:10px">
+                        <span style="width:28px;height:28px;background:rgba(34,197,94,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:#4ADE80">
+                            @(User.Identity.Name?.Substring(0, 1).ToUpper())
+                        </span>
+                        <span style="font-size:0.85rem;color:rgba(255,255,255,0.75)">@User.Identity.Name</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" asp-controller="Profile" asp-action="Index">
+                                Мои предложения
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form asp-controller="Account" asp-action="Logout" method="post" style="padding:0.2rem 0.4rem">
+                                <button type="submit" class="dropdown-item text-danger w-100 text-start">Выйти</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            }
+            else
+            {
+                <a class="nav-link" asp-controller="Account" asp-action="Login"
+                   style="font-size:0.875rem;color:rgba(255,255,255,0.65)">Войти</a>
+                <a class="btn-brand btn-sm" asp-controller="Account" asp-action="Register">Регистрация</a>
+            }
+        </div>
+
+        <!-- Mobile toggle -->
+        <button class="btn-glass btn-sm d-md-none" type="button"
+                data-bs-toggle="collapse" data-bs-target="#mobileMenu" style="border-radius:10px;padding:0.5rem 0.75rem">
+            <span style="color:rgba(255,255,255,0.8);font-size:1.1rem">☰</span>
         </button>
-        <div class="collapse navbar-collapse" id="navMenu">
-            <ul class="navbar-nav me-auto">
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="collapse" id="mobileMenu"
+         style="background:rgba(15,23,42,0.98);border-top:1px solid rgba(255,255,255,0.05)">
+        <div class="container-xl px-4 py-3">
+            <ul class="nav flex-column gap-1 mb-3">
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Proposals" asp-action="Index">Предложения</a>
                 </li>
@@ -23,46 +92,28 @@
                 @if (User.IsInRole("Admin"))
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-warning" href="/admin">⚙️ Панель</a>
+                        <a class="nav-link" style="color:#FCD34D!important" href="/admin">⚙ Панель</a>
                     </li>
                 }
             </ul>
-            <ul class="navbar-nav ms-auto">
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Proposals" asp-action="New">+ Предложение</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            👤 @User.Identity.Name
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a class="dropdown-item" asp-controller="Profile" asp-action="Index">
-                                    Мои предложения
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form asp-controller="Account" asp-action="Logout" method="post">
-                                    <button type="submit" class="dropdown-item text-danger">Выйти</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Account" asp-action="Login">Войти</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-light btn-sm ms-2 px-3"
-                           asp-controller="Account" asp-action="Register">Регистрация</a>
-                    </li>
-                }
-            </ul>
+            <hr style="border-color:rgba(255,255,255,0.07)">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div class="d-flex gap-2">
+                    <a class="btn-brand btn-sm" asp-controller="Proposals" asp-action="New">+ Предложение</a>
+                    <a class="btn-glass btn-sm" asp-controller="Profile" asp-action="Index">Мои предложения</a>
+                </div>
+                <form asp-controller="Account" asp-action="Logout" method="post" class="mt-2">
+                    <button type="submit" class="btn-glass btn-sm" style="color:#F87171;border-color:rgba(248,113,113,0.2)">Выйти</button>
+                </form>
+            }
+            else
+            {
+                <div class="d-flex gap-2">
+                    <a class="btn-glass btn-sm" asp-controller="Account" asp-action="Login">Войти</a>
+                    <a class="btn-brand btn-sm" asp-controller="Account" asp-action="Register">Регистрация</a>
+                </div>
+            }
         </div>
     </div>
 </nav>

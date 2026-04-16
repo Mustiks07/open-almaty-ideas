@@ -5,56 +5,64 @@
     var proposalId = ViewBag.ProposalId;
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <h1 class="mb-4">Редактировать предложение</h1>
+<div class="container-xl px-4 py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
 
-        <form asp-action="Edit" asp-route-id="@proposalId" method="post">
-            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-
-            <div class="mb-3">
-                <label asp-for="Title" class="form-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+            <div class="page-header">
+                <h1>Редактировать предложение</h1>
+                <p class="lead">Измените данные вашего предложения</p>
             </div>
 
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label asp-for="DistrictId" class="form-label"></label>
-                    <select asp-for="DistrictId" class="form-select"
-                            asp-items="@(new SelectList(Model.Districts, "Id", "Title"))">
-                        <option value="">— Выберите район —</option>
-                    </select>
-                    <span asp-validation-for="DistrictId" class="text-danger"></span>
-                </div>
-                <div class="col-md-6">
-                    <label asp-for="CategoryId" class="form-label"></label>
-                    <select asp-for="CategoryId" class="form-select"
-                            asp-items="@(new SelectList(Model.Categories, "Id", "Title"))">
-                        <option value="">— Выберите категорию —</option>
-                    </select>
-                    <span asp-validation-for="CategoryId" class="text-danger"></span>
-                </div>
-            </div>
+            <div class="auth-card">
+                <form asp-action="Edit" asp-route-id="@proposalId" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4"></div>
 
-            <div class="mb-3">
-                <label asp-for="DescriptionShort" class="form-label"></label>
-                <textarea asp-for="DescriptionShort" class="form-control" rows="3"></textarea>
-                <span asp-validation-for="DescriptionShort" class="text-danger"></span>
-            </div>
+                    <div class="mb-4">
+                        <label asp-for="Title" class="form-label">Название</label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="field-validation-error"></span>
+                    </div>
 
-            <div class="mb-3">
-                <label asp-for="Description" class="form-label"></label>
-                <textarea asp-for="Description" class="form-control" rows="8"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label asp-for="DistrictId" class="form-label">Район</label>
+                            <select asp-for="DistrictId" class="form-select"
+                                    asp-items="@(new SelectList(Model.Districts, "Id", "Title"))">
+                                <option value="">— Выберите район —</option>
+                            </select>
+                            <span asp-validation-for="DistrictId" class="field-validation-error"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="CategoryId" class="form-label">Категория</label>
+                            <select asp-for="CategoryId" class="form-select"
+                                    asp-items="@(new SelectList(Model.Categories, "Id", "Title"))">
+                                <option value="">— Выберите категорию —</option>
+                            </select>
+                            <span asp-validation-for="CategoryId" class="field-validation-error"></span>
+                        </div>
+                    </div>
 
-            <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-success">Сохранить</button>
-                <a asp-controller="Proposals" asp-action="Show" asp-route-id="@proposalId"
-                   class="btn btn-outline-secondary">Отмена</a>
+                    <div class="mb-4">
+                        <label asp-for="DescriptionShort" class="form-label">Краткое описание</label>
+                        <textarea asp-for="DescriptionShort" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="DescriptionShort" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Description" class="form-label">Полное описание</label>
+                        <textarea asp-for="Description" class="form-control" rows="8"></textarea>
+                        <span asp-validation-for="Description" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn-brand">Сохранить изменения</button>
+                        <a asp-controller="Proposals" asp-action="Show" asp-route-id="@proposalId"
+                           class="btn-glass">Отмена</a>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
