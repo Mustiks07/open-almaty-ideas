@@ -13,7 +13,9 @@ public class EFProposalsRepository : IProposalsRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Proposal>> GetProposalsAsync(int? districtId = null, int? categoryId = null)
+    public async Task<IEnumerable<Proposal>> GetProposalsAsync(
+        int? districtId = null, int? categoryId = null,
+        string? search = null, string? sort = null)
     {
         var query = _context.Proposals
             .Include(p => p.District)
@@ -28,7 +30,17 @@ public class EFProposalsRepository : IProposalsRepository
         if (categoryId.HasValue)
             query = query.Where(p => p.CategoryId == categoryId);
 
-        return await query.OrderByDescending(p => p.DateCreated).ToListAsync();
+        if (!string.IsNullOrWhiteSpace(search))
+            query = query.Where(p =>
+                p.Title!.Contains(search) ||
+                (p.DescriptionShort != null && p.DescriptionShort.Contains(search)) ||
+                (p.Description != null && p.Description.Contains(search)));
+
+        query = sort == "popular"
+            ? query.OrderByDescending(p => p.LikesCount)
+            : query.OrderByDescending(p => p.DateCreated);
+
+        return await query.Take(50).ToListAsync();
     }
 
     public async Task<IEnumerable<Proposal>> GetTopProposalsAsync(int count = 10)
@@ -40,6 +52,17 @@ public class EFProposalsRepository : IProposalsRepository
             .Include(p => p.Media)
             .OrderByDescending(p => p.LikesCount)
             .Take(count)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Proposal>> GetProposalsByAuthorAsync(string authorId)
+    {
+        return await _context.Proposals
+            .Include(p => p.District)
+            .Include(p => p.Category)
+            .Include(p => p.Media)
+            .Where(p => p.AuthorId == authorId)
+            .OrderByDescending(p => p.DateCreated)
             .ToListAsync();
     }
 
@@ -57,13 +80,10 @@ public class EFProposalsRepository : IProposalsRepository
     public async Task SaveProposalAsync(Proposal entity)
     {
         if (entity.Id == 0)
-        {
             await _context.Proposals.AddAsync(entity);
-        }
         else
-        {
             _context.Proposals.Update(entity);
-        }
+
         await _context.SaveChangesAsync();
     }
 

@@ -2,36 +2,114 @@
     ViewData["Title"] = "О проекте";
 }
 
-<h1 class="mb-4">О проекте</h1>
-
 <div class="row">
     <div class="col-md-8">
-        <p class="lead">
-            <strong>Open Almaty Ideas</strong> — это платформа гражданских инициатив для жителей Алматы.
-        </p>
-        <p>
-            Здесь каждый житель города может предложить идею по улучшению городской среды,
-            проголосовать за понравившиеся предложения других горожан и отслеживать статус
-            реализации инициатив.
-        </p>
-        <h4 class="mt-4">Как это работает?</h4>
-        <ol>
-            <li>Зарегистрируйтесь на платформе</li>
-            <li>Подайте своё предложение с описанием и указанием района</li>
-            <li>Другие жители голосуют за понравившиеся идеи</li>
-            <li>Администраторы рассматривают предложения и обновляют статус</li>
-            <li>Реализованные идеи отображаются со статусом «Реализовано»</li>
-        </ol>
-        <h4 class="mt-4">Категории предложений</h4>
-        <ul>
-            <li>Көлік (Транспорт)</li>
-            <li>Экология</li>
-            <li>Инфрақұрылым (Инфраструктура)</li>
-            <li>Қауіпсіздік (Безопасность)</li>
-            <li>Білім (Образование)</li>
-            <li>Денсаулық сақтау (Здравоохранение)</li>
-            <li>Мәдениет және спорт (Культура и спорт)</li>
-            <li>Басқа (Другое)</li>
-        </ul>
+        <h1 class="mb-2">О проекте</h1>
+        <p class="lead text-muted mb-5">Гражданская платформа для улучшения города Алматы</p>
+
+        <section class="mb-5">
+            <h4>🎯 Миссия</h4>
+            <p>
+                <strong>Open Almaty Ideas</strong> — это цифровая платформа гражданских инициатив,
+                созданная для жителей Алматы. Мы верим, что лучшие идеи по улучшению города
+                рождаются у тех, кто в нём живёт. Платформа даёт каждому горожанину голос —
+                возможность предложить идею, поддержать других и видеть, как инициативы
+                воплощаются в жизнь.
+            </p>
+        </section>
+
+        <section class="mb-5">
+            <h4>🚀 Как это работает?</h4>
+            <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                    <div class="card border-0 bg-light h-100 p-3">
+                        <div class="fs-2 mb-2">1️⃣</div>
+                        <h6>Зарегистрируйтесь</h6>
+                        <p class="small text-muted mb-0">Создайте аккаунт — это займёт меньше минуты</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-0 bg-light h-100 p-3">
+                        <div class="fs-2 mb-2">2️⃣</div>
+                        <h6>Подайте предложение</h6>
+                        <p class="small text-muted mb-0">Опишите идею, укажите район и категорию</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-0 bg-light h-100 p-3">
+                        <div class="fs-2 mb-2">3️⃣</div>
+                        <h6>Голосуйте</h6>
+                        <p class="small text-muted mb-0">Поддерживайте понравившиеся идеи других горожан</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-0 bg-light h-100 p-3">
+                        <div class="fs-2 mb-2">4️⃣</div>
+                        <h6>Следите за результатом</h6>
+                        <p class="small text-muted mb-0">Администраторы рассматривают предложения и обновляют статус</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h4>🗺️ Районы Алматы</h4>
+            <p>Платформа охватывает все 8 административных районов города:</p>
+            <div class="row g-2 mt-1">
+                @foreach (var district in new[] { "Алмалы", "Әуезов", "Бостандық", "Жетісу", "Медеу", "Наурызбай", "Түрксіб", "Алатау" })
+                {
+                    <div class="col-md-3 col-6">
+                        <a asp-controller="Proposals" asp-action="Index"
+                           class="btn btn-outline-success w-100 btn-sm">@district</a>
+                    </div>
+                }
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h4>🏷️ Категории предложений</h4>
+            <div class="d-flex flex-wrap gap-2 mt-2">
+                @foreach (var cat in new[] { "Көлік", "Экология", "Инфрақұрылым", "Қауіпсіздік", "Білім", "Денсаулық сақтау", "Мәдениет және спорт", "Басқа" })
+                {
+                    <span class="badge bg-secondary fs-6 fw-normal">@cat</span>
+                }
+            </div>
+        </section>
+
+        <section class="mb-5">
+            <h4>📊 Статусы предложений</h4>
+            <div class="row g-3 mt-1">
+                <div class="col-md-6">
+                    <span class="badge bg-warning text-dark me-2">На рассмотрении</span>
+                    Предложение получено и изучается
+                </div>
+                <div class="col-md-6">
+                    <span class="badge bg-primary me-2">Принято</span>
+                    Идея одобрена к реализации
+                </div>
+                <div class="col-md-6">
+                    <span class="badge bg-success me-2">Реализовано</span>
+                    Предложение воплощено в жизнь
+                </div>
+                <div class="col-md-6">
+                    <span class="badge bg-danger me-2">Отклонено</span>
+                    Предложение не принято с объяснением причин
+                </div>
+            </div>
+        </section>
+
+        @if (User.Identity?.IsAuthenticated != true)
+        {
+            <div class="p-4 bg-success text-white rounded-3 text-center">
+                <h4>Присоединяйтесь к Open Almaty Ideas</h4>
+                <p class="mb-3">Ваш голос важен для развития Алматы</p>
+                <a asp-controller="Account" asp-action="Register" class="btn btn-light btn-lg me-2">
+                    Зарегистрироваться
+                </a>
+                <a asp-controller="Proposals" asp-action="Index" class="btn btn-outline-light btn-lg">
+                    Смотреть предложения
+                </a>
+            </div>
+        }
     </div>
 </div>

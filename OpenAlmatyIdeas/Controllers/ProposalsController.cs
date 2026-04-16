@@ -20,9 +20,9 @@ public class ProposalsController : Controller
         _userManager = userManager;
     }
 
-    public async Task<IActionResult> Index(int? districtId, int? categoryId)
+    public async Task<IActionResult> Index(int? districtId, int? categoryId, string? search, string? sort)
     {
-        var proposals = await _dataManager.Proposals.GetProposalsAsync(districtId, categoryId);
+        var proposals = await _dataManager.Proposals.GetProposalsAsync(districtId, categoryId, search, sort);
         var districts = await _dataManager.Districts.GetDistrictsAsync();
         var categories = await _dataManager.Categories.GetCategoriesAsync();
 
@@ -30,6 +30,8 @@ public class ProposalsController : Controller
         ViewBag.Categories = categories;
         ViewBag.CurrentDistrictId = districtId;
         ViewBag.CurrentCategoryId = categoryId;
+        ViewBag.Search = search;
+        ViewBag.Sort = sort;
 
         return View(HelperDTO.TransformProposals(proposals));
     }
@@ -37,17 +39,18 @@ public class ProposalsController : Controller
     public async Task<IActionResult> Show(int id)
     {
         var proposal = await _dataManager.Proposals.GetProposalByIdAsync(id);
-        if (proposal == null)
-            return NotFound();
+        if (proposal == null) return NotFound();
 
-        // Голос текущего пользователя
+        VoteTypeEnum? currentVote = null;
         if (User.Identity?.IsAuthenticated == true)
         {
             var userId = _userManager.GetUserId(User);
             var vote = await _dataManager.Votes.GetVoteAsync(userId!, id);
-            ViewBag.CurrentVote = vote?.Type;
+            currentVote = vote?.Type;
         }
 
+        ViewBag.CurrentVote = currentVote;
+        ViewBag.CurrentUserId = _userManager.GetUserId(User);
         return View(HelperDTO.TransformProposal(proposal));
     }
 
@@ -91,52 +94,117 @@ public class ProposalsController : Controller
     }
 
     [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var proposal = await _dataManager.Proposals.GetProposalByIdAsync(id);
+        if (proposal == null) return NotFound();
+
+        var userId = _userManager.GetUserId(User);
+        if (proposal.AuthorId != userId) return Forbid();
+
+        var model = new CreateProposalViewModel
+        {
+            Title = proposal.Title,
+            DescriptionShort = proposal.DescriptionShort,
+            Description = proposal.Description,
+            DistrictId = proposal.DistrictId,
+            CategoryId = proposal.CategoryId,
+            Districts = await _dataManager.Districts.GetDistrictsAsync(),
+            Categories = await _dataManager.Categories.GetCategoriesAsync()
+        };
+
+        ViewBag.ProposalId = id;
+        return View(model);
+    }
+
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> Edit(int id, CreateProposalViewModel model)
+    {
+        var proposal = await _dataManager.Proposals.GetProposalByIdAsync(id);
+        if (proposal == null) return NotFound();
+
+        var userId = _userManager.GetUserId(User);
+        if (proposal.AuthorId != userId) return Forbid();
+
+        if (!ModelState.IsValid)
+        {
+            model.Districts = await _dataManager.Districts.GetDistrictsAsync();
+            model.Categories = await _dataManager.Categories.GetCategoriesAsync();
+            ViewBag.ProposalId = id;
+            return View(model);
+        }
+
+        proposal.Title = model.Title;
+        proposal.DescriptionShort = model.DescriptionShort;
+        proposal.Description = model.Description;
+        proposal.DistrictId = model.DistrictId;
+        proposal.CategoryId = model.CategoryId;
+
+        await _dataManager.Proposals.SaveProposalAsync(proposal);
+        return RedirectToAction("Show", new { id });
+    }
+
+    [Authorize]
+    [HttpPost]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var proposal = await _dataManager.Proposals.GetProposalByIdAsync(id);
+        if (proposal == null) return NotFound();
+
+        var userId = _userManager.GetUserId(User);
+        var isAdmin = User.IsInRole("Admin");
+
+        if (proposal.AuthorId != userId && !isAdmin) return Forbid();
+
+        await _dataManager.Proposals.DeleteProposalAsync(id);
+        return RedirectToAction("Index", "Profile");
+    }
+
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Vote(int proposalId, VoteTypeEnum voteType)
     {
         var userId = _userManager.GetUserId(User);
-        if (userId == null)
-            return Unauthorized();
+        if (userId == null) return Unauthorized();
 
         var proposal = await _dataManager.Proposals.GetProposalByIdAsync(proposalId);
-        if (proposal == null)
-            return NotFound();
+        if (proposal == null) return NotFound();
 
         var existingVote = await _dataManager.Votes.GetVoteAsync(userId, proposalId);
 
         if (existingVote != null)
         {
-            // Убрать голос если тот же тип
             if (existingVote.Type == voteType)
             {
+                // Убираем голос (повторный клик)
                 if (voteType == VoteTypeEnum.Like) proposal.LikesCount--;
                 else proposal.DislikesCount--;
-
                 await _dataManager.Votes.DeleteVoteAsync(existingVote.Id);
-                await _dataManager.Proposals.SaveProposalAsync(proposal);
-                return RedirectToAction("Show", new { id = proposalId });
             }
+            else
+            {
+                // Меняем тип голоса
+                if (existingVote.Type == VoteTypeEnum.Like) proposal.LikesCount--;
+                else proposal.DislikesCount--;
 
-            // Изменить голос
-            if (existingVote.Type == VoteTypeEnum.Like) proposal.LikesCount--;
-            else proposal.DislikesCount--;
+                existingVote.Type = voteType;
+                await _dataManager.Votes.SaveVoteAsync(existingVote);
 
-            existingVote.Type = voteType;
-            await _dataManager.Votes.SaveVoteAsync(existingVote);
+                if (voteType == VoteTypeEnum.Like) proposal.LikesCount++;
+                else proposal.DislikesCount++;
+            }
         }
         else
         {
-            var vote = new Vote
-            {
-                UserId = userId,
-                ProposalId = proposalId,
-                Type = voteType
-            };
+            // Новый голос
+            var vote = new Vote { UserId = userId, ProposalId = proposalId, Type = voteType };
             await _dataManager.Votes.SaveVoteAsync(vote);
-        }
 
-        if (voteType == VoteTypeEnum.Like) proposal.LikesCount++;
-        else proposal.DislikesCount++;
+            if (voteType == VoteTypeEnum.Like) proposal.LikesCount++;
+            else proposal.DislikesCount++;
+        }
 
         await _dataManager.Proposals.SaveProposalAsync(proposal);
         return RedirectToAction("Show", new { id = proposalId });

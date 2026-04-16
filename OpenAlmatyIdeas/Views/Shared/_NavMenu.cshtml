@@ -23,7 +23,7 @@
                 @if (User.IsInRole("Admin"))
                 {
                     <li class="nav-item">
-                        <a class="nav-link text-warning" href="/admin">Админ</a>
+                        <a class="nav-link text-warning" href="/admin">⚙️ Панель</a>
                     </li>
                 }
             </ul>
@@ -31,16 +31,22 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Proposals" asp-action="New">+ Новое предложение</a>
+                        <a class="nav-link" asp-controller="Proposals" asp-action="New">+ Предложение</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            @User.Identity.Name
+                            👤 @User.Identity.Name
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
+                                <a class="dropdown-item" asp-controller="Profile" asp-action="Index">
+                                    Мои предложения
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
                                 <form asp-controller="Account" asp-action="Logout" method="post">
-                                    <button type="submit" class="dropdown-item">Выйти</button>
+                                    <button type="submit" class="dropdown-item text-danger">Выйти</button>
                                 </form>
                             </li>
                         </ul>

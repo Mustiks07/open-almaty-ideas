@@ -6,52 +6,73 @@
     var categories = ViewBag.Categories as IEnumerable<OpenAlmatyIdeas.Domain.Entities.Category> ?? [];
     int? currentDistrictId = ViewBag.CurrentDistrictId;
     int? currentCategoryId = ViewBag.CurrentCategoryId;
+    string? search = ViewBag.Search;
+    string? sort = ViewBag.Sort;
 }
 
-<div class="row mb-4">
+<div class="row mb-4 align-items-center">
     <div class="col">
         <h1>Предложения</h1>
     </div>
-    <div class="col-auto">
-        @if (User.Identity?.IsAuthenticated == true)
-        {
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <div class="col-auto">
             <a asp-action="New" class="btn btn-success">+ Новое предложение</a>
-        }
-    </div>
+        </div>
+    }
 </div>
 
-<!-- Фильтры -->
-<div class="row mb-4">
-    <div class="col-md-4">
-        <label class="form-label">Район</label>
-        <select class="form-select" onchange="filterProposals(this.value, 'district')">
-            <option value="">Все районы</option>
-            @foreach (var district in districts)
-            {
-                <option value="@district.Id" selected="@(currentDistrictId == district.Id)">
-                    @district.Title
-                </option>
-            }
-        </select>
+<!-- Поиск и фильтры -->
+<form method="get" asp-action="Index" class="mb-4">
+    <div class="row g-2">
+        <div class="col-md-4">
+            <input type="text" name="search" value="@search" class="form-control"
+                   placeholder="🔍 Поиск по названию..." />
+        </div>
+        <div class="col-md-3">
+            <select name="districtId" class="form-select">
+                <option value="">Все районы</option>
+                @foreach (var d in districts)
+                {
+                    <option value="@d.Id" selected="@(currentDistrictId == d.Id)">@d.Title</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="categoryId" class="form-select">
+                <option value="">Все категории</option>
+                @foreach (var c in categories)
+                {
+                    <option value="@c.Id" selected="@(currentCategoryId == c.Id)">@c.Title</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select name="sort" class="form-select">
+                <option value="" selected="@(sort == null)">Новые</option>
+                <option value="popular" selected="@(sort == "popular")">Популярные</option>
+            </select>
+        </div>
     </div>
-    <div class="col-md-4">
-        <label class="form-label">Категория</label>
-        <select class="form-select" onchange="filterProposals(this.value, 'category')">
-            <option value="">Все категории</option>
-            @foreach (var category in categories)
-            {
-                <option value="@category.Id" selected="@(currentCategoryId == category.Id)">
-                    @category.Title
-                </option>
-            }
-        </select>
+    <div class="mt-2 d-flex gap-2">
+        <button type="submit" class="btn btn-primary btn-sm">Применить</button>
+        @if (!string.IsNullOrEmpty(search) || currentDistrictId.HasValue || currentCategoryId.HasValue || sort != null)
+        {
+            <a asp-action="Index" class="btn btn-outline-secondary btn-sm">✕ Сбросить</a>
+        }
     </div>
-</div>
+</form>
 
 <!-- Список предложений -->
 @if (!Model.Any())
 {
-    <div class="alert alert-info">Предложений пока нет. <a asp-action="New">Будьте первым!</a></div>
+    <div class="alert alert-info">
+        Предложений не найдено.
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a asp-action="New">Будьте первым!</a>
+        }
+    </div>
 }
 else
 {
@@ -72,7 +93,7 @@ else
                             </span>
                         </div>
                         <h5 class="card-title">
-                            <a asp-action="Show" asp-route-id="@proposal.Id" class="text-decoration-none">
+                            <a asp-action="Show" asp-route-id="@proposal.Id" class="text-decoration-none stretched-link">
                                 @proposal.Title
                             </a>
                         </h5>
@@ -80,24 +101,14 @@ else
                     </div>
                     <div class="card-footer d-flex justify-content-between small text-muted">
                         <span>📍 @proposal.DistrictName</span>
-                        <span>👍 @proposal.LikesCount  👎 @proposal.DislikesCount</span>
+                        <span>
+                            <span class="text-success">👍 @proposal.LikesCount</span>
+                            <span class="text-danger ms-2">👎 @proposal.DislikesCount</span>
+                        </span>
                     </div>
                 </div>
             </div>
         }
     </div>
-}
-
-@section Scripts {
-    <script>
-        function filterProposals(value, type) {
-            const url = new URL(window.location.href);
-            if (value) {
-                url.searchParams.set(type === 'district' ? 'districtId' : 'categoryId', value);
-            } else {
-                url.searchParams.delete(type === 'district' ? 'districtId' : 'categoryId');
-            }
-            window.location.href = url.toString();
-        }
-    </script>
+    <p class="text-muted small">Показано: @Model.Count() предложений</p>
 }

@@ -3,14 +3,17 @@
 @{
     ViewData["Title"] = Model.Title;
     var currentVote = ViewBag.CurrentVote as VoteTypeEnum?;
+    var currentUserId = ViewBag.CurrentUserId as string;
+    var isAuthor = currentUserId != null && currentUserId == Model.AuthorId;
+    var isAdmin = User.IsInRole("Admin");
 }
 
 <div class="row">
     <div class="col-md-8">
-        <!-- Заголовок -->
-        <div class="d-flex justify-content-between align-items-start mb-3">
-            <h1>@Model.Title</h1>
-            <span class="badge fs-6
+        <!-- Заголовок и статус -->
+        <div class="d-flex justify-content-between align-items-start mb-2">
+            <h1 class="h2">@Model.Title</h1>
+            <span class="badge fs-6 ms-2
                 @(Model.Status == ProposalStatusEnum.Implemented ? "bg-success" :
                   Model.Status == ProposalStatusEnum.Accepted ? "bg-primary" :
                   Model.Status == ProposalStatusEnum.Rejected ? "bg-danger" :
@@ -19,18 +22,34 @@
             </span>
         </div>
 
-        <!-- Мета -->
-        <div class="text-muted small mb-4">
-            <span>📍 @Model.DistrictName</span> &bull;
-            <span>🏷️ @Model.CategoryName</span> &bull;
-            <span>👤 @Model.AuthorName</span> &bull;
+        <!-- Мета-информация -->
+        <div class="text-muted small mb-4 d-flex flex-wrap gap-3">
+            <span>📍 @Model.DistrictName</span>
+            <span>🏷️ @Model.CategoryName</span>
+            <span>👤 @Model.AuthorName</span>
             <span>📅 @Model.DateCreated.ToString("dd.MM.yyyy")</span>
         </div>
+
+        <!-- Кнопки автора -->
+        @if (isAuthor || isAdmin)
+        {
+            <div class="d-flex gap-2 mb-4">
+                @if (isAuthor)
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.Id"
+                       class="btn btn-sm btn-outline-primary">✏️ Редактировать</a>
+                }
+                <form asp-action="Delete" asp-route-id="@Model.Id" method="post"
+                      onsubmit="return confirm('Удалить предложение?')">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">🗑️ Удалить</button>
+                </form>
+            </div>
+        }
 
         <!-- Краткое описание -->
         @if (!string.IsNullOrEmpty(Model.DescriptionShort))
         {
-            <p class="lead">@Model.DescriptionShort</p>
+            <p class="lead border-start border-4 border-success ps-3">@Model.DescriptionShort</p>
         }
 
         <!-- Полное описание -->
@@ -39,26 +58,58 @@
             <div class="mb-4">@Html.Raw(Model.Description)</div>
         }
 
-        <!-- Медиа -->
+        <!-- Медиа файлы -->
         @if (Model.Media.Any())
         {
-            <div class="row mb-4">
+            <div class="row mb-4 g-2">
                 @foreach (var media in Model.Media.Where(m => m.Type == MediaTypeEnum.Image))
                 {
-                    <div class="col-md-6 mb-2">
+                    <div class="col-md-6">
                         <img src="@media.Url" alt="@media.FileName"
-                             class="img-fluid rounded shadow-sm" />
+                             class="img-fluid rounded shadow-sm w-100" style="object-fit:cover;max-height:300px;" />
+                    </div>
+                }
+                @foreach (var media in Model.Media.Where(m => m.Type == MediaTypeEnum.Video))
+                {
+                    <div class="col-12">
+                        <video controls class="w-100 rounded">
+                            <source src="@media.Url" />
+                        </video>
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- Ответы администратора -->
+        @if (Model.AdminResponses.Any())
+        {
+            <div class="mb-4">
+                <h5 class="mb-3">💬 Ответы администратора</h5>
+                @foreach (var response in Model.AdminResponses)
+                {
+                    <div class="card border-start border-4
+                        @(Model.Status == ProposalStatusEnum.Implemented ? "border-success" :
+                          Model.Status == ProposalStatusEnum.Accepted ? "border-primary" :
+                          Model.Status == ProposalStatusEnum.Rejected ? "border-danger" :
+                          "border-warning") mb-3">
+                        <div class="card-body">
+                            <p class="mb-1">@response.Text</p>
+                            <small class="text-muted">
+                                @response.AdminName — @response.DateCreated.ToString("dd.MM.yyyy HH:mm")
+                            </small>
+                        </div>
                     </div>
                 }
             </div>
         }
     </div>
 
+    <!-- Боковая панель -->
     <div class="col-md-4">
         <!-- Голосование -->
         <div class="card mb-4">
             <div class="card-body text-center">
-                <h5 class="card-title">Голосование</h5>
+                <h5 class="card-title mb-3">Голосование</h5>
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="d-flex justify-content-center gap-3">
@@ -82,12 +133,12 @@
                 }
                 else
                 {
-                    <p class="text-muted">
+                    <p class="text-muted small">
                         <a asp-controller="Account" asp-action="Login">Войдите</a>, чтобы проголосовать
                     </p>
                     <div class="d-flex justify-content-center gap-4 mt-2">
-                        <span class="fs-5">👍 @Model.LikesCount</span>
-                        <span class="fs-5">👎 @Model.DislikesCount</span>
+                        <span class="fs-5 text-success">👍 @Model.LikesCount</span>
+                        <span class="fs-5 text-danger">👎 @Model.DislikesCount</span>
                     </div>
                 }
             </div>

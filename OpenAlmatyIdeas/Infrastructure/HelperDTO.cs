@@ -14,8 +14,11 @@ public static class HelperDTO
             Title = entity.Title,
             DescriptionShort = entity.DescriptionShort,
             Description = entity.Description,
+            DistrictId = entity.DistrictId,
             DistrictName = entity.District?.Title,
+            CategoryId = entity.CategoryId,
             CategoryName = entity.Category?.Title,
+            AuthorId = entity.AuthorId,
             AuthorName = entity.Author?.UserName,
             Status = entity.Status,
             StatusLabel = GetStatusLabel(entity.Status),
@@ -28,6 +31,13 @@ public static class HelperDTO
                 Url = m.Url,
                 FileName = m.FileName,
                 Type = m.Type
+            }).ToList() ?? [],
+            AdminResponses = entity.AdminResponses?.Select(r => new AdminResponseDTO
+            {
+                Id = r.Id,
+                Text = r.Text,
+                AdminName = r.Admin?.UserName,
+                DateCreated = r.DateCreated
             }).ToList() ?? []
         };
     }
@@ -37,7 +47,7 @@ public static class HelperDTO
         return entities.Select(TransformProposal);
     }
 
-    private static string GetStatusLabel(ProposalStatusEnum status) => status switch
+    public static string GetStatusLabel(ProposalStatusEnum status) => status switch
     {
         ProposalStatusEnum.Pending => "На рассмотрении",
         ProposalStatusEnum.Accepted => "Принято",
