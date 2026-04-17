@@ -30,12 +30,4 @@
 	  <None Include="bundleconfig.json" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <EmbeddedResource Include="Resources\SharedResource.resx">
-	    <LogicalName>OpenAlmatyIdeas.Resources.SharedResource.resources</LogicalName>
-	  </EmbeddedResource>
-	  <EmbeddedResource Include="Resources\SharedResource.kk.resx">
-	    <LogicalName>OpenAlmatyIdeas.Resources.SharedResource.kk.resources</LogicalName>
-	  </EmbeddedResource>
-	</ItemGroup>
 </Project>
