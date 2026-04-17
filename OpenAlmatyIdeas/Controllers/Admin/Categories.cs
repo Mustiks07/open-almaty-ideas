@@ -11,7 +11,7 @@ public class CategoriesAdmin : Controller
 {
     private readonly DataManager _dataManager;
 
-    public Categories(DataManager dataManager)
+    public CategoriesAdmin(DataManager dataManager)
     {
         _dataManager = dataManager;
     }

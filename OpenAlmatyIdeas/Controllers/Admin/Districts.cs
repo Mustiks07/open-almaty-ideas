@@ -11,7 +11,7 @@ public class DistrictsAdmin : Controller
 {
     private readonly DataManager _dataManager;
 
-    public Districts(DataManager dataManager)
+    public DistrictsAdmin(DataManager dataManager)
     {
         _dataManager = dataManager;
     }

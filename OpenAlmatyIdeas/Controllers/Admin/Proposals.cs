@@ -15,7 +15,7 @@ public class ProposalsAdmin : Controller
     private readonly DataManager _dataManager;
     private readonly UserManager<IdentityUser> _userManager;
 
-    public Proposals(DataManager dataManager, UserManager<IdentityUser> userManager)
+    public ProposalsAdmin(DataManager dataManager, UserManager<IdentityUser> userManager)
     {
         _dataManager = dataManager;
         _userManager = userManager;
