@@ -20,7 +20,7 @@ public class DistrictsAdmin : Controller
     public async Task<IActionResult> Index()
     {
         var districts = await _dataManager.Districts.GetDistrictsAsync();
-        return View(districts);
+        return View("~/Views/Admin/Districts/Index.cshtml", districts);
     }
 
     [HttpGet("edit/{id?}")]
@@ -30,14 +30,14 @@ public class DistrictsAdmin : Controller
             ? new District()
             : await _dataManager.Districts.GetDistrictByIdAsync(id) ?? new District();
 
-        return View(entity);
+        return View("~/Views/Admin/Districts/Edit.cshtml", entity);
     }
 
     [HttpPost("edit/{id?}")]
     public async Task<IActionResult> Edit(District entity)
     {
         if (!ModelState.IsValid)
-            return View(entity);
+            return View("~/Views/Admin/Districts/Edit.cshtml", entity);
 
         await _dataManager.Districts.SaveDistrictAsync(entity);
         return RedirectToAction("Index");

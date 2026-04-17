@@ -10,12 +10,12 @@ public class Core : Controller
     [HttpGet("")]
     public IActionResult Index()
     {
-        return View();
+        return View("~/Views/Admin/Core/Index.cshtml");
     }
 
     [HttpGet("accessdenied")]
     public IActionResult AccessDenied()
     {
-        return View();
+        return View("~/Views/Admin/Core/AccessDenied.cshtml");
     }
 }

@@ -20,7 +20,7 @@ public class CategoriesAdmin : Controller
     public async Task<IActionResult> Index()
     {
         var categories = await _dataManager.Categories.GetCategoriesAsync();
-        return View(categories);
+        return View("~/Views/Admin/Categories/Index.cshtml", categories);
     }
 
     [HttpGet("edit/{id?}")]
@@ -30,14 +30,14 @@ public class CategoriesAdmin : Controller
             ? new Category()
             : await _dataManager.Categories.GetCategoryByIdAsync(id) ?? new Category();
 
-        return View(entity);
+        return View("~/Views/Admin/Categories/Edit.cshtml", entity);
     }
 
     [HttpPost("edit/{id?}")]
     public async Task<IActionResult> Edit(Category entity)
     {
         if (!ModelState.IsValid)
-            return View(entity);
+            return View("~/Views/Admin/Categories/Edit.cshtml", entity);
 
         await _dataManager.Categories.SaveCategoryAsync(entity);
         return RedirectToAction("Index");

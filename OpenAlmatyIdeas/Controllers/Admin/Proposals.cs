@@ -25,7 +25,7 @@ public class ProposalsAdmin : Controller
     public async Task<IActionResult> Index()
     {
         var proposals = await _dataManager.Proposals.GetProposalsAsync();
-        return View(HelperDTO.TransformProposals(proposals));
+        return View("~/Views/Admin/Proposals/Index.cshtml", HelperDTO.TransformProposals(proposals));
     }
 
     [HttpGet("edit/{id}")]
@@ -39,7 +39,7 @@ public class ProposalsAdmin : Controller
         ViewBag.Categories = await _dataManager.Categories.GetCategoriesAsync();
         ViewBag.Statuses = Enum.GetValues<ProposalStatusEnum>();
 
-        return View(proposal);
+        return View("~/Views/Admin/Proposals/Edit.cshtml", proposal);
     }
 
     [HttpPost("edit/{id}")]
