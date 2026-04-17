@@ -2,25 +2,109 @@
 
 @{
     ViewData["Title"] = "Карта районов";
+
+    var coordsMap = new Dictionary<string, (double lat, double lng)>(StringComparer.OrdinalIgnoreCase)
+    {
+        ["Алмалы"]     = (43.2567, 76.9286),
+        ["Әуезов"]     = (43.2352, 76.8536),
+        ["Бостандық"]  = (43.2220, 76.9050),
+        ["Жетісу"]     = (43.2700, 76.9800),
+        ["Медеу"]      = (43.2300, 76.9600),
+        ["Наурызбай"]  = (43.2800, 76.8200),
+        ["Түрксіб"]    = (43.2900, 76.9400),
+        ["Алатау"]     = (43.2100, 76.8400),
+    };
 }
 
-<h1 class="mb-4">🗺️ Карта районов Алматы</h1>
-<p class="text-muted mb-4">Выберите район, чтобы просмотреть идеи жителей</p>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-<div class="row">
-    @foreach (var district in Model)
-    {
-        var count = district.Proposals?.Count ?? 0;
-        <div class="col-md-3 col-6 mb-4">
-            <a asp-controller="Proposals" asp-action="Index"
-               asp-route-districtId="@district.Id"
-               class="card text-decoration-none h-100 border-success">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-dark">@district.Title</h5>
-                    <div class="display-6 text-success">@count</div>
-                    <small class="text-muted">@(count == 1 ? "идея" : count is >= 2 and <= 4 ? "идеи" : "идей")</small>
-                </div>
-            </a>
-        </div>
-    }
+<div class="container-xl px-4">
+
+    <div class="page-header">
+        <span class="section-tag">Интерактивная карта</span>
+        <h1>🗺️ Карта районов Алматы</h1>
+        <p class="lead">Выберите район, чтобы просмотреть идеи жителей</p>
+    </div>
+
+    <!-- Map -->
+    <div id="map" style="height:480px;border-radius:16px;border:1px solid rgba(255,255,255,0.08);overflow:hidden;margin-bottom:2.5rem"></div>
+
+    <!-- District cards -->
+    <div class="row g-3 mb-5">
+        @foreach (var district in Model)
+        {
+            var count = district.Proposals?.Count ?? 0;
+            var word = count == 1 ? "идея" : count is >= 2 and <= 4 ? "идеи" : "идей";
+            <div class="col-md-3 col-6">
+                <a asp-controller="Proposals" asp-action="Index"
+                   asp-route-districtId="@district.Id"
+                   class="card text-decoration-none h-100 hover-lift"
+                   style="display:block;padding:1.5rem;text-align:center">
+                    <div style="color:#fff;font-weight:600;font-size:1rem;margin-bottom:0.5rem">@district.Title</div>
+                    <div style="font-family:'Playfair Display',serif;font-size:2.25rem;font-weight:700;color:#4ADE80;line-height:1">@count</div>
+                    <div style="color:rgba(255,255,255,0.4);font-size:0.8rem;margin-top:0.25rem">@word</div>
+                </a>
+            </div>
+        }
+    </div>
+
 </div>
+
+@section Scripts {
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    var map = L.map('map', {
+        center: [43.2551, 76.9126],
+        zoom: 11,
+        zoomControl: true
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Force dark tile layer style
+    var mapEl = document.getElementById('map');
+    mapEl.style.filter = 'hue-rotate(180deg) invert(85%) brightness(0.85)';
+
+    var districts = [
+        @foreach (var d in Model)
+        {
+            var count = d.Proposals?.Count ?? 0;
+            var word = count == 1 ? "идея" : count is >= 2 and <= 4 ? "идеи" : "идей";
+            if (coordsMap.TryGetValue(d.Title, out var coords))
+            {
+                <text>
+                {
+                    name: "@d.Title",
+                    id: @d.Id,
+                    count: @count,
+                    word: "@word",
+                    lat: @coords.lat.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    lng: @coords.lng.ToString(System.Globalization.CultureInfo.InvariantCulture)
+                },
+                </text>
+            }
+        }
+    ];
+
+    var greenIcon = L.divIcon({
+        className: '',
+        html: '<div style="width:14px;height:14px;background:#22C55E;border-radius:50%;border:2px solid #fff;box-shadow:0 0 8px rgba(34,197,94,0.6)"></div>',
+        iconSize: [14, 14],
+        iconAnchor: [7, 7]
+    });
+
+    districts.forEach(function(d) {
+        var marker = L.marker([d.lat, d.lng], { icon: greenIcon }).addTo(map);
+        marker.bindPopup(
+            '<div style="text-align:center;min-width:160px">' +
+            '<div style="font-weight:700;font-size:14px;margin-bottom:4px">' + d.name + '</div>' +
+            '<div style="font-size:20px;font-weight:700;color:#16A34A;margin-bottom:2px">' + d.count + '</div>' +
+            '<div style="font-size:12px;color:#666;margin-bottom:8px">' + d.word + '</div>' +
+            '<a href="/proposals?districtId=' + d.id + '" style="background:#22C55E;color:#fff;padding:5px 14px;border-radius:8px;text-decoration:none;font-size:12px;font-weight:600">Смотреть</a>' +
+            '</div>'
+        );
+    });
+</script>
+}
