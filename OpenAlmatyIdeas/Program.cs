@@ -86,14 +86,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Маршруты для Admin
-app.MapControllerRoute(
-    name: "admin",
-    pattern: "admin/{controller=Core}/{action=Index}/{id?}",
-    defaults: new { area = "" },
-    constraints: new { controller = "Core|Proposals|Districts|Categories" }
-);
-
 // Маршрут по умолчанию
 app.MapControllerRoute(
     name: "default",

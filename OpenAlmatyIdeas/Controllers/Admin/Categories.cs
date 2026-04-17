@@ -6,6 +6,7 @@ using OpenAlmatyIdeas.Domain.Entities;
 namespace OpenAlmatyIdeas.Controllers.Admin;
 
 [Authorize(Roles = "Admin")]
+[Route("admin/categories")]
 public class Categories : Controller
 {
     private readonly DataManager _dataManager;
@@ -15,13 +16,14 @@ public class Categories : Controller
         _dataManager = dataManager;
     }
 
+    [HttpGet("")]
     public async Task<IActionResult> Index()
     {
         var categories = await _dataManager.Categories.GetCategoriesAsync();
         return View(categories);
     }
 
-    [HttpGet]
+    [HttpGet("edit/{id?}")]
     public async Task<IActionResult> Edit(int id = 0)
     {
         var entity = id == 0
@@ -31,7 +33,7 @@ public class Categories : Controller
         return View(entity);
     }
 
-    [HttpPost]
+    [HttpPost("edit/{id?}")]
     public async Task<IActionResult> Edit(Category entity)
     {
         if (!ModelState.IsValid)
@@ -41,7 +43,7 @@ public class Categories : Controller
         return RedirectToAction("Index");
     }
 
-    [HttpPost]
+    [HttpPost("delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         await _dataManager.Categories.DeleteCategoryAsync(id);

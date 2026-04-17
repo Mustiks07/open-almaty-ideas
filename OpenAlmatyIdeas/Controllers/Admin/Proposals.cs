@@ -9,6 +9,7 @@ using OpenAlmatyIdeas.Infrastructure;
 namespace OpenAlmatyIdeas.Controllers.Admin;
 
 [Authorize(Roles = "Admin")]
+[Route("admin/proposals")]
 public class Proposals : Controller
 {
     private readonly DataManager _dataManager;
@@ -20,13 +21,14 @@ public class Proposals : Controller
         _userManager = userManager;
     }
 
+    [HttpGet("")]
     public async Task<IActionResult> Index()
     {
         var proposals = await _dataManager.Proposals.GetProposalsAsync();
         return View(HelperDTO.TransformProposals(proposals));
     }
 
-    [HttpGet]
+    [HttpGet("edit/{id}")]
     public async Task<IActionResult> Edit(int id)
     {
         var proposal = await _dataManager.Proposals.GetProposalByIdAsync(id);
@@ -40,7 +42,7 @@ public class Proposals : Controller
         return View(proposal);
     }
 
-    [HttpPost]
+    [HttpPost("edit/{id}")]
     public async Task<IActionResult> Edit(int id, ProposalStatusEnum status, string? adminResponseText)
     {
         var proposal = await _dataManager.Proposals.GetProposalByIdAsync(id);
@@ -66,7 +68,7 @@ public class Proposals : Controller
         return RedirectToAction("Index");
     }
 
-    [HttpPost]
+    [HttpPost("delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
         await _dataManager.Proposals.DeleteProposalAsync(id);
