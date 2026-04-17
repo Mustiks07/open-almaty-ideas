@@ -72,7 +72,7 @@
         {
             var count = d.Proposals?.Count ?? 0;
             var word = count == 1 ? "идея" : count is >= 2 and <= 4 ? "идеи" : "идей";
-            if (coordsMap.TryGetValue(d.Title, out var coords))
+            if (d.Title != null && coordsMap.TryGetValue(d.Title, out var coords))
             {
                 <text>
                 {
