@@ -7,7 +7,7 @@ namespace OpenAlmatyIdeas.Controllers.Admin;
 
 [Authorize(Roles = "Admin")]
 [Route("admin/districts")]
-public class Districts : Controller
+public class DistrictsAdmin : Controller
 {
     private readonly DataManager _dataManager;
 

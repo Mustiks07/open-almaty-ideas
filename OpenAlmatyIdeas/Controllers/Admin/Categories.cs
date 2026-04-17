@@ -7,7 +7,7 @@ namespace OpenAlmatyIdeas.Controllers.Admin;
 
 [Authorize(Roles = "Admin")]
 [Route("admin/categories")]
-public class Categories : Controller
+public class CategoriesAdmin : Controller
 {
     private readonly DataManager _dataManager;
 

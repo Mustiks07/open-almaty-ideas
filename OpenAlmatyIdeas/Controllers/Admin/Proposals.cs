@@ -10,7 +10,7 @@ namespace OpenAlmatyIdeas.Controllers.Admin;
 
 [Authorize(Roles = "Admin")]
 [Route("admin/proposals")]
-public class Proposals : Controller
+public class ProposalsAdmin : Controller
 {
     private readonly DataManager _dataManager;
     private readonly UserManager<IdentityUser> _userManager;
