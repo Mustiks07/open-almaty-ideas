@@ -13,7 +13,7 @@ public class Core : Controller
         return View();
     }
 
-    [HttpGet("access-denied")]
+    [HttpGet("accessdenied")]
     public IActionResult AccessDenied()
     {
         return View();
