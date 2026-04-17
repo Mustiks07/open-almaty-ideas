@@ -480,6 +480,8 @@ h1, h2, h3, .font-heading {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 .table-responsive { border-radius: 12px; border: 1px solid rgba(255,255,255,0.07); }
+.table-striped > tbody > tr:nth-of-type(odd) > * { background-color: rgba(255,255,255,0.03) !important; color: inherit !important; }
+.table-striped > tbody > tr:nth-of-type(even) > * { background-color: transparent !important; color: inherit !important; }
 
 /* ===== DROPDOWN ===== */
 .dropdown-menu {
