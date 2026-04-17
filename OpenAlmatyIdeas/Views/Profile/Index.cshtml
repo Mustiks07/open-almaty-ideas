@@ -1,26 +1,26 @@
 @model IEnumerable<ProposalDTO>
 
 @{
-    ViewData["Title"] = "Мои предложения";
+    ViewData["Title"] = L["Profile.Title"].Value;
 }
 
 <div class="container-xl px-4">
 
     <div class="page-header d-flex align-items-center justify-content-between">
         <div>
-            <h1>Мои предложения</h1>
+            <h1>@L["Profile.Title"]</h1>
             <p class="lead">@User.Identity?.Name</p>
         </div>
-        <a asp-controller="Proposals" asp-action="New" class="btn-brand">+ Новое предложение</a>
+        <a asp-controller="Proposals" asp-action="New" class="btn-brand">@L["Profile.NewBtn"]</a>
     </div>
 
     @if (!Model.Any())
     {
         <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:3rem;text-align:center">
             <p style="color:rgba(255,255,255,0.4);font-size:0.95rem;margin-bottom:1.5rem">
-                У вас пока нет предложений
+                @L["Profile.Empty"]
             </p>
-            <a asp-controller="Proposals" asp-action="New" class="btn-brand">Создать первое предложение</a>
+            <a asp-controller="Proposals" asp-action="New" class="btn-brand">@L["Profile.CreateFirst"]</a>
         </div>
     }
     else
@@ -29,12 +29,12 @@
             <table class="table table-hover align-middle">
                 <thead>
                     <tr>
-                        <th>Название</th>
-                        <th>Район</th>
-                        <th>Категория</th>
-                        <th>Статус</th>
-                        <th>Голоса</th>
-                        <th>Дата</th>
+                        <th>@L["Profile.ColName"]</th>
+                        <th>@L["Profile.ColDistrict"]</th>
+                        <th>@L["Profile.ColCategory"]</th>
+                        <th>@L["Profile.ColStatus"]</th>
+                        <th>@L["Profile.ColVotes"]</th>
+                        <th>@L["Profile.ColDate"]</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -57,7 +57,7 @@
                                       proposal.Status == ProposalStatusEnum.Accepted ? "bg-primary" :
                                       proposal.Status == ProposalStatusEnum.Rejected ? "bg-danger" :
                                       "bg-warning")">
-                                    @proposal.StatusLabel
+                                    @L[$"Status.{proposal.Status}"]
                                 </span>
                             </td>
                             <td style="font-size:0.85rem">
@@ -78,7 +78,7 @@
                                         <button type="submit"
                                                 class="btn-glass btn-sm"
                                                 style="color:#F87171;border-color:rgba(248,113,113,0.2)"
-                                                onclick="return confirm('Удалить предложение «@proposal.Title»?')">
+                                                onclick="return confirm('@L["Profile.DeleteConfirm"]')">
                                             🗑
                                         </button>
                                     </form>
@@ -90,7 +90,7 @@
             </table>
         </div>
         <p style="color:rgba(255,255,255,0.3);font-size:0.8rem;margin-top:0.5rem">
-            Всего: @Model.Count() предложений
+            @L["Profile.Total"] @Model.Count() @L["Profile.TotalSuffix"]
         </p>
     }
 

@@ -1,21 +1,21 @@
 @model IEnumerable<ProposalDTO>
 
 @{
-    ViewData["Title"] = "Топ идей";
+    ViewData["Title"] = L["Top.PageTitle"].Value;
     var ranked = Model.ToList();
 }
 
 <div class="container-xl px-4">
 
     <div class="page-header">
-        <span class="section-tag">Рейтинг</span>
-        <h1>🏆 Топ идей</h1>
-        <p class="lead">Предложения с наибольшим количеством голосов</p>
+        <span class="section-tag">@L["Top.RatingTag"]</span>
+        <h1>@L["Top.Title"]</h1>
+        <p class="lead">@L["Top.Subtitle"]</p>
     </div>
 
     @if (!ranked.Any())
     {
-        <div class="alert alert-info">Голосований пока нет. Будьте первым!</div>
+        <div class="alert alert-info">@L["Top.NoVotes"]</div>
     }
     else
     {
@@ -43,21 +43,19 @@
                    class="card hover-lift text-decoration-none"
                    style="display:flex;flex-direction:row;align-items:stretch;overflow:hidden;padding:0">
 
-                    <!-- Rank badge -->
                     <div style="width:64px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:@rankBg;border-right:1px solid rgba(255,255,255,0.06)">
                         <span style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:@rankColor">
                             @rank
                         </span>
                     </div>
 
-                    <!-- Content -->
                     <div style="flex:1;padding:1rem 1.25rem;min-width:0">
                         <div class="d-flex flex-wrap gap-1 mb-2">
                             <span class="badge bg-secondary">@proposal.CategoryName</span>
                             <span class="badge" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.1)">
                                 📍 @proposal.DistrictName
                             </span>
-                            <span class="badge @statusClass">@proposal.StatusLabel</span>
+                            <span class="badge @statusClass">@L[$"Status.{proposal.Status}"]</span>
                         </div>
                         <h5 style="color:#fff;font-weight:600;margin-bottom:0.35rem;font-family:'Inter',sans-serif;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
                             @proposal.Title
@@ -70,7 +68,6 @@
                         }
                     </div>
 
-                    <!-- Votes -->
                     <div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.25rem;padding:1rem 1.25rem;border-left:1px solid rgba(255,255,255,0.05)">
                         <span style="color:#4ADE80;font-weight:600;font-size:0.9rem">👍 @proposal.LikesCount</span>
                         <span style="color:#F87171;font-size:0.85rem">👎 @proposal.DislikesCount</span>

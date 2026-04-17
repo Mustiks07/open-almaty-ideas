@@ -1,7 +1,7 @@
 @model RegisterViewModel
 
 @{
-    ViewData["Title"] = "Регистрация";
+    ViewData["Title"] = L["Register.Title"].Value;
 }
 
 <div class="container-xl px-4 py-5">
@@ -10,8 +10,8 @@
 
             <div class="text-center mb-4">
                 <div class="navbar-logo-badge mx-auto mb-3" style="width:52px;height:52px;border-radius:14px;font-size:1rem">OA</div>
-                <h1 style="font-size:1.75rem;font-weight:700;color:#fff;margin-bottom:0.25rem">Регистрация</h1>
-                <p style="color:rgba(255,255,255,0.45);font-size:0.875rem">Присоединяйтесь к Open Almaty Ideas</p>
+                <h1 style="font-size:1.75rem;font-weight:700;color:#fff;margin-bottom:0.25rem">@L["Register.Title"]</h1>
+                <p style="color:rgba(255,255,255,0.45);font-size:0.875rem">@L["Register.Subtitle"]</p>
             </div>
 
             <div class="auth-card">
@@ -19,35 +19,35 @@
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4"></div>
 
                     <div class="mb-3">
-                        <label asp-for="UserName" class="form-label">Имя пользователя</label>
+                        <label asp-for="UserName" class="form-label">@L["Register.Username"]</label>
                         <input asp-for="UserName" class="form-control" autocomplete="username" />
                         <span asp-validation-for="UserName" class="field-validation-error"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Email" class="form-label">Email</label>
+                        <label asp-for="Email" class="form-label">@L["Register.Email"]</label>
                         <input asp-for="Email" type="email" class="form-control" autocomplete="email" />
                         <span asp-validation-for="Email" class="field-validation-error"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Password" class="form-label">Пароль</label>
+                        <label asp-for="Password" class="form-label">@L["Register.Password"]</label>
                         <input asp-for="Password" type="password" class="form-control" autocomplete="new-password" />
                         <span asp-validation-for="Password" class="field-validation-error"></span>
                     </div>
                     <div class="mb-4">
-                        <label asp-for="ConfirmPassword" class="form-label">Подтвердите пароль</label>
+                        <label asp-for="ConfirmPassword" class="form-label">@L["Register.ConfirmPassword"]</label>
                         <input asp-for="ConfirmPassword" type="password" class="form-control" autocomplete="new-password" />
                         <span asp-validation-for="ConfirmPassword" class="field-validation-error"></span>
                     </div>
 
                     <button type="submit" class="btn-brand w-100" style="justify-content:center;display:flex">
-                        Зарегистрироваться
+                        @L["Register.Submit"]
                     </button>
                 </form>
             </div>
 
             <p class="text-center mt-3" style="color:rgba(255,255,255,0.4);font-size:0.875rem">
-                Уже есть аккаунт?
-                <a asp-controller="Account" asp-action="Login">Войти</a>
+                @L["Register.HaveAccount"]
+                <a asp-controller="Account" asp-action="Login">@L["Register.Login"]</a>
             </p>
         </div>
     </div>

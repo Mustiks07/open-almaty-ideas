@@ -1,7 +1,7 @@
 @model IEnumerable<ProposalDTO>
 
 @{
-    ViewData["Title"] = "Предложения";
+    ViewData["Title"] = L["Proposals.PageTitle"].Value;
     var districts = ViewBag.Districts as IEnumerable<OpenAlmatyIdeas.Domain.Entities.District> ?? [];
     var categories = ViewBag.Categories as IEnumerable<OpenAlmatyIdeas.Domain.Entities.Category> ?? [];
     int? currentDistrictId = ViewBag.CurrentDistrictId;
@@ -12,15 +12,14 @@
 
 <div class="container-xl px-4">
 
-    <!-- Page header -->
     <div class="page-header d-flex align-items-center justify-content-between">
         <div>
-            <h1>Предложения</h1>
-            <p class="lead">Идеи жителей Алматы по улучшению города</p>
+            <h1>@L["Proposals.PageTitle"]</h1>
+            <p class="lead">@L["Proposals.Subtitle"]</p>
         </div>
         @if (User.Identity?.IsAuthenticated == true)
         {
-            <a asp-action="New" class="btn-brand">+ Новое предложение</a>
+            <a asp-action="New" class="btn-brand">@L["Proposals.NewBtn"]</a>
         }
     </div>
 
@@ -29,11 +28,11 @@
         <div class="row g-2">
             <div class="col-md-4">
                 <input type="text" name="search" value="@search" class="form-control"
-                       placeholder="🔍 Поиск по названию..." />
+                       placeholder="@L["Proposals.SearchPlaceholder"]" />
             </div>
             <div class="col-md-3">
                 <select name="districtId" class="form-select">
-                    <option value="">Все районы</option>
+                    <option value="">@L["Proposals.AllDistricts"]</option>
                     @foreach (var d in districts)
                     {
                         <option value="@d.Id" selected="@(currentDistrictId == d.Id)">@d.Title</option>
@@ -42,7 +41,7 @@
             </div>
             <div class="col-md-3">
                 <select name="categoryId" class="form-select">
-                    <option value="">Все категории</option>
+                    <option value="">@L["Proposals.AllCategories"]</option>
                     @foreach (var c in categories)
                     {
                         <option value="@c.Id" selected="@(currentCategoryId == c.Id)">@c.Title</option>
@@ -51,16 +50,16 @@
             </div>
             <div class="col-md-2">
                 <select name="sort" class="form-select">
-                    <option value="" selected="@(sort == null)">Новые</option>
-                    <option value="popular" selected="@(sort == "popular")">Популярные</option>
+                    <option value="" selected="@(sort == null)">@L["Proposals.SortNew"]</option>
+                    <option value="popular" selected="@(sort == "popular")">@L["Proposals.SortPopular"]</option>
                 </select>
             </div>
         </div>
         <div class="mt-2 d-flex gap-2 align-items-center">
-            <button type="submit" class="btn-brand btn-sm">Применить</button>
+            <button type="submit" class="btn-brand btn-sm">@L["Proposals.Apply"]</button>
             @if (!string.IsNullOrEmpty(search) || currentDistrictId.HasValue || currentCategoryId.HasValue || sort != null)
             {
-                <a asp-action="Index" class="btn-glass btn-sm">✕ Сбросить</a>
+                <a asp-action="Index" class="btn-glass btn-sm">@L["Proposals.Reset"]</a>
             }
         </div>
     </form>
@@ -69,10 +68,10 @@
     @if (!Model.Any())
     {
         <div class="alert alert-info">
-            Предложений не найдено.
+            @L["Proposals.NotFound"]
             @if (User.Identity?.IsAuthenticated == true)
             {
-                <a asp-action="New" style="color:#93C5FD">Будьте первым!</a>
+                <a asp-action="New" style="color:#93C5FD">@L["Proposals.BeFirst"]</a>
             }
         </div>
     }
@@ -91,7 +90,7 @@
                                       proposal.Status == ProposalStatusEnum.Accepted ? "bg-primary" :
                                       proposal.Status == ProposalStatusEnum.Rejected ? "bg-danger" :
                                       "bg-warning")">
-                                    @proposal.StatusLabel
+                                    @L[$"Status.{proposal.Status}"]
                                 </span>
                             </div>
                             <h5 class="card-title mb-2">
@@ -117,7 +116,7 @@
             }
         </div>
         <p class="mt-3" style="color:rgba(255,255,255,0.35);font-size:0.8rem">
-            Показано: @Model.Count() предложений
+            @L["Proposals.Shown"] @Model.Count() @L["Proposals.ShownSuffix"]
         </p>
     }
 

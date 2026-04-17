@@ -1,12 +1,12 @@
 @model OpenAlmatyIdeas.Domain.Entities.Proposal
 
 @{
-    ViewData["Title"] = "Редактирование предложения";
+    ViewData["Title"] = L["Admin.EditProposalTitle"].Value;
     Layout = "_AdminLayout";
     var statuses = ViewBag.Statuses as IEnumerable<OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum>;
 }
 
-<h1 class="mb-4">Редактирование предложения #@Model.Id</h1>
+<h1 class="mb-4">@L["Admin.EditProposalTitle"] #@Model.Id</h1>
 
 <div class="row">
     <div class="col-md-8">
@@ -30,32 +30,26 @@
             <input type="hidden" name="id" value="@Model.Id" />
 
             <div class="mb-3">
-                <label class="form-label">Статус</label>
+                <label class="form-label">@L["Admin.StatusLabel"]</label>
                 <select name="status" class="form-select">
                     @foreach (var status in statuses ?? [])
                     {
                         <option value="@status" selected="@(Model.Status == status)">
-                            @(status switch {
-                                OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Pending => "На рассмотрении",
-                                OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Accepted => "Принято",
-                                OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Rejected => "Отклонено",
-                                OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Implemented => "Реализовано",
-                                _ => status.ToString()
-                            })
+                            @L[$"Status.{status}"]
                         </option>
                     }
                 </select>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Ответ администратора (необязательно)</label>
+                <label class="form-label">@L["Admin.AdminResponse"]</label>
                 <textarea name="adminResponseText" class="form-control" rows="4"
-                          placeholder="Введите комментарий к решению..."></textarea>
+                          placeholder="@L["Admin.AdminResponsePlaceholder"]"></textarea>
             </div>
 
             <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-success">Сохранить</button>
-                <a href="/admin/proposals" class="btn btn-outline-secondary">Отмена</a>
+                <button type="submit" class="btn btn-success">@L["Admin.Save"]</button>
+                <a href="/admin/proposals" class="btn btn-outline-secondary">@L["Admin.Cancel"]</a>
             </div>
         </form>
     </div>

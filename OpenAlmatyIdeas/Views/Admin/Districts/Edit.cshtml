@@ -1,7 +1,7 @@
 @model OpenAlmatyIdeas.Domain.Entities.District
 
 @{
-    ViewData["Title"] = Model.Id == 0 ? "Новый район" : "Редактирование района";
+    ViewData["Title"] = Model.Id == 0 ? L["Admin.NewDistrict"].Value : L["Admin.EditDistrict"].Value;
     Layout = "_AdminLayout";
 }
 
@@ -19,8 +19,8 @@
         </div>
 
         <div class="d-flex gap-2">
-            <button type="submit" class="btn btn-success">Сохранить</button>
-            <a href="/admin/districts" class="btn btn-outline-secondary">Отмена</a>
+            <button type="submit" class="btn btn-success">@L["Admin.Save"]</button>
+            <a href="/admin/districts" class="btn btn-outline-secondary">@L["Admin.Cancel"]</a>
         </div>
     </form>
 </div>

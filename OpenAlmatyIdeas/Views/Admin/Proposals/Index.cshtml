@@ -1,25 +1,25 @@
 @model IEnumerable<OpenAlmatyIdeas.Models.ProposalDTO>
 
 @{
-    ViewData["Title"] = "Предложения";
+    ViewData["Title"] = L["Admin.Proposals"].Value;
     Layout = "_AdminLayout";
 }
 
-<h1 class="mb-4">Предложения</h1>
+<h1 class="mb-4">@L["Admin.Proposals"]</h1>
 
 <div class="table-responsive">
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>#</th>
-                <th>Название</th>
-                <th>Район</th>
-                <th>Категория</th>
-                <th>Автор</th>
-                <th>Статус</th>
+                <th>@L["Admin.ColId"]</th>
+                <th>@L["Admin.ColName"]</th>
+                <th>@L["Admin.ColDistrict"]</th>
+                <th>@L["Admin.ColCategory"]</th>
+                <th>@L["Admin.ColAuthor"]</th>
+                <th>@L["Admin.ColStatus"]</th>
                 <th>👍</th>
-                <th>Дата</th>
-                <th>Действия</th>
+                <th>@L["Admin.ColDate"]</th>
+                <th>@L["Admin.ColActions"]</th>
             </tr>
         </thead>
         <tbody>
@@ -40,18 +40,18 @@
                               proposal.Status == OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Accepted ? "bg-primary" :
                               proposal.Status == OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Rejected ? "bg-danger" :
                               "bg-warning text-dark")">
-                            @proposal.StatusLabel
+                            @L[$"Status.{proposal.Status}"]
                         </span>
                     </td>
                     <td>@proposal.LikesCount</td>
                     <td>@proposal.DateCreated.ToString("dd.MM.yyyy")</td>
                     <td>
                         <a href="/admin/proposals/edit/@proposal.Id" class="btn btn-sm btn-outline-primary">
-                            Изменить
+                            @L["Admin.Edit"]
                         </a>
                         <form action="/admin/proposals/delete/@proposal.Id" method="post" class="d-inline"
-                              onsubmit="return confirm('Удалить предложение?')">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                              onsubmit="return confirm('@L["Admin.DeleteProposalConfirm"]')">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">@L["Admin.Delete"]</button>
                         </form>
                     </td>
                 </tr>

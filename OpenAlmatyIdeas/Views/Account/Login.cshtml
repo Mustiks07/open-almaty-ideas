@@ -1,7 +1,7 @@
 @model LoginViewModel
 
 @{
-    ViewData["Title"] = "Вход";
+    ViewData["Title"] = L["Login.Title"].Value;
 }
 
 <div class="container-xl px-4 py-5">
@@ -10,8 +10,8 @@
 
             <div class="text-center mb-4">
                 <div class="navbar-logo-badge mx-auto mb-3" style="width:52px;height:52px;border-radius:14px;font-size:1rem">OA</div>
-                <h1 style="font-size:1.75rem;font-weight:700;color:#fff;margin-bottom:0.25rem">Вход</h1>
-                <p style="color:rgba(255,255,255,0.45);font-size:0.875rem">Войдите в свой аккаунт</p>
+                <h1 style="font-size:1.75rem;font-weight:700;color:#fff;margin-bottom:0.25rem">@L["Login.Title"]</h1>
+                <p style="color:rgba(255,255,255,0.45);font-size:0.875rem">@L["Login.Subtitle"]</p>
             </div>
 
             <div class="auth-card">
@@ -20,27 +20,27 @@
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4"></div>
 
                     <div class="mb-3">
-                        <label asp-for="UserName" class="form-label">Имя пользователя</label>
+                        <label asp-for="UserName" class="form-label">@L["Login.Username"]</label>
                         <input asp-for="UserName" class="form-control" autocomplete="username" />
                         <span asp-validation-for="UserName" class="field-validation-error"></span>
                     </div>
                     <div class="mb-3">
-                        <label asp-for="Password" class="form-label">Пароль</label>
+                        <label asp-for="Password" class="form-label">@L["Login.Password"]</label>
                         <input asp-for="Password" type="password" class="form-control" autocomplete="current-password" />
                         <span asp-validation-for="Password" class="field-validation-error"></span>
                     </div>
                     <div class="mb-4 form-check">
                         <input asp-for="RememberMe" class="form-check-input" />
-                        <label asp-for="RememberMe" class="form-check-label">Запомнить меня</label>
+                        <label asp-for="RememberMe" class="form-check-label">@L["Login.RememberMe"]</label>
                     </div>
 
-                    <button type="submit" class="btn-brand w-100" style="justify-content:center;display:flex">Войти</button>
+                    <button type="submit" class="btn-brand w-100" style="justify-content:center;display:flex">@L["Login.Submit"]</button>
                 </form>
             </div>
 
             <p class="text-center mt-3" style="color:rgba(255,255,255,0.4);font-size:0.875rem">
-                Нет аккаунта?
-                <a asp-controller="Account" asp-action="Register">Зарегистрироваться</a>
+                @L["Login.NoAccount"]
+                <a asp-controller="Account" asp-action="Register">@L["Login.SignUp"]</a>
             </p>
         </div>
     </div>

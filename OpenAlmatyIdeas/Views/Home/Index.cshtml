@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Главная";
+    ViewData["Title"] = L["Home.PageTitle"].Value;
     var topProposals = ViewBag.TopProposals as IEnumerable<OpenAlmatyIdeas.Models.ProposalDTO> ?? [];
     var districts = ViewBag.Districts as IEnumerable<OpenAlmatyIdeas.Domain.Entities.District> ?? [];
     int totalProposals = ViewBag.TotalProposals ?? 0;
@@ -7,7 +7,6 @@
 
 <!-- Hero -->
 <div class="hero-section">
-    <!-- Blur orbs -->
     <div class="hero-orb" style="width:18rem;height:18rem;background:#22C55E;top:-4rem;left:-4rem"></div>
     <div class="hero-orb" style="width:24rem;height:24rem;background:#16A34A;bottom:-6rem;right:-6rem"></div>
     <div class="hero-orb" style="width:38rem;height:38rem;background:#4ADE80;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.07"></div>
@@ -15,31 +14,30 @@
     <div class="container-xl px-4 py-5 position-relative">
         <div class="row justify-content-center text-center">
             <div class="col-lg-8">
-                <div class="hero-tagline">Гражданская платформа — Алматы</div>
+                <div class="hero-tagline">@L["Home.TagLine"]</div>
                 <h1 class="hero-title">
                     Open<br/>
                     <span class="text-gradient">Almaty</span><br/>
                     Ideas
                 </h1>
                 <p class="hero-subtitle">
-                    Предлагайте идеи по улучшению города,<br class="d-none d-md-block" />
-                    голосуйте и следите за реализацией.
+                    @L["Home.HeroSubtitle"]
                 </p>
                 <div class="d-flex gap-3 justify-content-center flex-wrap">
                     @if (User.Identity?.IsAuthenticated == true)
                     {
                         <a asp-controller="Proposals" asp-action="New" class="btn-brand">
-                            + Предложить идею
+                            @L["Home.SuggestIdea"]
                         </a>
                     }
                     else
                     {
                         <a asp-controller="Account" asp-action="Register" class="btn-brand">
-                            Присоединиться
+                            @L["Home.JoinUs"]
                         </a>
                     }
                     <a asp-controller="Proposals" asp-action="Index" class="btn-glass">
-                        Смотреть предложения →
+                        @L["Home.ViewProposals"]
                     </a>
                 </div>
             </div>
@@ -55,19 +53,19 @@
         <div class="col-4">
             <div class="stat-card">
                 <div class="stat-number">@totalProposals</div>
-                <div class="stat-label">Предложений</div>
+                <div class="stat-label">@L["Home.StatProposals"]</div>
             </div>
         </div>
         <div class="col-4">
             <div class="stat-card">
                 <div class="stat-number">8</div>
-                <div class="stat-label">Районов</div>
+                <div class="stat-label">@L["Home.StatDistricts"]</div>
             </div>
         </div>
         <div class="col-4">
             <div class="stat-card">
                 <div class="stat-number">8</div>
-                <div class="stat-label">Категорий</div>
+                <div class="stat-label">@L["Home.StatCategories"]</div>
             </div>
         </div>
     </div>
@@ -76,9 +74,9 @@
     @if (topProposals.Any())
     {
         <div class="mt-5 mb-4">
-            <span class="section-tag">Рейтинг</span>
-            <h2 class="section-title">Топ предложения</h2>
-            <p class="section-subtitle">Самые поддерживаемые идеи горожан</p>
+            <span class="section-tag">@L["Home.RatingTag"]</span>
+            <h2 class="section-title">@L["Home.TopProposals"]</h2>
+            <p class="section-subtitle">@L["Home.TopSubtitle"]</p>
         </div>
         <div class="row g-3 mb-5">
             @foreach (var proposal in topProposals)
@@ -93,7 +91,7 @@
                                       proposal.Status == OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Accepted ? "bg-primary" :
                                       proposal.Status == OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Rejected ? "bg-danger" :
                                       "bg-warning")">
-                                    @proposal.StatusLabel
+                                    @L[$"Status.{proposal.Status}"]
                                 </span>
                             </div>
                             <h5 class="card-title mb-2">
@@ -118,9 +116,9 @@
 
     <!-- Districts -->
     <div class="mt-5 mb-4">
-        <span class="section-tag">Охват</span>
-        <h2 class="section-title">Районы Алматы</h2>
-        <p class="section-subtitle">Все 8 административных районов города</p>
+        <span class="section-tag">@L["Home.CoverageTag"]</span>
+        <h2 class="section-title">@L["Home.DistrictsTitle"]</h2>
+        <p class="section-subtitle">@L["Home.DistrictsSubtitle"]</p>
     </div>
     <div class="row g-2 mb-5">
         @foreach (var district in districts)
@@ -137,15 +135,15 @@
 
     <!-- How it works -->
     <div class="mt-5 mb-4">
-        <span class="section-tag">Процесс</span>
-        <h2 class="section-title">Как это работает?</h2>
+        <span class="section-tag">@L["Home.ProcessTag"]</span>
+        <h2 class="section-title">@L["Home.HowItWorks"]</h2>
     </div>
     <div class="row g-3 mb-5">
         @foreach (var step in new[] {
-            ("1", "Зарегистрируйтесь", "Создайте аккаунт — это займёт меньше минуты"),
-            ("2", "Подайте предложение", "Опишите идею, укажите район и категорию"),
-            ("3", "Голосуйте", "Поддерживайте понравившиеся идеи горожан"),
-            ("4", "Следите за результатом", "Статус предложения обновляется администраторами")
+            ("1", L["Home.Step1Title"].Value, L["Home.Step1Text"].Value),
+            ("2", L["Home.Step2Title"].Value, L["Home.Step2Text"].Value),
+            ("3", L["Home.Step3Title"].Value, L["Home.Step3Text"].Value),
+            ("4", L["Home.Step4Title"].Value, L["Home.Step4Text"].Value)
         })
         {
             <div class="col-md-3 col-6">
@@ -162,17 +160,17 @@
     @if (User.Identity?.IsAuthenticated != true)
     {
         <div class="cta-block mb-5">
-            <span class="section-tag mb-2 d-block">Присоединяйтесь</span>
-            <h2 class="section-title mb-2">Ваш голос важен для Алматы</h2>
+            <span class="section-tag mb-2 d-block">@L["Home.JoinTag"]</span>
+            <h2 class="section-title mb-2">@L["Home.CtaTitle"]</h2>
             <p style="color:rgba(255,255,255,0.5);margin-bottom:1.5rem">
-                Зарегистрируйтесь, чтобы подавать предложения и голосовать за идеи горожан.
+                @L["Home.CtaSubtitle"]
             </p>
             <div class="d-flex gap-3 justify-content-center flex-wrap">
                 <a asp-controller="Account" asp-action="Register" class="btn-brand">
-                    Зарегистрироваться
+                    @L["Home.SignUp"]
                 </a>
                 <a asp-controller="Proposals" asp-action="Index" class="btn-glass">
-                    Смотреть предложения
+                    @L["Home.ViewProposalsPlain"]
                 </a>
             </div>
         </div>

@@ -53,8 +53,12 @@ builder.Services.AddTransient<IVotesRepository, EFVotesRepository>();
 builder.Services.AddTransient<IAdminResponsesRepository, EFAdminResponsesRepository>();
 builder.Services.AddTransient<DataManager>();
 
+// Локализация (ru + kk)
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
 // Добавление контроллеров и представлений
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddViewLocalization();
 
 // Настройка Serilog
 builder.Host.UseSerilog((context, configuration) =>
@@ -80,6 +84,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+var supportedCultures = new[] { "ru", "kk" };
+app.UseRequestLocalization(new RequestLocalizationOptions()
+    .SetDefaultCulture("ru")
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures));
 
 app.UseRouting();
 

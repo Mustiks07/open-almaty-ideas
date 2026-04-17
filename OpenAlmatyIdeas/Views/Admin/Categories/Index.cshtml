@@ -1,22 +1,22 @@
 @model IEnumerable<OpenAlmatyIdeas.Domain.Entities.Category>
 
 @{
-    ViewData["Title"] = "Категории";
+    ViewData["Title"] = L["Admin.Categories"].Value;
     Layout = "_AdminLayout";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Категории</h1>
-    <a href="/admin/categories/edit" class="btn btn-success">+ Добавить категорию</a>
+    <h1>@L["Admin.Categories"]</h1>
+    <a href="/admin/categories/edit" class="btn btn-success">@L["Admin.AddCategory"]</a>
 </div>
 
 <table class="table table-hover">
     <thead>
         <tr>
-            <th>#</th>
-            <th>Название</th>
-            <th>Предложений</th>
-            <th>Действия</th>
+            <th>@L["Admin.ColId"]</th>
+            <th>@L["Admin.ColName"]</th>
+            <th>@L["Admin.ColCount"]</th>
+            <th>@L["Admin.ColActions"]</th>
         </tr>
     </thead>
     <tbody>
@@ -28,11 +28,11 @@
                 <td>@(category.Proposals?.Count ?? 0)</td>
                 <td>
                     <a href="/admin/categories/edit/@category.Id" class="btn btn-sm btn-outline-primary">
-                        Изменить
+                        @L["Admin.Edit"]
                     </a>
                     <form action="/admin/categories/delete/@category.Id" method="post" class="d-inline"
-                          onsubmit="return confirm('Удалить категорию?')">
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                          onsubmit="return confirm('@L["Admin.DeleteCategoryConfirm"]')">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">@L["Admin.Delete"]</button>
                     </form>
                 </td>
             </tr>

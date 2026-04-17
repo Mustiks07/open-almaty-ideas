@@ -1,3 +1,6 @@
+@{
+    var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+}
 <nav class="site-navbar">
     <div class="container-xl px-4 d-flex align-items-center justify-content-between h-100">
 
@@ -10,30 +13,40 @@
         <!-- Desktop nav links -->
         <ul class="nav d-none d-md-flex gap-1 mb-0">
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Proposals" asp-action="Index">Предложения</a>
+                <a class="nav-link" asp-controller="Proposals" asp-action="Index">@L["Nav.Proposals"]</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Top" asp-action="Index">Топ идей</a>
+                <a class="nav-link" asp-controller="Top" asp-action="Index">@L["Nav.Top"]</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Map" asp-action="Index">Карта</a>
+                <a class="nav-link" asp-controller="Map" asp-action="Index">@L["Nav.Map"]</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-controller="Home" asp-action="About">О проекте</a>
+                <a class="nav-link" asp-controller="Home" asp-action="About">@L["Nav.About"]</a>
             </li>
             @if (User.IsInRole("Admin"))
             {
                 <li class="nav-item">
-                    <a class="nav-link" style="color:rgba(252,211,77,0.8)!important" href="/admin">⚙ Панель</a>
+                    <a class="nav-link" style="color:rgba(252,211,77,0.8)!important" href="/admin">@L["Nav.AdminPanel"]</a>
                 </li>
             }
         </ul>
 
         <!-- Desktop right -->
         <div class="d-none d-md-flex align-items-center gap-2">
+
+            <!-- Language switcher -->
+            <form asp-controller="Culture" asp-action="Set" method="post" class="d-flex gap-1 me-1">
+                <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                <button type="submit" name="culture" value="ru"
+                        class="lang-btn @(currentCulture == "ru" ? "active" : "")">RU</button>
+                <button type="submit" name="culture" value="kk"
+                        class="lang-btn @(currentCulture == "kk" ? "active" : "")">ҚАЗ</button>
+            </form>
+
             @if (User.Identity?.IsAuthenticated == true)
             {
-                <a class="btn-glass btn-sm" asp-controller="Proposals" asp-action="New">+ Предложение</a>
+                <a class="btn-glass btn-sm" asp-controller="Proposals" asp-action="New">@L["Nav.NewProposal"]</a>
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 py-2 px-3"
                        href="#" data-bs-toggle="dropdown" style="border-radius:10px">
@@ -45,13 +58,13 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
                             <a class="dropdown-item" asp-controller="Profile" asp-action="Index">
-                                Мои предложения
+                                @L["Nav.MyProposals"]
                             </a>
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form asp-controller="Account" asp-action="Logout" method="post" style="padding:0.2rem 0.4rem">
-                                <button type="submit" class="dropdown-item text-danger w-100 text-start">Выйти</button>
+                                <button type="submit" class="dropdown-item text-danger w-100 text-start">@L["Nav.Logout"]</button>
                             </form>
                         </li>
                     </ul>
@@ -60,8 +73,8 @@
             else
             {
                 <a class="nav-link" asp-controller="Account" asp-action="Login"
-                   style="font-size:0.875rem;color:rgba(255,255,255,0.65)">Войти</a>
-                <a class="btn-brand btn-sm" asp-controller="Account" asp-action="Register">Регистрация</a>
+                   style="font-size:0.875rem;color:rgba(255,255,255,0.65)">@L["Nav.Login"]</a>
+                <a class="btn-brand btn-sm" asp-controller="Account" asp-action="Register">@L["Nav.Register"]</a>
             }
         </div>
 
@@ -78,40 +91,50 @@
         <div class="container-xl px-4 py-3">
             <ul class="nav flex-column gap-1 mb-3">
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Proposals" asp-action="Index">Предложения</a>
+                    <a class="nav-link" asp-controller="Proposals" asp-action="Index">@L["Nav.Proposals"]</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Top" asp-action="Index">Топ идей</a>
+                    <a class="nav-link" asp-controller="Top" asp-action="Index">@L["Nav.Top"]</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Map" asp-action="Index">Карта</a>
+                    <a class="nav-link" asp-controller="Map" asp-action="Index">@L["Nav.Map"]</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Home" asp-action="About">О проекте</a>
+                    <a class="nav-link" asp-controller="Home" asp-action="About">@L["Nav.About"]</a>
                 </li>
                 @if (User.IsInRole("Admin"))
                 {
                     <li class="nav-item">
-                        <a class="nav-link" style="color:#FCD34D!important" href="/admin">⚙ Панель</a>
+                        <a class="nav-link" style="color:#FCD34D!important" href="/admin">@L["Nav.AdminPanel"]</a>
                     </li>
                 }
             </ul>
             <hr style="border-color:rgba(255,255,255,0.07)">
+
+            <!-- Mobile language switcher -->
+            <form asp-controller="Culture" asp-action="Set" method="post" class="d-flex gap-1 mb-3">
+                <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
+                <button type="submit" name="culture" value="ru"
+                        class="lang-btn @(currentCulture == "ru" ? "active" : "")">RU</button>
+                <button type="submit" name="culture" value="kk"
+                        class="lang-btn @(currentCulture == "kk" ? "active" : "")">ҚАЗ</button>
+            </form>
+
             @if (User.Identity?.IsAuthenticated == true)
             {
                 <div class="d-flex gap-2">
-                    <a class="btn-brand btn-sm" asp-controller="Proposals" asp-action="New">+ Предложение</a>
-                    <a class="btn-glass btn-sm" asp-controller="Profile" asp-action="Index">Мои предложения</a>
+                    <a class="btn-brand btn-sm" asp-controller="Proposals" asp-action="New">@L["Nav.NewProposal"]</a>
+                    <a class="btn-glass btn-sm" asp-controller="Profile" asp-action="Index">@L["Nav.MyProposals"]</a>
                 </div>
                 <form asp-controller="Account" asp-action="Logout" method="post" class="mt-2">
-                    <button type="submit" class="btn-glass btn-sm" style="color:#F87171;border-color:rgba(248,113,113,0.2)">Выйти</button>
+                    <button type="submit" class="btn-glass btn-sm" style="color:#F87171;border-color:rgba(248,113,113,0.2)">@L["Nav.Logout"]</button>
                 </form>
             }
             else
             {
                 <div class="d-flex gap-2">
-                    <a class="btn-glass btn-sm" asp-controller="Account" asp-action="Login">Войти</a>
-                    <a class="btn-brand btn-sm" asp-controller="Account" asp-action="Register">Регистрация</a>
+                    <a class="btn-glass btn-sm" asp-controller="Account" asp-action="Login">@L["Nav.Login"]</a>
+                    <a class="btn-brand btn-sm" asp-controller="Account" asp-action="Register">@L["Nav.Register"]</a>
                 </div>
             }
         </div>

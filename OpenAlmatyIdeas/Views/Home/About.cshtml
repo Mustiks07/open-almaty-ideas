@@ -1,39 +1,34 @@
 @{
-    ViewData["Title"] = "О проекте";
+    ViewData["Title"] = L["About.PageTitle"].Value;
 }
 
 <div class="container-xl px-4">
 
     <div class="page-header">
-        <h1>О проекте</h1>
-        <p class="lead">Гражданская платформа для улучшения города Алматы</p>
+        <h1>@L["About.PageTitle"]</h1>
+        <p class="lead">@L["About.Subtitle"]</p>
     </div>
 
     <div class="row g-4">
         <div class="col-lg-8">
 
-            <!-- Mission -->
             <section class="mb-5">
-                <span class="section-tag">Миссия</span>
-                <h2 class="section-title mb-3">Что такое Open Almaty Ideas?</h2>
+                <span class="section-tag">@L["About.MissionTag"]</span>
+                <h2 class="section-title mb-3">@L["About.MissionTitle"]</h2>
                 <p style="color:rgba(255,255,255,0.65);line-height:1.8">
-                    <strong style="color:#fff">Open Almaty Ideas</strong> — это цифровая платформа гражданских
-                    инициатив, созданная для жителей Алматы. Мы верим, что лучшие идеи по улучшению
-                    города рождаются у тех, кто в нём живёт. Платформа даёт каждому горожанину голос —
-                    возможность предложить идею, поддержать других и видеть, как инициативы воплощаются в жизнь.
+                    <strong style="color:#fff">Open Almaty Ideas</strong> — @L["About.MissionText"]
                 </p>
             </section>
 
-            <!-- How it works -->
             <section class="mb-5">
-                <span class="section-tag">Процесс</span>
-                <h2 class="section-title mb-4">Как это работает?</h2>
+                <span class="section-tag">@L["About.ProcessTag"]</span>
+                <h2 class="section-title mb-4">@L["About.ProcessTitle"]</h2>
                 <div class="row g-3">
                     @foreach (var step in new[] {
-                        ("1️⃣", "Зарегистрируйтесь", "Создайте аккаунт — это займёт меньше минуты"),
-                        ("2️⃣", "Подайте предложение", "Опишите идею, укажите район и категорию"),
-                        ("3️⃣", "Голосуйте", "Поддерживайте понравившиеся идеи других горожан"),
-                        ("4️⃣", "Следите за результатом", "Администраторы рассматривают предложения и обновляют статус")
+                        ("1️⃣", L["About.Step1Title"].Value, L["About.Step1Text"].Value),
+                        ("2️⃣", L["About.Step2Title"].Value, L["About.Step2Text"].Value),
+                        ("3️⃣", L["About.Step3Title"].Value, L["About.Step3Text"].Value),
+                        ("4️⃣", L["About.Step4Title"].Value, L["About.Step4Text"].Value)
                     })
                     {
                         <div class="col-md-6">
@@ -47,28 +42,25 @@
                 </div>
             </section>
 
-            <!-- Districts -->
             <section class="mb-5">
-                <span class="section-tag">Охват</span>
-                <h2 class="section-title mb-2">Районы Алматы</h2>
+                <span class="section-tag">@L["About.CoverageTag"]</span>
+                <h2 class="section-title mb-2">@L["About.DistrictsTitle"]</h2>
                 <p style="color:rgba(255,255,255,0.5);font-size:0.9rem;margin-bottom:1.25rem">
-                    Платформа охватывает все 8 административных районов города:
+                    @L["About.DistrictsText"]
                 </p>
                 <div class="row g-2">
                     @foreach (var district in new[] { "Алмалы", "Әуезов", "Бостандық", "Жетісу", "Медеу", "Наурызбай", "Түрксіб", "Алатау" })
                     {
                         <div class="col-md-3 col-6">
-                            <a asp-controller="Proposals" asp-action="Index"
-                               class="btn-district">@district</a>
+                            <a asp-controller="Proposals" asp-action="Index" class="btn-district">@district</a>
                         </div>
                     }
                 </div>
             </section>
 
-            <!-- Categories -->
             <section class="mb-5">
-                <span class="section-tag">Тематика</span>
-                <h2 class="section-title mb-3">Категории предложений</h2>
+                <span class="section-tag">@L["About.CategoriesTag"]</span>
+                <h2 class="section-title mb-3">@L["About.CategoriesTitle"]</h2>
                 <div class="d-flex flex-wrap gap-2">
                     @foreach (var cat in new[] { "Көлік", "Экология", "Инфрақұрылым", "Қауіпсіздік", "Білім", "Денсаулық сақтау", "Мәдениет және спорт", "Басқа" })
                     {
@@ -77,16 +69,15 @@
                 </div>
             </section>
 
-            <!-- Statuses -->
             <section class="mb-5">
-                <span class="section-tag">Жизненный цикл</span>
-                <h2 class="section-title mb-3">Статусы предложений</h2>
+                <span class="section-tag">@L["About.LifecycleTag"]</span>
+                <h2 class="section-title mb-3">@L["About.StatusesTitle"]</h2>
                 <div class="row g-2">
                     @foreach (var status in new[] {
-                        ("bg-warning", "На рассмотрении", "Предложение получено и изучается"),
-                        ("bg-primary", "Принято", "Идея одобрена к реализации"),
-                        ("bg-success", "Реализовано", "Предложение воплощено в жизнь"),
-                        ("bg-danger", "Отклонено", "Предложение не принято с объяснением причин")
+                        ("bg-warning",  L["About.Status.Pending"].Value,     L["About.Status.PendingDesc"].Value),
+                        ("bg-primary",  L["About.Status.Accepted"].Value,    L["About.Status.AcceptedDesc"].Value),
+                        ("bg-success",  L["About.Status.Implemented"].Value, L["About.Status.ImplementedDesc"].Value),
+                        ("bg-danger",   L["About.Status.Rejected"].Value,    L["About.Status.RejectedDesc"].Value)
                     })
                     {
                         <div class="col-md-6">
@@ -99,18 +90,17 @@
                 </div>
             </section>
 
-            <!-- CTA -->
             @if (User.Identity?.IsAuthenticated != true)
             {
                 <div class="cta-block mb-5">
-                    <h2 class="section-title mb-2">Присоединяйтесь к Open Almaty Ideas</h2>
-                    <p style="color:rgba(255,255,255,0.5);margin-bottom:1.5rem">Ваш голос важен для развития Алматы</p>
+                    <h2 class="section-title mb-2">@L["About.CtaTitle"]</h2>
+                    <p style="color:rgba(255,255,255,0.5);margin-bottom:1.5rem">@L["About.CtaSubtitle"]</p>
                     <div class="d-flex gap-3 justify-content-center flex-wrap">
                         <a asp-controller="Account" asp-action="Register" class="btn-brand">
-                            Зарегистрироваться
+                            @L["About.SignUp"]
                         </a>
                         <a asp-controller="Proposals" asp-action="Index" class="btn-glass">
-                            Смотреть предложения
+                            @L["About.ViewProposals"]
                         </a>
                     </div>
                 </div>

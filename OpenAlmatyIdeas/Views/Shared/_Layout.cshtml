@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,7 +18,7 @@
 
     <footer class="site-footer">
         <div class="container-xl px-4 text-center">
-            Open Almaty Ideas &copy; @DateTime.Now.Year — Платформа гражданских инициатив Алматы
+            Open Almaty Ideas &copy; @DateTime.Now.Year — @L["Footer.Text"]
         </div>
     </footer>
 

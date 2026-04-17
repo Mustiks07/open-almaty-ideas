@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- Navigation -->
+  <data name="Nav.Proposals" xml:space="preserve"><value>Предложения</value></data>
+  <data name="Nav.Top" xml:space="preserve"><value>Топ идей</value></data>
+  <data name="Nav.Map" xml:space="preserve"><value>Карта</value></data>
+  <data name="Nav.About" xml:space="preserve"><value>О проекте</value></data>
+  <data name="Nav.AdminPanel" xml:space="preserve"><value>⚙ Панель</value></data>
+  <data name="Nav.NewProposal" xml:space="preserve"><value>+ Предложение</value></data>
+  <data name="Nav.MyProposals" xml:space="preserve"><value>Мои предложения</value></data>
+  <data name="Nav.Logout" xml:space="preserve"><value>Выйти</value></data>
+  <data name="Nav.Login" xml:space="preserve"><value>Войти</value></data>
+  <data name="Nav.Register" xml:space="preserve"><value>Регистрация</value></data>
+
+  <!-- Statuses -->
+  <data name="Status.Pending" xml:space="preserve"><value>На рассмотрении</value></data>
+  <data name="Status.Accepted" xml:space="preserve"><value>Принято</value></data>
+  <data name="Status.Rejected" xml:space="preserve"><value>Отклонено</value></data>
+  <data name="Status.Implemented" xml:space="preserve"><value>Реализовано</value></data>
+
+  <!-- Footer -->
+  <data name="Footer.Text" xml:space="preserve"><value>Платформа гражданских инициатив Алматы</value></data>
+
+  <!-- Home -->
+  <data name="Home.PageTitle" xml:space="preserve"><value>Главная</value></data>
+  <data name="Home.TagLine" xml:space="preserve"><value>Гражданская платформа — Алматы</value></data>
+  <data name="Home.HeroSubtitle" xml:space="preserve"><value>Предлагайте идеи по улучшению города, голосуйте и следите за реализацией.</value></data>
+  <data name="Home.SuggestIdea" xml:space="preserve"><value>+ Предложить идею</value></data>
+  <data name="Home.JoinUs" xml:space="preserve"><value>Присоединиться</value></data>
+  <data name="Home.ViewProposals" xml:space="preserve"><value>Смотреть предложения →</value></data>
+  <data name="Home.ViewProposalsPlain" xml:space="preserve"><value>Смотреть предложения</value></data>
+  <data name="Home.StatProposals" xml:space="preserve"><value>Предложений</value></data>
+  <data name="Home.StatDistricts" xml:space="preserve"><value>Районов</value></data>
+  <data name="Home.StatCategories" xml:space="preserve"><value>Категорий</value></data>
+  <data name="Home.RatingTag" xml:space="preserve"><value>Рейтинг</value></data>
+  <data name="Home.TopProposals" xml:space="preserve"><value>Топ предложения</value></data>
+  <data name="Home.TopSubtitle" xml:space="preserve"><value>Самые поддерживаемые идеи горожан</value></data>
+  <data name="Home.CoverageTag" xml:space="preserve"><value>Охват</value></data>
+  <data name="Home.DistrictsTitle" xml:space="preserve"><value>Районы Алматы</value></data>
+  <data name="Home.DistrictsSubtitle" xml:space="preserve"><value>Все 8 административных районов города</value></data>
+  <data name="Home.ProcessTag" xml:space="preserve"><value>Процесс</value></data>
+  <data name="Home.HowItWorks" xml:space="preserve"><value>Как это работает?</value></data>
+  <data name="Home.Step1Title" xml:space="preserve"><value>Зарегистрируйтесь</value></data>
+  <data name="Home.Step1Text" xml:space="preserve"><value>Создайте аккаунт — это займёт меньше минуты</value></data>
+  <data name="Home.Step2Title" xml:space="preserve"><value>Подайте предложение</value></data>
+  <data name="Home.Step2Text" xml:space="preserve"><value>Опишите идею, укажите район и категорию</value></data>
+  <data name="Home.Step3Title" xml:space="preserve"><value>Голосуйте</value></data>
+  <data name="Home.Step3Text" xml:space="preserve"><value>Поддерживайте понравившиеся идеи горожан</value></data>
+  <data name="Home.Step4Title" xml:space="preserve"><value>Следите за результатом</value></data>
+  <data name="Home.Step4Text" xml:space="preserve"><value>Статус предложения обновляется администраторами</value></data>
+  <data name="Home.JoinTag" xml:space="preserve"><value>Присоединяйтесь</value></data>
+  <data name="Home.CtaTitle" xml:space="preserve"><value>Ваш голос важен для Алматы</value></data>
+  <data name="Home.CtaSubtitle" xml:space="preserve"><value>Зарегистрируйтесь, чтобы подавать предложения и голосовать за идеи горожан.</value></data>
+  <data name="Home.SignUp" xml:space="preserve"><value>Зарегистрироваться</value></data>
+
+  <!-- Proposals list -->
+  <data name="Proposals.PageTitle" xml:space="preserve"><value>Предложения</value></data>
+  <data name="Proposals.Subtitle" xml:space="preserve"><value>Идеи жителей Алматы по улучшению города</value></data>
+  <data name="Proposals.NewBtn" xml:space="preserve"><value>+ Новое предложение</value></data>
+  <data name="Proposals.SearchPlaceholder" xml:space="preserve"><value>🔍 Поиск по названию...</value></data>
+  <data name="Proposals.AllDistricts" xml:space="preserve"><value>Все районы</value></data>
+  <data name="Proposals.AllCategories" xml:space="preserve"><value>Все категории</value></data>
+  <data name="Proposals.SortNew" xml:space="preserve"><value>Новые</value></data>
+  <data name="Proposals.SortPopular" xml:space="preserve"><value>Популярные</value></data>
+  <data name="Proposals.Apply" xml:space="preserve"><value>Применить</value></data>
+  <data name="Proposals.Reset" xml:space="preserve"><value>✕ Сбросить</value></data>
+  <data name="Proposals.NotFound" xml:space="preserve"><value>Предложений не найдено.</value></data>
+  <data name="Proposals.BeFirst" xml:space="preserve"><value>Будьте первым!</value></data>
+  <data name="Proposals.Shown" xml:space="preserve"><value>Показано:</value></data>
+  <data name="Proposals.ShownSuffix" xml:space="preserve"><value>предложений</value></data>
+
+  <!-- Proposal detail -->
+  <data name="Proposal.Back" xml:space="preserve"><value>← Все предложения</value></data>
+  <data name="Proposal.Voting" xml:space="preserve"><value>Голосование</value></data>
+  <data name="Proposal.LoginToVote" xml:space="preserve"><value>Войдите</value></data>
+  <data name="Proposal.ToVote" xml:space="preserve"><value>, чтобы проголосовать</value></data>
+  <data name="Proposal.Info" xml:space="preserve"><value>Информация</value></data>
+  <data name="Proposal.Status" xml:space="preserve"><value>Статус</value></data>
+  <data name="Proposal.District" xml:space="preserve"><value>Район</value></data>
+  <data name="Proposal.Category" xml:space="preserve"><value>Категория</value></data>
+  <data name="Proposal.Author" xml:space="preserve"><value>Автор</value></data>
+  <data name="Proposal.Date" xml:space="preserve"><value>Дата</value></data>
+  <data name="Proposal.Edit" xml:space="preserve"><value>✏ Редактировать</value></data>
+  <data name="Proposal.Delete" xml:space="preserve"><value>🗑 Удалить</value></data>
+  <data name="Proposal.DeleteConfirm" xml:space="preserve"><value>Удалить предложение?</value></data>
+  <data name="Proposal.AdminResponses" xml:space="preserve"><value>💬 Ответы администратора</value></data>
+
+  <!-- New proposal -->
+  <data name="NewProposal.Title" xml:space="preserve"><value>Новое предложение</value></data>
+  <data name="NewProposal.Subtitle" xml:space="preserve"><value>Опишите вашу идею по улучшению города</value></data>
+  <data name="NewProposal.NameLabel" xml:space="preserve"><value>Название</value></data>
+  <data name="NewProposal.NamePlaceholder" xml:space="preserve"><value>Краткое название вашей идеи</value></data>
+  <data name="NewProposal.DistrictLabel" xml:space="preserve"><value>Район</value></data>
+  <data name="NewProposal.DistrictDefault" xml:space="preserve"><value>— Выберите район —</value></data>
+  <data name="NewProposal.CategoryLabel" xml:space="preserve"><value>Категория</value></data>
+  <data name="NewProposal.CategoryDefault" xml:space="preserve"><value>— Выберите категорию —</value></data>
+  <data name="NewProposal.ShortDescLabel" xml:space="preserve"><value>Краткое описание</value></data>
+  <data name="NewProposal.ShortDescPlaceholder" xml:space="preserve"><value>Кратко опишите вашу идею (отображается в списке)</value></data>
+  <data name="NewProposal.FullDescLabel" xml:space="preserve"><value>Полное описание</value></data>
+  <data name="NewProposal.FullDescPlaceholder" xml:space="preserve"><value>Подробно опишите предложение: проблему, решение, ожидаемый результат</value></data>
+  <data name="NewProposal.Submit" xml:space="preserve"><value>Отправить предложение</value></data>
+  <data name="NewProposal.Cancel" xml:space="preserve"><value>Отмена</value></data>
+
+  <!-- Edit proposal -->
+  <data name="EditProposal.Title" xml:space="preserve"><value>Редактировать предложение</value></data>
+  <data name="EditProposal.Subtitle" xml:space="preserve"><value>Измените данные вашего предложения</value></data>
+  <data name="EditProposal.SaveChanges" xml:space="preserve"><value>Сохранить изменения</value></data>
+  <data name="EditProposal.Cancel" xml:space="preserve"><value>Отмена</value></data>
+
+  <!-- Login -->
+  <data name="Login.Title" xml:space="preserve"><value>Вход</value></data>
+  <data name="Login.Subtitle" xml:space="preserve"><value>Войдите в свой аккаунт</value></data>
+  <data name="Login.Username" xml:space="preserve"><value>Имя пользователя</value></data>
+  <data name="Login.Password" xml:space="preserve"><value>Пароль</value></data>
+  <data name="Login.RememberMe" xml:space="preserve"><value>Запомнить меня</value></data>
+  <data name="Login.Submit" xml:space="preserve"><value>Войти</value></data>
+  <data name="Login.NoAccount" xml:space="preserve"><value>Нет аккаунта?</value></data>
+  <data name="Login.SignUp" xml:space="preserve"><value>Зарегистрироваться</value></data>
+
+  <!-- Register -->
+  <data name="Register.Title" xml:space="preserve"><value>Регистрация</value></data>
+  <data name="Register.Subtitle" xml:space="preserve"><value>Присоединяйтесь к Open Almaty Ideas</value></data>
+  <data name="Register.Username" xml:space="preserve"><value>Имя пользователя</value></data>
+  <data name="Register.Email" xml:space="preserve"><value>Email</value></data>
+  <data name="Register.Password" xml:space="preserve"><value>Пароль</value></data>
+  <data name="Register.ConfirmPassword" xml:space="preserve"><value>Подтвердите пароль</value></data>
+  <data name="Register.Submit" xml:space="preserve"><value>Зарегистрироваться</value></data>
+  <data name="Register.HaveAccount" xml:space="preserve"><value>Уже есть аккаунт?</value></data>
+  <data name="Register.Login" xml:space="preserve"><value>Войти</value></data>
+
+  <!-- Profile -->
+  <data name="Profile.Title" xml:space="preserve"><value>Мои предложения</value></data>
+  <data name="Profile.NewBtn" xml:space="preserve"><value>+ Новое предложение</value></data>
+  <data name="Profile.Empty" xml:space="preserve"><value>У вас пока нет предложений</value></data>
+  <data name="Profile.CreateFirst" xml:space="preserve"><value>Создать первое предложение</value></data>
+  <data name="Profile.ColName" xml:space="preserve"><value>Название</value></data>
+  <data name="Profile.ColDistrict" xml:space="preserve"><value>Район</value></data>
+  <data name="Profile.ColCategory" xml:space="preserve"><value>Категория</value></data>
+  <data name="Profile.ColStatus" xml:space="preserve"><value>Статус</value></data>
+  <data name="Profile.ColVotes" xml:space="preserve"><value>Голоса</value></data>
+  <data name="Profile.ColDate" xml:space="preserve"><value>Дата</value></data>
+  <data name="Profile.Total" xml:space="preserve"><value>Всего:</value></data>
+  <data name="Profile.TotalSuffix" xml:space="preserve"><value>предложений</value></data>
+  <data name="Profile.DeleteConfirm" xml:space="preserve"><value>Удалить предложение?</value></data>
+
+  <!-- Top -->
+  <data name="Top.PageTitle" xml:space="preserve"><value>Топ идей</value></data>
+  <data name="Top.RatingTag" xml:space="preserve"><value>Рейтинг</value></data>
+  <data name="Top.Title" xml:space="preserve"><value>🏆 Топ идей</value></data>
+  <data name="Top.Subtitle" xml:space="preserve"><value>Предложения с наибольшим количеством голосов</value></data>
+  <data name="Top.NoVotes" xml:space="preserve"><value>Голосований пока нет. Будьте первым!</value></data>
+
+  <!-- Map -->
+  <data name="Map.PageTitle" xml:space="preserve"><value>Карта районов</value></data>
+  <data name="Map.InteractiveTag" xml:space="preserve"><value>Интерактивная карта</value></data>
+  <data name="Map.Title" xml:space="preserve"><value>🗺️ Карта районов Алматы</value></data>
+  <data name="Map.Subtitle" xml:space="preserve"><value>Выберите район, чтобы просмотреть идеи жителей</value></data>
+  <data name="Map.IdeaWord1" xml:space="preserve"><value>идея</value></data>
+  <data name="Map.IdeaWord24" xml:space="preserve"><value>идеи</value></data>
+  <data name="Map.IdeaWordMany" xml:space="preserve"><value>идей</value></data>
+  <data name="Map.View" xml:space="preserve"><value>Смотреть</value></data>
+
+  <!-- About -->
+  <data name="About.PageTitle" xml:space="preserve"><value>О проекте</value></data>
+  <data name="About.Subtitle" xml:space="preserve"><value>Гражданская платформа для улучшения города Алматы</value></data>
+  <data name="About.MissionTag" xml:space="preserve"><value>Миссия</value></data>
+  <data name="About.MissionTitle" xml:space="preserve"><value>Что такое Open Almaty Ideas?</value></data>
+  <data name="About.MissionText" xml:space="preserve"><value>Open Almaty Ideas — это цифровая платформа гражданских инициатив, созданная для жителей Алматы. Мы верим, что лучшие идеи по улучшению города рождаются у тех, кто в нём живёт. Платформа даёт каждому горожанину голос — возможность предложить идею, поддержать других и видеть, как инициативы воплощаются в жизнь.</value></data>
+  <data name="About.ProcessTag" xml:space="preserve"><value>Процесс</value></data>
+  <data name="About.ProcessTitle" xml:space="preserve"><value>Как это работает?</value></data>
+  <data name="About.Step1Title" xml:space="preserve"><value>Зарегистрируйтесь</value></data>
+  <data name="About.Step1Text" xml:space="preserve"><value>Создайте аккаунт — это займёт меньше минуты</value></data>
+  <data name="About.Step2Title" xml:space="preserve"><value>Подайте предложение</value></data>
+  <data name="About.Step2Text" xml:space="preserve"><value>Опишите идею, укажите район и категорию</value></data>
+  <data name="About.Step3Title" xml:space="preserve"><value>Голосуйте</value></data>
+  <data name="About.Step3Text" xml:space="preserve"><value>Поддерживайте понравившиеся идеи других горожан</value></data>
+  <data name="About.Step4Title" xml:space="preserve"><value>Следите за результатом</value></data>
+  <data name="About.Step4Text" xml:space="preserve"><value>Администраторы рассматривают предложения и обновляют статус</value></data>
+  <data name="About.CoverageTag" xml:space="preserve"><value>Охват</value></data>
+  <data name="About.DistrictsTitle" xml:space="preserve"><value>Районы Алматы</value></data>
+  <data name="About.DistrictsText" xml:space="preserve"><value>Платформа охватывает все 8 административных районов города:</value></data>
+  <data name="About.CategoriesTag" xml:space="preserve"><value>Тематика</value></data>
+  <data name="About.CategoriesTitle" xml:space="preserve"><value>Категории предложений</value></data>
+  <data name="About.LifecycleTag" xml:space="preserve"><value>Жизненный цикл</value></data>
+  <data name="About.StatusesTitle" xml:space="preserve"><value>Статусы предложений</value></data>
+  <data name="About.Status.Pending" xml:space="preserve"><value>На рассмотрении</value></data>
+  <data name="About.Status.PendingDesc" xml:space="preserve"><value>Предложение получено и изучается</value></data>
+  <data name="About.Status.Accepted" xml:space="preserve"><value>Принято</value></data>
+  <data name="About.Status.AcceptedDesc" xml:space="preserve"><value>Идея одобрена к реализации</value></data>
+  <data name="About.Status.Implemented" xml:space="preserve"><value>Реализовано</value></data>
+  <data name="About.Status.ImplementedDesc" xml:space="preserve"><value>Предложение воплощено в жизнь</value></data>
+  <data name="About.Status.Rejected" xml:space="preserve"><value>Отклонено</value></data>
+  <data name="About.Status.RejectedDesc" xml:space="preserve"><value>Предложение не принято с объяснением причин</value></data>
+  <data name="About.CtaTitle" xml:space="preserve"><value>Присоединяйтесь к Open Almaty Ideas</value></data>
+  <data name="About.CtaSubtitle" xml:space="preserve"><value>Ваш голос важен для развития Алматы</value></data>
+  <data name="About.SignUp" xml:space="preserve"><value>Зарегистрироваться</value></data>
+  <data name="About.ViewProposals" xml:space="preserve"><value>Смотреть предложения</value></data>
+
+  <!-- Admin -->
+  <data name="Admin.ToSite" xml:space="preserve"><value>← На сайт</value></data>
+  <data name="Admin.Logout" xml:space="preserve"><value>Выйти</value></data>
+  <data name="Admin.Management" xml:space="preserve"><value>Управление</value></data>
+  <data name="Admin.Home" xml:space="preserve"><value>Главная</value></data>
+  <data name="Admin.Proposals" xml:space="preserve"><value>Предложения</value></data>
+  <data name="Admin.Districts" xml:space="preserve"><value>Районы</value></data>
+  <data name="Admin.Categories" xml:space="preserve"><value>Категории</value></data>
+  <data name="Admin.DashboardTitle" xml:space="preserve"><value>Панель администратора</value></data>
+  <data name="Admin.ProposalsDesc" xml:space="preserve"><value>Управление предложениями граждан</value></data>
+  <data name="Admin.DistrictsDesc" xml:space="preserve"><value>Управление районами города</value></data>
+  <data name="Admin.CategoriesDesc" xml:space="preserve"><value>Управление категориями предложений</value></data>
+  <data name="Admin.Manage" xml:space="preserve"><value>Управлять</value></data>
+  <data name="Admin.ColId" xml:space="preserve"><value>#</value></data>
+  <data name="Admin.ColName" xml:space="preserve"><value>Название</value></data>
+  <data name="Admin.ColDistrict" xml:space="preserve"><value>Район</value></data>
+  <data name="Admin.ColCategory" xml:space="preserve"><value>Категория</value></data>
+  <data name="Admin.ColAuthor" xml:space="preserve"><value>Автор</value></data>
+  <data name="Admin.ColStatus" xml:space="preserve"><value>Статус</value></data>
+  <data name="Admin.ColDate" xml:space="preserve"><value>Дата</value></data>
+  <data name="Admin.ColActions" xml:space="preserve"><value>Действия</value></data>
+  <data name="Admin.ColCount" xml:space="preserve"><value>Предложений</value></data>
+  <data name="Admin.Edit" xml:space="preserve"><value>Изменить</value></data>
+  <data name="Admin.Delete" xml:space="preserve"><value>Удалить</value></data>
+  <data name="Admin.AddCategory" xml:space="preserve"><value>+ Добавить категорию</value></data>
+  <data name="Admin.AddDistrict" xml:space="preserve"><value>+ Добавить район</value></data>
+  <data name="Admin.DeleteProposalConfirm" xml:space="preserve"><value>Удалить предложение?</value></data>
+  <data name="Admin.DeleteCategoryConfirm" xml:space="preserve"><value>Удалить категорию?</value></data>
+  <data name="Admin.DeleteDistrictConfirm" xml:space="preserve"><value>Удалить район?</value></data>
+  <data name="Admin.EditProposalTitle" xml:space="preserve"><value>Редактирование предложения</value></data>
+  <data name="Admin.StatusLabel" xml:space="preserve"><value>Статус</value></data>
+  <data name="Admin.AdminResponse" xml:space="preserve"><value>Ответ администратора (необязательно)</value></data>
+  <data name="Admin.AdminResponsePlaceholder" xml:space="preserve"><value>Введите комментарий к решению...</value></data>
+  <data name="Admin.Save" xml:space="preserve"><value>Сохранить</value></data>
+  <data name="Admin.Cancel" xml:space="preserve"><value>Отмена</value></data>
+  <data name="Admin.NewCategory" xml:space="preserve"><value>Новая категория</value></data>
+  <data name="Admin.EditCategory" xml:space="preserve"><value>Редактирование категории</value></data>
+  <data name="Admin.NewDistrict" xml:space="preserve"><value>Новый район</value></data>
+  <data name="Admin.EditDistrict" xml:space="preserve"><value>Редактирование района</value></data>
+  <data name="Admin.AccessDeniedTitle" xml:space="preserve"><value>Доступ запрещён</value></data>
+  <data name="Admin.AccessDeniedText" xml:space="preserve"><value>У вас нет прав для просмотра этой страницы.</value></data>
+  <data name="Admin.ToHome" xml:space="preserve"><value>На главную</value></data>
+</root>

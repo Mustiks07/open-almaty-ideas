@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,11 +20,11 @@
             <div class="d-flex align-items-center gap-3">
                 <a asp-controller="Home" asp-action="Index"
                    style="color:rgba(255,255,255,0.55);font-size:0.85rem;text-decoration:none">
-                    ← На сайт
+                    @L["Admin.ToSite"]
                 </a>
                 <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline">
                     <button type="submit" class="btn-glass btn-sm" style="color:#F87171;border-color:rgba(248,113,113,0.2)">
-                        Выйти
+                        @L["Admin.Logout"]
                     </button>
                 </form>
             </div>
@@ -35,13 +35,13 @@
         <!-- Sidebar -->
         <nav class="admin-sidebar d-none d-md-block" style="width:200px;flex-shrink:0">
             <p style="color:rgba(255,255,255,0.25);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.5rem;padding:0 0.5rem">
-                Управление
+                @L["Admin.Management"]
             </p>
             <ul class="nav flex-column gap-1">
-                <li><a class="nav-link" href="/admin">Главная</a></li>
-                <li><a class="nav-link" href="/admin/proposals">Предложения</a></li>
-                <li><a class="nav-link" href="/admin/districts">Районы</a></li>
-                <li><a class="nav-link" href="/admin/categories">Категории</a></li>
+                <li><a class="nav-link" href="/admin">@L["Admin.Home"]</a></li>
+                <li><a class="nav-link" href="/admin/proposals">@L["Admin.Proposals"]</a></li>
+                <li><a class="nav-link" href="/admin/districts">@L["Admin.Districts"]</a></li>
+                <li><a class="nav-link" href="/admin/categories">@L["Admin.Categories"]</a></li>
             </ul>
         </nav>
 

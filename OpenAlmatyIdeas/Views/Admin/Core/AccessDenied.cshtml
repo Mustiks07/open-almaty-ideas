@@ -1,10 +1,10 @@
 @{
-    ViewData["Title"] = "Доступ запрещён";
+    ViewData["Title"] = L["Admin.AccessDeniedTitle"].Value;
 }
 
 <div class="text-center mt-5">
     <h1 class="display-1 text-danger">403</h1>
-    <h2>Доступ запрещён</h2>
-    <p class="lead">У вас нет прав для просмотра этой страницы.</p>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">На главную</a>
+    <h2>@L["Admin.AccessDeniedTitle"]</h2>
+    <p class="lead">@L["Admin.AccessDeniedText"]</p>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">@L["Admin.ToHome"]</a>
 </div>
