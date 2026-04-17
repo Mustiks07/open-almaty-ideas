@@ -53,12 +53,11 @@ builder.Services.AddTransient<IVotesRepository, EFVotesRepository>();
 builder.Services.AddTransient<IAdminResponsesRepository, EFAdminResponsesRepository>();
 builder.Services.AddTransient<DataManager>();
 
-// Локализация (ru + kk)
-builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+// Локализация (ru + kk) — dictionary-based
+builder.Services.AddSingleton<Microsoft.Extensions.Localization.IStringLocalizer<OpenAlmatyIdeas.SharedResource>, OpenAlmatyIdeas.AppStringLocalizer>();
 
 // Добавление контроллеров и представлений
-builder.Services.AddControllersWithViews()
-    .AddViewLocalization();
+builder.Services.AddControllersWithViews();
 
 // Настройка Serilog
 builder.Host.UseSerilog((context, configuration) =>
