@@ -1,3 +1,3 @@
-namespace OpenAlmatyIdeas.Resources;
+namespace OpenAlmatyIdeas;
 
 public class SharedResource { }
