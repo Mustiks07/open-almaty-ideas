@@ -36,7 +36,7 @@
         <div class="d-none d-md-flex align-items-center gap-2">
 
             <!-- Language switcher -->
-            <form asp-controller="Culture" asp-action="Set" method="post" class="d-flex gap-1 me-1">
+            <form asp-controller="Culture" asp-action="Set" method="post" class="d-flex gap-1 me-1 no-loading">
                 <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
                 <button type="submit" name="culture" value="ru"
                         class="lang-btn @(currentCulture == "ru" ? "active" : "")">RU</button>
@@ -116,7 +116,7 @@
             <hr style="border-color:rgba(255,255,255,0.07)">
 
             <!-- Mobile language switcher -->
-            <form asp-controller="Culture" asp-action="Set" method="post" class="d-flex gap-1 mb-3">
+            <form asp-controller="Culture" asp-action="Set" method="post" class="d-flex gap-1 mb-3 no-loading">
                 <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
                 <button type="submit" name="culture" value="ru"
                         class="lang-btn @(currentCulture == "ru" ? "active" : "")">RU</button>

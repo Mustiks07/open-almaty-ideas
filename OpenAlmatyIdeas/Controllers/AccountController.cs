@@ -18,6 +18,11 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Login(string? returnUrl)
     {
+        if (!string.IsNullOrEmpty(returnUrl) && returnUrl.StartsWith("/admin", StringComparison.OrdinalIgnoreCase))
+        {
+            return RedirectToAction("AdminLogin", new { returnUrl });
+        }
+
         ViewBag.ReturnUrl = returnUrl;
         return View(new LoginViewModel());
     }
@@ -28,8 +33,10 @@ public class AccountController : Controller
         if (!ModelState.IsValid)
             return View(model);
 
+        var user = await _userManager.FindByNameAsync(model.UserName!) ?? await _userManager.FindByEmailAsync(model.UserName!);
+
         var result = await _signInManager.PasswordSignInAsync(
-            model.UserName!,
+            user != null ? user.UserName! : model.UserName!,
             model.Password!,
             model.RememberMe,
             lockoutOnFailure: false);
@@ -84,5 +91,47 @@ public class AccountController : Controller
     {
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
+    }
+
+    [HttpGet]
+    public IActionResult AdminLogin(string? returnUrl)
+    {
+        ViewBag.ReturnUrl = returnUrl ?? "/admin";
+        return View(new LoginViewModel());
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AdminLogin(LoginViewModel model, string? returnUrl)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var user = await _userManager.FindByNameAsync(model.UserName!) ?? await _userManager.FindByEmailAsync(model.UserName!);
+        if (user != null)
+        {
+            var isRoleStr = await _userManager.IsInRoleAsync(user, "Admin");
+            if (!isRoleStr)
+            {
+                ModelState.AddModelError(string.Empty, "Доступ запрещен. Эта страница только для администраторов.");
+                return View(model);
+            }
+        }
+
+        var result = await _signInManager.PasswordSignInAsync(
+            user != null ? user.UserName! : model.UserName!,
+            model.Password!,
+            model.RememberMe,
+            lockoutOnFailure: false);
+
+        if (result.Succeeded)
+        {
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                return Redirect(returnUrl);
+
+            return Redirect("/admin");
+        }
+
+        ModelState.AddModelError(string.Empty, "Неверный логин или пароль");
+        return View(model);
     }
 }

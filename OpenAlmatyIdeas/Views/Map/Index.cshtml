@@ -31,7 +31,7 @@
         <p class="lead">@L["Map.Subtitle"]</p>
     </div>
 
-    <div id="map" style="height:480px;border-radius:16px;border:1px solid rgba(255,255,255,0.08);overflow:hidden;margin-bottom:2.5rem"></div>
+    <div id="map" style="height:700px;border-radius:16px;border:1px solid rgba(255,255,255,0.15);overflow:hidden;margin-bottom:2.5rem;box-shadow: 0 12px 32px rgba(0,0,0,0.4)"></div>
 
     <div class="row g-3 mb-5">
         @foreach (var district in Model)
@@ -61,7 +61,7 @@
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    document.getElementById('map').style.filter = 'hue-rotate(180deg) invert(85%) brightness(0.85)';
+
 
     var viewText = '@L["Map.View"]';
 

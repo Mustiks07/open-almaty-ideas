@@ -91,7 +91,8 @@ public class ProposalsController : Controller
             DistrictId = model.DistrictId,
             CategoryId = model.CategoryId,
             AuthorId = userId,
-            Status = ProposalStatusEnum.Pending
+            Status = ProposalStatusEnum.Pending,
+            Media = await ProcessUploadedFilesAsync(model.Files)
         };
 
         await _dataManager.Proposals.SaveProposalAsync(proposal);
@@ -146,6 +147,16 @@ public class ProposalsController : Controller
         proposal.Description = model.Description;
         proposal.DistrictId = model.DistrictId;
         proposal.CategoryId = model.CategoryId;
+        
+        var newMedia = await ProcessUploadedFilesAsync(model.Files);
+        if (newMedia.Any())
+        {
+            proposal.Media ??= new List<Media>();
+            foreach (var item in newMedia)
+            {
+                proposal.Media.Add(item);
+            }
+        }
 
         await _dataManager.Proposals.SaveProposalAsync(proposal);
         return RedirectToAction("Show", new { id });
@@ -224,5 +235,41 @@ public class ProposalsController : Controller
         }
 
         return RedirectToAction("Show", new { id = proposalId });
+    }
+
+    private async Task<List<Media>> ProcessUploadedFilesAsync(List<IFormFile>? files)
+    {
+        var mediaList = new List<Media>();
+        if (files == null || !files.Any()) return mediaList;
+
+        var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "media");
+        if (!Directory.Exists(uploadsPath)) Directory.CreateDirectory(uploadsPath);
+
+        foreach (var file in files.Take(5))
+        {
+            if (file.Length > 0 && file.Length <= 10 * 1024 * 1024)
+            {
+                var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+                var fileName = Guid.NewGuid().ToString() + ext;
+                var filePath = Path.Combine(uploadsPath, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                var type = file.ContentType.StartsWith("video") ? MediaTypeEnum.Video : MediaTypeEnum.Image;
+
+                mediaList.Add(new Media
+                {
+                    FileName = file.FileName,
+                    Url = $"/uploads/media/{fileName}",
+                    SizeBytes = file.Length,
+                    Type = type
+                });
+            }
+        }
+        
+        return mediaList;
     }
 }

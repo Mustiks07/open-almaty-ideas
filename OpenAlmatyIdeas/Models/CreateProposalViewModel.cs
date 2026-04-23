@@ -29,4 +29,7 @@ public class CreateProposalViewModel
     // Для select-списков
     public IEnumerable<District>? Districts { get; set; }
     public IEnumerable<Category>? Categories { get; set; }
+
+    [Display(Name = "Фото и видео (до 5 файлов, макс. 10МБ каждый)")]
+    public List<IFormFile>? Files { get; set; }
 }

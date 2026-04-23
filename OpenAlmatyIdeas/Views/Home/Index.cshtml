@@ -92,6 +92,20 @@
             {
                 <div class="col-md-4 animate-fade-up-d@(rank <= 4 ? rank : 4)">
                     <div class="card h-100">
+                        @if (proposal.Media != null && proposal.Media.Any(m => m.Type == OpenAlmatyIdeas.Domain.Enums.MediaTypeEnum.Image))
+                        {
+                            var firstImg = proposal.Media.FirstOrDefault(m => m.Type == OpenAlmatyIdeas.Domain.Enums.MediaTypeEnum.Image);
+                            if (firstImg != null)
+                            {
+                                <img src="@firstImg.Url" alt="Обложка" style="width:100%;height:180px;object-fit:cover;border-bottom:1px solid rgba(255,255,255,0.1)"/>
+                            }
+                        }
+                        else
+                        {
+                            <div style="width:100%;height:180px;background:linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));border-bottom:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;">
+                                <span style="font-size:3rem;opacity:0.2">💡</span>
+                            </div>
+                        }
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-start mb-3">
                                 <div class="d-flex gap-2 align-items-center">

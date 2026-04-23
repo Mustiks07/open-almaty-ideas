@@ -70,6 +70,14 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var adminUser = await userManager.FindByEmailAsync("admin@openalmaty.kz");
+    if (adminUser != null)
+    {
+        var resetToken = await userManager.GeneratePasswordResetTokenAsync(adminUser);
+        await userManager.ResetPasswordAsync(adminUser, resetToken, "Admin@2026!");
+    }
 }
 
 // Настройка middleware

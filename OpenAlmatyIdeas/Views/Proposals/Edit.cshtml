@@ -15,7 +15,7 @@
             </div>
 
             <div class="auth-card">
-                <form asp-action="Edit" asp-route-id="@proposalId" method="post">
+                <form asp-action="Edit" asp-route-id="@proposalId" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4"></div>
 
                     <div class="mb-4">
@@ -53,6 +53,15 @@
                         <label asp-for="Description" class="form-label">@L["NewProposal.FullDescLabel"]</label>
                         <textarea asp-for="Description" class="form-control" rows="8"></textarea>
                         <span asp-validation-for="Description" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Files" class="form-label"></label>
+                        <input asp-for="Files" type="file" multiple accept="image/*,video/*" class="form-control" />
+                        <div class="form-text text-muted" style="font-size:0.75rem;margin-top:0.3rem">
+                            Уже загруженные файлы сохраняются. Новые файлы будут добавлены к существующим.
+                        </div>
+                        <span asp-validation-for="Files" class="field-validation-error"></span>
                     </div>
 
                     <div class="d-flex gap-2">
