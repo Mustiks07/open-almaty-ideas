@@ -7,39 +7,45 @@
 
 <!-- Hero -->
 <div class="hero-section">
-    <div class="hero-orb" style="width:18rem;height:18rem;background:#22C55E;top:-4rem;left:-4rem"></div>
-    <div class="hero-orb" style="width:24rem;height:24rem;background:#16A34A;bottom:-6rem;right:-6rem"></div>
-    <div class="hero-orb" style="width:38rem;height:38rem;background:#4ADE80;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.07"></div>
+    <!-- Dark overlay -->
+    <div class="hero-overlay"></div>
 
-    <div class="container-xl px-4 py-5 position-relative">
-        <div class="row justify-content-center text-center">
-            <div class="col-lg-8">
-                <div class="hero-tagline animate-fade-up">@L["Home.TagLine"]</div>
-                <h1 class="hero-title animate-fade-up-d1">
-                    Open<br/>
-                    <span class="text-gradient">Almaty</span><br/>
-                    Ideas
-                </h1>
-                <p class="hero-subtitle animate-fade-up-d2">
-                    @L["Home.HeroSubtitle"]
-                </p>
-                <div class="d-flex gap-3 justify-content-center flex-wrap animate-fade-up-d3">
-                    @if (User.Identity?.IsAuthenticated == true)
-                    {
-                        <a asp-controller="Proposals" asp-action="New" class="btn-brand">
-                            @L["Home.SuggestIdea"]
+    <div class="hero-content position-relative">
+        <div class="container-xl px-4">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-7">
+                    <div class="hero-tagline animate-fade-up">@L["Home.TagLine"]</div>
+                    <h1 class="hero-title animate-fade-up-d1">
+                        Open <span class="text-gradient">Almaty</span><br/>
+                        Ideas
+                    </h1>
+                    <p class="hero-subtitle-main animate-fade-up-d2">@L["Home.HeroMain"]</p>
+                    <p class="hero-subtitle animate-fade-up-d2">@L["Home.HeroSubtitle"]</p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap animate-fade-up-d3">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <a asp-controller="Proposals" asp-action="New" class="btn-hero-primary">
+                                @L["Home.SuggestIdea"]
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="Register" class="btn-hero-primary">
+                                @L["Home.JoinUs"]
+                            </a>
+                        }
+                        <a asp-controller="Proposals" asp-action="Index" class="btn-hero-secondary">
+                            @L["Home.ViewProposals"]
                         </a>
-                    }
-                    else
-                    {
-                        <a asp-controller="Account" asp-action="Register" class="btn-brand">
-                            @L["Home.JoinUs"]
-                        </a>
-                    }
-                    <a asp-controller="Proposals" asp-action="Index" class="btn-glass">
-                        @L["Home.ViewProposals"]
-                    </a>
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="hero-scroll-indicator animate-fade-up-d4">
+            <div class="scroll-mouse">
+                <div class="scroll-dot"></div>
             </div>
         </div>
     </div>

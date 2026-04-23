@@ -34,7 +34,8 @@ public class AppStringLocalizer : IStringLocalizer<SharedResource>
 
         ["Home.PageTitle"] = "Главная",
         ["Home.TagLine"] = "Современная цифровая платформа — Алматы",
-        ["Home.HeroSubtitle"] = "Предлагайте идеи по улучшению города, голосуйте и следите за реализацией.",
+        ["Home.HeroMain"] = "Улучшим Алматы вместе",
+        ["Home.HeroSubtitle"] = "Платформа даёт жителям Алматы возможность вносить предложения, оценивать идеи других и участвовать в развитии города.",
         ["Home.SuggestIdea"] = "+ Предложить идею",
         ["Home.JoinUs"] = "Присоединиться",
         ["Home.ViewProposals"] = "Смотреть предложения →",
@@ -309,8 +310,9 @@ public class AppStringLocalizer : IStringLocalizer<SharedResource>
         ["Footer.Location"] = "Алматы, Қазақстан",
 
         ["Home.PageTitle"] = "Басты бет",
+        ["Home.HeroMain"] = "Алматы қаласын бірге жақсартайық",
         ["Home.TagLine"] = "Алматы қаласының тұрғындарына арналған заманауи цифрлық платформа",
-        ["Home.HeroSubtitle"] = "Қаланы жақсарту туралы идеяларыңызды ұсыныңыз, дауыс беріңіз және іске асырылуын қадағалаңыз.",
+        ["Home.HeroSubtitle"] = "Бұл платформа Алматы қаласының тұрғындарына өз ұсыныстарын енгізуге, басқа идеяларды бағалауға және қаланы дамытуға мүмкіндік береді",
         ["Home.SuggestIdea"] = "+ Идея ұсыну",
         ["Home.JoinUs"] = "Қосылу",
         ["Home.ViewProposals"] = "Ұсыныстарды қарау →",
