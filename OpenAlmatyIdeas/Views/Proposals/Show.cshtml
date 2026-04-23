@@ -29,18 +29,18 @@
         <!-- Main content -->
         <div class="col-lg-8">
 
-            <a asp-action="Index" style="color:rgba(255,255,255,0.4);font-size:0.85rem;text-decoration:none;display:inline-flex;align-items:center;gap:0.4rem;margin-bottom:1.5rem">
+            <a asp-action="Index" class="back-link">
                 @L["Proposal.Back"]
             </a>
 
             <div class="d-flex align-items-start gap-3 mb-3 flex-wrap">
-                <h1 style="font-size:clamp(1.5rem,4vw,2.2rem);font-weight:700;color:#fff;flex:1;margin:0">
+                <h1 class="show-title">
                     @Model.Title
                 </h1>
                 <span class="badge @statusClass fs-6">@L[$"Status.{Model.Status}"]</span>
             </div>
 
-            <div class="d-flex flex-wrap gap-3 mb-4" style="color:rgba(255,255,255,0.45);font-size:0.85rem">
+            <div class="d-flex flex-wrap gap-3 mb-4 show-meta">
                 <span>📍 @Model.DistrictName</span>
                 <span>🏷️ @Model.CategoryName</span>
                 <span>👤 @Model.AuthorName</span>
@@ -52,14 +52,12 @@
                 <div class="d-flex gap-2 mb-4">
                     @if (isAuthor)
                     {
-                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-glass btn-sm"
-                           style="color:#93C5FD;border-color:rgba(147,197,253,0.2)">
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-glass btn-sm btn-action-edit">
                             @L["Proposal.Edit"]
                         </a>
                     }
-                    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" style="display:inline">
-                        <button type="submit" class="btn-glass btn-sm"
-                                style="color:#F87171;border-color:rgba(248,113,113,0.2)"
+                    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline">
+                        <button type="submit" class="btn-glass btn-sm btn-action-delete"
                                 onclick="return confirm('@L["Proposal.DeleteConfirm"]')">
                             @L["Proposal.Delete"]
                         </button>
@@ -69,15 +67,14 @@
 
             @if (!string.IsNullOrEmpty(Model.DescriptionShort))
             {
-                <p class="lead mb-4"
-                   style="border-left:3px solid #22C55E;padding-left:1.25rem;color:rgba(255,255,255,0.75);font-size:1rem;font-weight:400;line-height:1.7">
+                <p class="lead mb-4 show-description-short">
                     @Model.DescriptionShort
                 </p>
             }
 
             @if (!string.IsNullOrEmpty(Model.Description))
             {
-                <div class="mb-4" style="color:rgba(255,255,255,0.7);line-height:1.8">
+                <div class="mb-4 show-description">
                     @Html.Raw(Model.Description)
                 </div>
             }
@@ -89,15 +86,13 @@
                     {
                         <div class="col-md-6">
                             <img src="@media.Url" alt="@media.FileName"
-                                 class="img-fluid rounded"
-                                 style="width:100%;object-fit:cover;max-height:280px;border:1px solid rgba(255,255,255,0.08)" />
+                                 class="img-fluid rounded show-media-img" />
                         </div>
                     }
                     @foreach (var media in Model.Media.Where(m => m.Type == MediaTypeEnum.Video))
                     {
                         <div class="col-12">
-                            <video controls class="w-100 rounded"
-                                   style="border:1px solid rgba(255,255,255,0.08)">
+                            <video controls class="w-100 rounded show-media-video">
                                 <source src="@media.Url" />
                             </video>
                         </div>
@@ -108,14 +103,14 @@
             @if (Model.AdminResponses.Any())
             {
                 <div class="mb-4">
-                    <h5 style="color:#fff;font-family:'Playfair Display',serif;margin-bottom:1rem">
+                    <h5 class="show-admin-title">
                         @L["Proposal.AdminResponses"]
                     </h5>
                     @foreach (var response in Model.AdminResponses)
                     {
                         <div class="admin-response-card @responseClass">
-                            <p style="color:rgba(255,255,255,0.8);margin-bottom:0.5rem">@response.Text</p>
-                            <small style="color:rgba(255,255,255,0.35)">
+                            <p class="show-response-text">@response.Text</p>
+                            <small class="show-response-meta">
                                 @response.AdminName — @response.DateCreated.ToString("dd.MM.yyyy HH:mm")
                             </small>
                         </div>
@@ -129,7 +124,7 @@
         <div class="col-lg-4">
 
             <div class="vote-card">
-                <h6 style="color:rgba(255,255,255,0.5);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem">
+                <h6 class="vote-heading">
                     @L["Proposal.Voting"]
                 </h6>
                 @if (User.Identity?.IsAuthenticated == true)
@@ -155,40 +150,40 @@
                 }
                 else
                 {
-                    <p style="color:rgba(255,255,255,0.4);font-size:0.85rem;margin-bottom:0.75rem">
+                    <p class="vote-login-text">
                         <a asp-controller="Account" asp-action="Login">@L["Proposal.LoginToVote"]</a>@L["Proposal.ToVote"]
                     </p>
                     <div class="d-flex justify-content-center gap-4">
-                        <span style="font-size:1.1rem;color:#4ADE80">👍 @Model.LikesCount</span>
-                        <span style="font-size:1.1rem;color:#F87171">👎 @Model.DislikesCount</span>
+                        <span class="vote-count-like">👍 @Model.LikesCount</span>
+                        <span class="vote-count-dislike">👎 @Model.DislikesCount</span>
                     </div>
                 }
             </div>
 
-            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:1.25rem">
-                <h6 style="color:rgba(255,255,255,0.4);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem">
+            <div class="info-panel">
+                <h6 class="info-heading">
                     @L["Proposal.Info"]
                 </h6>
                 <div class="d-flex flex-column gap-2" style="font-size:0.85rem">
                     <div class="d-flex justify-content-between">
-                        <span style="color:rgba(255,255,255,0.4)">@L["Proposal.Status"]</span>
+                        <span class="info-label">@L["Proposal.Status"]</span>
                         <span class="badge @statusClass">@L[$"Status.{Model.Status}"]</span>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span style="color:rgba(255,255,255,0.4)">@L["Proposal.District"]</span>
-                        <span style="color:rgba(255,255,255,0.75)">@Model.DistrictName</span>
+                        <span class="info-label">@L["Proposal.District"]</span>
+                        <span class="info-value">@Model.DistrictName</span>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span style="color:rgba(255,255,255,0.4)">@L["Proposal.Category"]</span>
-                        <span style="color:rgba(255,255,255,0.75)">@Model.CategoryName</span>
+                        <span class="info-label">@L["Proposal.Category"]</span>
+                        <span class="info-value">@Model.CategoryName</span>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span style="color:rgba(255,255,255,0.4)">@L["Proposal.Author"]</span>
-                        <span style="color:rgba(255,255,255,0.75)">@Model.AuthorName</span>
+                        <span class="info-label">@L["Proposal.Author"]</span>
+                        <span class="info-value">@Model.AuthorName</span>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span style="color:rgba(255,255,255,0.4)">@L["Proposal.Date"]</span>
-                        <span style="color:rgba(255,255,255,0.75)">@Model.DateCreated.ToString("dd.MM.yyyy")</span>
+                        <span class="info-label">@L["Proposal.Date"]</span>
+                        <span class="info-value">@Model.DateCreated.ToString("dd.MM.yyyy")</span>
                     </div>
                 </div>
             </div>

@@ -46,7 +46,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
             }
         );
 
-        // Предзаполнение администратора (логин: admin, пароль: admin)
+        // Предзаполнение администратора
+        // ⚠️ ВАЖНО: Смените пароль после первого запуска!
         var adminId = "admin-user-id";
         var hasher = new PasswordHasher<IdentityUser>();
         var adminUser = new IdentityUser
@@ -58,7 +59,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
             NormalizedEmail = "ADMIN@OPENALMATY.KZ",
             EmailConfirmed = true,
         };
-        adminUser.PasswordHash = hasher.HashPassword(adminUser, "admin");
+        adminUser.PasswordHash = hasher.HashPassword(adminUser, "Admin@2026!");
 
         builder.Entity<IdentityUser>().HasData(adminUser);
         builder.Entity<IdentityUserRole<string>>().HasData(

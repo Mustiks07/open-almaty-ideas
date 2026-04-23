@@ -3,6 +3,8 @@
     var topProposals = ViewBag.TopProposals as IEnumerable<OpenAlmatyIdeas.Models.ProposalDTO> ?? [];
     var districts = ViewBag.Districts as IEnumerable<OpenAlmatyIdeas.Domain.Entities.District> ?? [];
     int totalProposals = ViewBag.TotalProposals ?? 0;
+    int totalDistricts = ViewBag.TotalDistricts ?? 0;
+    int totalCategories = ViewBag.TotalCategories ?? 0;
 }
 
 <!-- Hero -->
@@ -64,13 +66,13 @@
         </div>
         <div class="col-4 animate-fade-up-d2">
             <div class="stat-card">
-                <div class="stat-number">8</div>
+                <div class="stat-number">@totalDistricts</div>
                 <div class="stat-label">@L["Home.StatDistricts"]</div>
             </div>
         </div>
         <div class="col-4 animate-fade-up-d3">
             <div class="stat-card">
-                <div class="stat-number">8</div>
+                <div class="stat-number">@totalCategories</div>
                 <div class="stat-label">@L["Home.StatCategories"]</div>
             </div>
         </div>
@@ -96,13 +98,7 @@
                                     <div class="card-rank">#@rank</div>
                                     <span class="badge bg-secondary">@proposal.CategoryName</span>
                                 </div>
-                                <span class="badge
-                                    @(proposal.Status == OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Implemented ? "bg-success" :
-                                      proposal.Status == OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Accepted ? "bg-primary" :
-                                      proposal.Status == OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Rejected ? "bg-danger" :
-                                      "bg-warning")">
-                                    @L[$"Status.{proposal.Status}"]
-                                </span>
+                                <partial name="_StatusBadge" model="proposal.Status" />
                             </div>
                             <h5 class="card-title mb-2">
                                 <a asp-controller="Proposals" asp-action="Show"

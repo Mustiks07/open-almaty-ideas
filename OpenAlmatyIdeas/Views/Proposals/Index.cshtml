@@ -8,6 +8,9 @@
     int? currentCategoryId = ViewBag.CurrentCategoryId;
     string? search = ViewBag.Search;
     string? sort = ViewBag.Sort;
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
+    int totalCount = ViewBag.TotalCount ?? 0;
 }
 
 <div class="container-xl px-4">
@@ -85,13 +88,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-start mb-3">
                                 <span class="badge bg-secondary">@proposal.CategoryName</span>
-                                <span class="badge
-                                    @(proposal.Status == ProposalStatusEnum.Implemented ? "bg-success" :
-                                      proposal.Status == ProposalStatusEnum.Accepted ? "bg-primary" :
-                                      proposal.Status == ProposalStatusEnum.Rejected ? "bg-danger" :
-                                      "bg-warning")">
-                                    @L[$"Status.{proposal.Status}"]
-                                </span>
+                                <partial name="_StatusBadge" model="proposal.Status" />
                             </div>
                             <h5 class="card-title mb-2">
                                 <a asp-action="Show" asp-route-id="@proposal.Id"
@@ -115,8 +112,42 @@
                 </div>
             }
         </div>
-        <p class="mt-3" style="color:rgba(255,255,255,0.35);font-size:0.8rem">
-            @L["Proposals.Shown"] @Model.Count() @L["Proposals.ShownSuffix"]
+
+        <!-- Pagination -->
+        @if (totalPages > 1)
+        {
+            <nav class="d-flex justify-content-center mt-4 mb-2">
+                <ul class="pagination-custom">
+                    @if (currentPage > 1)
+                    {
+                        <li>
+                            <a asp-action="Index" asp-route-page="@(currentPage - 1)"
+                               asp-route-districtId="@currentDistrictId" asp-route-categoryId="@currentCategoryId"
+                               asp-route-search="@search" asp-route-sort="@sort">←</a>
+                        </li>
+                    }
+                    @for (int p = 1; p <= totalPages; p++)
+                    {
+                        <li class="@(p == currentPage ? "active" : "")">
+                            <a asp-action="Index" asp-route-page="@p"
+                               asp-route-districtId="@currentDistrictId" asp-route-categoryId="@currentCategoryId"
+                               asp-route-search="@search" asp-route-sort="@sort">@p</a>
+                        </li>
+                    }
+                    @if (currentPage < totalPages)
+                    {
+                        <li>
+                            <a asp-action="Index" asp-route-page="@(currentPage + 1)"
+                               asp-route-districtId="@currentDistrictId" asp-route-categoryId="@currentCategoryId"
+                               asp-route-search="@search" asp-route-sort="@sort">→</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+
+        <p class="mt-2 mb-5" style="color:rgba(255,255,255,0.35);font-size:0.8rem;text-align:center">
+            @L["Proposals.Shown"] @Model.Count() / @totalCount @L["Proposals.ShownSuffix"]
         </p>
     }
 

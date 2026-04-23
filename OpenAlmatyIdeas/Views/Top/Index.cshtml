@@ -34,11 +34,6 @@
                                    rank == 3 ? "#FB923C" :
                                                "rgba(255,255,255,0.25)";
 
-                string statusClass = proposal.Status == ProposalStatusEnum.Implemented ? "bg-success" :
-                                     proposal.Status == ProposalStatusEnum.Accepted    ? "bg-primary"  :
-                                     proposal.Status == ProposalStatusEnum.Rejected    ? "bg-danger"   :
-                                                                                          "bg-warning";
-
                 <a asp-controller="Proposals" asp-action="Show" asp-route-id="@proposal.Id"
                    class="card hover-lift text-decoration-none"
                    style="display:flex;flex-direction:row;align-items:stretch;overflow:hidden;padding:0">
@@ -55,7 +50,7 @@
                             <span class="badge" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.1)">
                                 📍 @proposal.DistrictName
                             </span>
-                            <span class="badge @statusClass">@L[$"Status.{proposal.Status}"]</span>
+                            <partial name="_StatusBadge" model="proposal.Status" />
                         </div>
                         <h5 style="color:#fff;font-weight:600;margin-bottom:0.35rem;font-family:'Inter',sans-serif;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
                             @proposal.Title

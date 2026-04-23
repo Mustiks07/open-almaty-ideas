@@ -46,12 +46,12 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 // Регистрация репозиториев
-builder.Services.AddTransient<IProposalsRepository, EFProposalsRepository>();
-builder.Services.AddTransient<IDistrictsRepository, EFDistrictsRepository>();
-builder.Services.AddTransient<ICategoriesRepository, EFCategoriesRepository>();
-builder.Services.AddTransient<IVotesRepository, EFVotesRepository>();
-builder.Services.AddTransient<IAdminResponsesRepository, EFAdminResponsesRepository>();
-builder.Services.AddTransient<DataManager>();
+builder.Services.AddScoped<IProposalsRepository, EFProposalsRepository>();
+builder.Services.AddScoped<IDistrictsRepository, EFDistrictsRepository>();
+builder.Services.AddScoped<ICategoriesRepository, EFCategoriesRepository>();
+builder.Services.AddScoped<IVotesRepository, EFVotesRepository>();
+builder.Services.AddScoped<IAdminResponsesRepository, EFAdminResponsesRepository>();
+builder.Services.AddScoped<DataManager>();
 
 // Локализация (ru + kk) — dictionary-based
 builder.Services.AddSingleton<Microsoft.Extensions.Localization.IStringLocalizer<OpenAlmatyIdeas.SharedResource>, OpenAlmatyIdeas.AppStringLocalizer>();
@@ -83,6 +83,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
 
 var supportedCultures = new[] { "ru", "kk" };
 app.UseRequestLocalization(new RequestLocalizationOptions()

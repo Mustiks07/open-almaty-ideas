@@ -15,7 +15,29 @@ public class EFProposalsRepository : IProposalsRepository
 
     public async Task<IEnumerable<Proposal>> GetProposalsAsync(
         int? districtId = null, int? categoryId = null,
-        string? search = null, string? sort = null)
+        string? search = null, string? sort = null,
+        int page = 1, int pageSize = 12)
+    {
+        var query = BuildFilteredQuery(districtId, categoryId, search);
+
+        query = sort == "popular"
+            ? query.OrderByDescending(p => p.LikesCount)
+            : query.OrderByDescending(p => p.DateCreated);
+
+        return await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+    }
+
+    public async Task<int> GetCountAsync()
+    {
+        return await _context.Proposals.CountAsync();
+    }
+
+    public async Task<int> GetFilteredCountAsync(int? districtId = null, int? categoryId = null, string? search = null)
+    {
+        return await BuildFilteredQuery(districtId, categoryId, search).CountAsync();
+    }
+
+    private IQueryable<Proposal> BuildFilteredQuery(int? districtId, int? categoryId, string? search)
     {
         var query = _context.Proposals
             .Include(p => p.District)
@@ -36,11 +58,7 @@ public class EFProposalsRepository : IProposalsRepository
                 (p.DescriptionShort != null && p.DescriptionShort.Contains(search)) ||
                 (p.Description != null && p.Description.Contains(search)));
 
-        query = sort == "popular"
-            ? query.OrderByDescending(p => p.LikesCount)
-            : query.OrderByDescending(p => p.DateCreated);
-
-        return await query.Take(50).ToListAsync();
+        return query;
     }
 
     public async Task<IEnumerable<Proposal>> GetTopProposalsAsync(int count = 10)

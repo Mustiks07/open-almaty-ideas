@@ -17,11 +17,14 @@ public class HomeController : Controller
     {
         var topProposals = await _dataManager.Proposals.GetTopProposalsAsync(3);
         var districts = await _dataManager.Districts.GetDistrictsAsync();
-        var proposals = await _dataManager.Proposals.GetProposalsAsync();
+        var categories = await _dataManager.Categories.GetCategoriesAsync();
+        var totalProposals = await _dataManager.Proposals.GetCountAsync();
 
         ViewBag.TopProposals = HelperDTO.TransformProposals(topProposals);
         ViewBag.Districts = districts;
-        ViewBag.TotalProposals = proposals.Count();
+        ViewBag.TotalProposals = totalProposals;
+        ViewBag.TotalDistricts = districts.Count();
+        ViewBag.TotalCategories = categories.Count();
 
         return View();
     }
@@ -32,8 +35,11 @@ public class HomeController : Controller
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Error(int? id)
     {
+        if (id == 404)
+            return View("NotFound");
+
         return View();
     }
 }

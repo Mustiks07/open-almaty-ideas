@@ -41,11 +41,10 @@
             <div class="col-md-3 col-6">
                 <a asp-controller="Proposals" asp-action="Index"
                    asp-route-districtId="@district.Id"
-                   class="card text-decoration-none h-100 hover-lift"
-                   style="display:block;padding:1.5rem;text-align:center">
-                    <div style="color:#fff;font-weight:600;font-size:1rem;margin-bottom:0.5rem">@district.Title</div>
-                    <div style="font-family:'Playfair Display',serif;font-size:2.25rem;font-weight:700;color:#4ADE80;line-height:1">@count</div>
-                    <div style="color:rgba(255,255,255,0.4);font-size:0.8rem;margin-top:0.25rem">@word</div>
+                   class="card text-decoration-none h-100 hover-lift map-district-card">
+                    <div class="map-district-title">@district.Title</div>
+                    <div class="map-district-count">@count</div>
+                    <div class="map-district-word">@word</div>
                 </a>
             </div>
         }

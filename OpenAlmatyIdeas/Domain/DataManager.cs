@@ -4,23 +4,26 @@ namespace OpenAlmatyIdeas.Domain;
 
 public class DataManager
 {
-    public IProposalsRepository Proposals { get; set; }
-    public IDistrictsRepository Districts { get; set; }
-    public ICategoriesRepository Categories { get; set; }
-    public IVotesRepository Votes { get; set; }
-    public IAdminResponsesRepository AdminResponses { get; set; }
+    public IProposalsRepository Proposals { get; }
+    public IDistrictsRepository Districts { get; }
+    public ICategoriesRepository Categories { get; }
+    public IVotesRepository Votes { get; }
+    public IAdminResponsesRepository AdminResponses { get; }
+    public AppDbContext Context { get; }
 
     public DataManager(
         IProposalsRepository proposalsRepository,
         IDistrictsRepository districtsRepository,
         ICategoriesRepository categoriesRepository,
         IVotesRepository votesRepository,
-        IAdminResponsesRepository adminResponsesRepository)
+        IAdminResponsesRepository adminResponsesRepository,
+        AppDbContext context)
     {
         Proposals = proposalsRepository;
         Districts = districtsRepository;
         Categories = categoriesRepository;
         Votes = votesRepository;
         AdminResponses = adminResponsesRepository;
+        Context = context;
     }
 }

@@ -2,8 +2,12 @@
     ViewData["Title"] = "Ошибка";
 }
 
-<div class="text-center mt-5">
-    <h1 class="display-1">Ошибка</h1>
-    <p class="lead">Произошла непредвиденная ошибка. Попробуйте позже.</p>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">На главную</a>
+<div class="error-page">
+    <div class="error-code">500</div>
+    <h1 class="error-title">Произошла ошибка</h1>
+    <p class="error-text">Произошла непредвиденная ошибка. Мы уже работаем над её исправлением. Попробуйте позже.</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <a asp-controller="Home" asp-action="Index" class="btn-brand">На главную</a>
+        <a asp-controller="Proposals" asp-action="Index" class="btn-glass">Смотреть предложения</a>
+    </div>
 </div>

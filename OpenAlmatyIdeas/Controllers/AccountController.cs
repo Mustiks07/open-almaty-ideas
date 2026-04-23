@@ -16,9 +16,8 @@ public class AccountController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Login(string? returnUrl)
+    public IActionResult Login(string? returnUrl)
     {
-        await _signInManager.SignOutAsync();
         ViewBag.ReturnUrl = returnUrl;
         return View(new LoginViewModel());
     }

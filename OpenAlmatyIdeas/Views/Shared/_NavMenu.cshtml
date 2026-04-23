@@ -27,7 +27,7 @@
             @if (User.IsInRole("Admin"))
             {
                 <li class="nav-item">
-                    <a class="nav-link" style="color:rgba(252,211,77,0.8)!important" href="/admin">@L["Nav.AdminPanel"]</a>
+                    <a class="nav-link nav-admin-link" href="/admin">@L["Nav.AdminPanel"]</a>
                 </li>
             }
         </ul>
@@ -50,10 +50,10 @@
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 py-2 px-3"
                        href="#" data-bs-toggle="dropdown" style="border-radius:10px">
-                        <span style="width:28px;height:28px;background:rgba(34,197,94,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:#4ADE80">
+                        <span class="nav-avatar">
                             @(User.Identity.Name?.Substring(0, 1).ToUpper())
                         </span>
-                        <span style="font-size:0.85rem;color:rgba(255,255,255,0.75)">@User.Identity.Name</span>
+                        <span class="nav-username">@User.Identity.Name</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
@@ -63,7 +63,7 @@
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <form asp-controller="Account" asp-action="Logout" method="post" style="padding:0.2rem 0.4rem">
+                            <form asp-controller="Account" asp-action="Logout" method="post" class="px-1 py-1">
                                 <button type="submit" class="dropdown-item text-danger w-100 text-start">@L["Nav.Logout"]</button>
                             </form>
                         </li>
@@ -72,22 +72,26 @@
             }
             else
             {
-                <a class="nav-link" asp-controller="Account" asp-action="Login"
-                   style="font-size:0.875rem;color:rgba(255,255,255,0.65)">@L["Nav.Login"]</a>
+                <a class="nav-link nav-login-link" asp-controller="Account" asp-action="Login">@L["Nav.Login"]</a>
                 <a class="btn-brand btn-sm" asp-controller="Account" asp-action="Register">@L["Nav.Register"]</a>
             }
         </div>
 
         <!-- Mobile toggle -->
-        <button class="btn-glass btn-sm d-md-none" type="button"
-                data-bs-toggle="collapse" data-bs-target="#mobileMenu" style="border-radius:10px;padding:0.5rem 0.75rem">
-            <span style="color:rgba(255,255,255,0.8);font-size:1.1rem">☰</span>
+        <button class="btn-glass btn-sm d-md-none nav-mobile-toggle" type="button"
+                data-bs-toggle="collapse" data-bs-target="#mobileMenu"
+                aria-label="Меню">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" class="nav-hamburger-icon">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
         </button>
     </div>
 
     <!-- Mobile menu -->
-    <div class="collapse" id="mobileMenu"
-         style="background:rgba(15,23,42,0.98);border-top:1px solid rgba(255,255,255,0.05)">
+    <div class="collapse nav-mobile-menu" id="mobileMenu">
         <div class="container-xl px-4 py-3">
             <ul class="nav flex-column gap-1 mb-3">
                 <li class="nav-item">
@@ -105,7 +109,7 @@
                 @if (User.IsInRole("Admin"))
                 {
                     <li class="nav-item">
-                        <a class="nav-link" style="color:#FCD34D!important" href="/admin">@L["Nav.AdminPanel"]</a>
+                        <a class="nav-link mobile-admin-link" href="/admin">@L["Nav.AdminPanel"]</a>
                     </li>
                 }
             </ul>
@@ -127,7 +131,7 @@
                     <a class="btn-glass btn-sm" asp-controller="Profile" asp-action="Index">@L["Nav.MyProposals"]</a>
                 </div>
                 <form asp-controller="Account" asp-action="Logout" method="post" class="mt-2">
-                    <button type="submit" class="btn-glass btn-sm" style="color:#F87171;border-color:rgba(248,113,113,0.2)">@L["Nav.Logout"]</button>
+                    <button type="submit" class="btn-glass btn-sm mobile-logout-btn">@L["Nav.Logout"]</button>
                 </form>
             }
             else

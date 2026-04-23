@@ -1,3 +1,4 @@
+using Ganss.Xss;
 using OpenAlmatyIdeas.Domain.Entities;
 using OpenAlmatyIdeas.Domain.Enums;
 using OpenAlmatyIdeas.Models;
@@ -6,6 +7,8 @@ namespace OpenAlmatyIdeas.Infrastructure;
 
 public static class HelperDTO
 {
+    private static readonly HtmlSanitizer _sanitizer = new();
+
     public static ProposalDTO TransformProposal(Proposal entity)
     {
         return new ProposalDTO
@@ -13,7 +16,7 @@ public static class HelperDTO
             Id = entity.Id,
             Title = entity.Title,
             DescriptionShort = entity.DescriptionShort,
-            Description = entity.Description,
+            Description = entity.Description != null ? _sanitizer.Sanitize(entity.Description) : null,
             DistrictId = entity.DistrictId,
             DistrictName = entity.District?.Title,
             CategoryId = entity.CategoryId,

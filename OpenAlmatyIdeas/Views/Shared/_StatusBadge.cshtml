@@ -1,0 +1,13 @@
+@model OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum
+
+@{
+    string badgeClass = Model switch
+    {
+        OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Implemented => "bg-success",
+        OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Accepted    => "bg-primary",
+        OpenAlmatyIdeas.Domain.Enums.ProposalStatusEnum.Rejected    => "bg-danger",
+        _                                                           => "bg-warning"
+    };
+}
+
+<span class="badge @badgeClass">@L[$"Status.{Model}"]</span>

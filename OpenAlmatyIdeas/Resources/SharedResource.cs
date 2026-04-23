@@ -282,6 +282,11 @@ public class AppStringLocalizer : IStringLocalizer<SharedResource>
         ["Admin.AccessDeniedTitle"] = "Доступ запрещён",
         ["Admin.AccessDeniedText"] = "У вас нет прав для просмотра этой страницы.",
         ["Admin.ToHome"] = "На главную",
+
+        ["Error.NotFoundTitle"] = "Страница не найдена",
+        ["Error.NotFoundText"] = "К сожалению, запрашиваемая страница не существует или была перемещена.",
+        ["Error.GoHome"] = "На главную",
+        ["Error.ViewProposals"] = "Смотреть предложения",
     };
 
     private static readonly Dictionary<string, string> _kk = new()
@@ -559,6 +564,11 @@ public class AppStringLocalizer : IStringLocalizer<SharedResource>
         ["Admin.AccessDeniedTitle"] = "Рұқсат жоқ",
         ["Admin.AccessDeniedText"] = "Бұл бетті қарауға рұқсатыңыз жоқ.",
         ["Admin.ToHome"] = "Басты бетке",
+
+        ["Error.NotFoundTitle"] = "Бет табылмады",
+        ["Error.NotFoundText"] = "Өкінішке орай, сұралған бет жоқ немесе жылжытылған.",
+        ["Error.GoHome"] = "Басты бетке",
+        ["Error.ViewProposals"] = "Ұсыныстарды қарау",
     };
 
     public LocalizedString this[string name]
