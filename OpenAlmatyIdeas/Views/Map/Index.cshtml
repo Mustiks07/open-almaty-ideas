@@ -22,6 +22,30 @@
 }
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+@@keyframes markerPulse {
+    0%   { transform: scale(1);   opacity: 0.7; }
+    70%  { transform: scale(2.4); opacity: 0; }
+    100% { transform: scale(2.4); opacity: 0; }
+}
+.map-marker-pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(34,197,94,0.45);
+    animation: markerPulse 2s ease-out infinite;
+}
+.map-marker-dot {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    background: #22C55E;
+    border-radius: 50%;
+    border: 2.5px solid #fff;
+    box-shadow: 0 0 10px rgba(34,197,94,0.8), 0 2px 8px rgba(0,0,0,0.4);
+    z-index: 1;
+}
+</style>
 
 <div class="container-xl px-4">
 
@@ -89,8 +113,11 @@
 
     var greenIcon = L.divIcon({
         className: '',
-        html: '<div style="width:14px;height:14px;background:#22C55E;border-radius:50%;border:2px solid #fff;box-shadow:0 0 8px rgba(34,197,94,0.6)"></div>',
-        iconSize: [14, 14], iconAnchor: [7, 7]
+        html: '<div style="position:relative;width:16px;height:16px">' +
+              '<div class="map-marker-pulse"></div>' +
+              '<div class="map-marker-dot"></div>' +
+              '</div>',
+        iconSize: [16, 16], iconAnchor: [8, 8]
     });
 
     districts.forEach(function(d) {
